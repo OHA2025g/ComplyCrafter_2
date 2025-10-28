@@ -1,0 +1,59 @@
+<cc-card>
+  <div class="header">
+    <h1>{{ config.heading }}</h1>
+    <p>{{ config.description }}</p>
+  </div>
+
+  <form class="phase3-form" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="grid">
+      <div class="form-field" *ngFor="let field of fields; trackBy: trackField">
+        <label [for]="field.name">
+          {{ field.label }}
+          <span *ngIf="field.required" class="required" aria-hidden="true">*</span>
+        </label>
+
+        <ng-container [ngSwitch]="field.controlType">
+          <textarea
+            *ngSwitchCase="'textarea'"
+            [id]="field.name"
+            rows="4"
+            [formControlName]="field.name"
+          ></textarea>
+
+          <select
+            *ngSwitchCase="'select'"
+            [id]="field.name"
+            [formControlName]="field.name"
+          >
+            <option value="" disabled selected>Choose an option</option>
+            <option *ngFor="let option of field.options ?? []" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+
+          <input
+            *ngSwitchDefault
+            [id]="field.name"
+            [type]="controlType(field)"
+            [formControlName]="field.name"
+          />
+        </ng-container>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="submitting || form.invalid">
+      {{ config.submitLabel ?? 'Submit Filing' }}
+    </button>
+
+    <p class="helper">
+      {{ config.successMessage ?? 'Payloads are stored for dual-run comparisons. Draft data remains client-side until submitted.' }}
+    </p>
+  </form>
+
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <section class="last-response" *ngIf="lastResponse">
+    <h2>Last submitted payload</h2>
+    <pre>{{ lastResponse | json }}</pre>
+  </section>
+</cc-card>

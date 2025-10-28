@@ -1,0 +1,29 @@
+export interface Adt1FormModel {
+  refUser: number | null;
+  companyId: number | null;
+  cin: string | null;
+  companyName: string | null;
+  companyAddress: string | null;
+  companyEmail: string | null;
+  fallingSection: string | null;
+  appointmentNature: string | null;
+  isAuditorAppointed: string | null;
+  auditorNumber: number | null;
+  annualGeneralMeeting: string | null;
+  agmDate: string | null;
+  appointmentDate: string | null;
+  isCasualVacancy: string | null;
+  srnOfRelevantForm: string | null;
+  personVacated: string | null;
+  vacancyDate: string | null;
+  casualVacancyReasons: string | null;
+  membershipNumber: number | null;
+  auditorSerial: boolean | null;
+  auditorMemberNo: string | null;
+  resolutionNumber: string | null;
+  resolutionDate: string | null;
+  signedBy: string | null;
+  designation: string | null;
+  din: string | null;
+  refUserName: string | null;
+}

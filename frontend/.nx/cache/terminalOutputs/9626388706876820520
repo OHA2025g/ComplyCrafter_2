@@ -1,0 +1,10 @@
+
+Linting "portal"...
+
+[0m[7m[1m[31m NX [39m[22m[27m[0m  [31mFailed to load plugin '@angular-eslint/template' declared in 'apps/portal/.eslintrc.json » ../../.eslintrc.json#overrides[1] » plugin:@nx/angular-template': Cannot find module '@angular-eslint/eslint-plugin-template'[39m
+
+Require stack:
+- /Users/aghoresgwarprasadsingh/Desktop/OHA Systems/Comply-Crafter/frontend/apps/portal/__placeholder__.js
+Referenced from: /Users/aghoresgwarprasadsingh/Desktop/OHA Systems/Comply-Crafter/frontend/node_modules/@nx/eslint-plugin/src/index.js
+Pass --verbose to see the stacktrace.
+

@@ -1,0 +1,11 @@
+{
+  "company_id": 501,
+  "cin": "U12345MH2020PTC999999",
+  "company_name": "Phase Three Industries",
+  "contact_email": "phase3@example.com",
+  "filing_period": "FY24",
+  "submission_data": {
+    "notes": "Sample payload for automated testing",
+    "attachments": "placeholder.pdf"
+  }
+}

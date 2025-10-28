@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowJs": false,
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["ES2022", "DOM"],
+    "skipLibCheck": true,
+    "useDefineForClassFields": false,
+    "types": ["node"],
+    "paths": {
+      "@frontend/ui": ["libs/ui/src/index.ts"],
+      "@frontend/state": ["libs/state/src/index.ts"],
+      "@frontend/data-access": ["libs/data-access/src/index.ts"]
+    }
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "apps/portal" }
+  ]
+}

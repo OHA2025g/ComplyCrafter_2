@@ -1,0 +1,28 @@
+<cc-card title="ADT1 Filing" class="adt1-card">
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="grid">
+      <label>
+        CIN
+        <input formControlName="cin" />
+      </label>
+      <label>
+        Company Name
+        <input formControlName="companyName" />
+      </label>
+      <label>
+        Company Email
+        <input formControlName="companyEmail" type="email" />
+      </label>
+      <label>
+        Appointment Date
+        <input formControlName="appointmentDate" type="date" />
+      </label>
+    </div>
+    <button type="submit" [disabled]="submitting">Submit</button>
+  </form>
+
+  <section *ngIf="lastResponse" class="preview">
+    <h4>Last submitted payload</h4>
+    <pre>{{ lastResponse | json }}</pre>
+  </section>
+</cc-card>

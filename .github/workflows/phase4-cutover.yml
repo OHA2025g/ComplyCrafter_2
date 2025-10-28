@@ -1,0 +1,241 @@
+name: Phase 4 - Automated Cutover
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment for cutover'
+        required: true
+        default: 'green'
+        type: choice
+        options:
+        - green
+        - blue
+      traffic_percentage:
+        description: 'Percentage of traffic to migrate'
+        required: true
+        default: '100'
+        type: string
+      skip_health_checks:
+        description: 'Skip health checks (use with caution)'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  KUBECONFIG: ${{ secrets.KUBECONFIG }}
+  NAMESPACE: comply-crafter
+
+jobs:
+  pre-cutover-validation:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+        
+    - name: Validate cluster connectivity
+      run: |
+        kubectl cluster-info
+        kubectl get nodes
+        
+    - name: Check target environment health
+      if: ${{ !inputs.skip_health_checks }}
+      run: |
+        echo "Checking health of ${{ inputs.environment }} environment..."
+        kubectl get pods -n $NAMESPACE -l version=${{ inputs.environment }}
+        
+        # Health check endpoint
+        HEALTH_URL="http://comply-crafter-${{ inputs.environment }}:80/healthz"
+        echo "Testing health endpoint: $HEALTH_URL"
+        
+        # Wait for pods to be ready
+        kubectl wait --for=condition=ready pod -l version=${{ inputs.environment }} -n $NAMESPACE --timeout=300s
+        
+        # Test health endpoint
+        kubectl run health-checker --image=curlimages/curl:latest --rm -i --restart=Never -- \
+          curl -f "$HEALTH_URL" || exit 1
+          
+    - name: Validate database connectivity
+      run: |
+        echo "Validating database connectivity..."
+        kubectl run db-checker --image=postgres:15 --rm -i --restart=Never -- \
+          psql "$DATABASE_URL" -c "SELECT 1;" || exit 1
+
+  execute-cutover:
+    needs: pre-cutover-validation
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+        
+    - name: Create traffic migration job
+      run: |
+        cat > traffic-migration-job.yaml << EOF
+        apiVersion: batch/v1
+        kind: Job
+        metadata:
+          name: traffic-migration-$(date +%s)
+          namespace: $NAMESPACE
+        spec:
+          template:
+            spec:
+              containers:
+              - name: traffic-migrator
+                image: comply-crafter/traffic-migrator:latest
+                env:
+                - name: TARGET_ENVIRONMENT
+                  value: "${{ inputs.environment }}"
+                - name: TRAFFIC_PERCENTAGE
+                  value: "${{ inputs.traffic_percentage }}"
+                - name: HEALTH_CHECK_URL
+                  value: "http://comply-crafter-${{ inputs.environment }}:80/healthz"
+                command: ["/bin/sh"]
+                args:
+                - -c
+                - |
+                  echo "Starting traffic migration to ${{ inputs.environment }} environment..."
+                  
+                  # Update ingress configuration
+                  kubectl patch ingress comply-crafter-ingress -n $NAMESPACE --type='merge' -p='
+                  {
+                    "spec": {
+                      "rules": [{
+                        "host": "comply-crafter.your-domain.com",
+                        "http": {
+                          "paths": [{
+                            "path": "/",
+                            "pathType": "Prefix",
+                            "backend": {
+                              "service": {
+                                "name": "comply-crafter-${{ inputs.environment }}",
+                                "port": {"number": 80}
+                              }
+                            }
+                          }]
+                        }
+                      }]
+                    }
+                  }'
+                  
+                  echo "Traffic migration completed successfully"
+                  
+                  # Update config map
+                  kubectl patch configmap blue-green-config -n $NAMESPACE --type='merge' -p='
+                  {
+                    "data": {
+                      "current-environment": "${{ inputs.environment }}",
+                      "traffic-split": "${{ inputs.traffic_percentage }}"
+                    }
+                  }'
+              restartPolicy: Never
+          backoffLimit: 3
+        EOF
+        
+        kubectl apply -f traffic-migration-job.yaml
+        
+    - name: Monitor migration progress
+      run: |
+        echo "Monitoring migration progress..."
+        kubectl wait --for=condition=complete job -l app=traffic-migrator -n $NAMESPACE --timeout=600s
+        
+    - name: Verify cutover success
+      run: |
+        echo "Verifying cutover success..."
+        
+        # Check ingress configuration
+        kubectl get ingress comply-crafter-ingress -n $NAMESPACE -o yaml
+        
+        # Check config map
+        kubectl get configmap blue-green-config -n $NAMESPACE -o yaml
+        
+        # Test endpoint
+        kubectl run verification-checker --image=curlimages/curl:latest --rm -i --restart=Never -- \
+          curl -f "http://comply-crafter.your-domain.com/healthz" || exit 1
+          
+    - name: Update deployment status
+      run: |
+        echo "Updating deployment status..."
+        kubectl patch configmap phase4-status -n $NAMESPACE --type='merge' -p='
+        {
+          "data": {
+            "status": "completed",
+            "target-environment": "${{ inputs.environment }}",
+            "traffic-percentage": "${{ inputs.traffic_percentage }}",
+            "completed-at": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
+          }
+        }'
+
+  post-cutover-monitoring:
+    needs: execute-cutover
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+        
+    - name: Start monitoring dashboard
+      run: |
+        echo "Starting post-cutover monitoring..."
+        
+        # Create monitoring job
+        cat > post-cutover-monitoring.yaml << EOF
+        apiVersion: batch/v1
+        kind: Job
+        metadata:
+          name: post-cutover-monitoring-$(date +%s)
+          namespace: $NAMESPACE
+        spec:
+          template:
+            spec:
+              containers:
+              - name: monitor
+                image: comply-crafter/monitoring:latest
+                env:
+                - name: MONITORING_DURATION
+                  value: "3600"  # 1 hour
+                - name: ALERT_WEBHOOK_URL
+                  value: "${{ secrets.ALERT_WEBHOOK_URL }}"
+                command: ["/bin/sh"]
+                args:
+                - -c
+                - |
+                  echo "Starting post-cutover monitoring for 1 hour..."
+                  
+                  # Monitor key metrics
+                  for i in {1..120}; do
+                    echo "Monitoring cycle \$i/120"
+                    
+                    # Check response times
+                    RESPONSE_TIME=\$(curl -w "%{time_total}" -o /dev/null -s "http://comply-crafter.your-domain.com/healthz")
+                    echo "Response time: \${RESPONSE_TIME}s"
+                    
+                    # Check error rates
+                    ERROR_COUNT=\$(kubectl logs -l app=comply-crafter -n $NAMESPACE --since=30s | grep -c "ERROR" || echo "0")
+                    echo "Error count in last 30s: \$ERROR_COUNT"
+                    
+                    # Check pod status
+                    kubectl get pods -n $NAMESPACE -l app=comply-crafter
+                    
+                    sleep 30
+                  done
+                  
+                  echo "Monitoring completed successfully"
+              restartPolicy: Never
+          backoffLimit: 1
+        EOF
+        
+        kubectl apply -f post-cutover-monitoring.yaml

@@ -1,0 +1,10 @@
+__pycache__
+*.pyc
+.env
+.venv
+poetry.lock
+.mypy_cache
+.pytest_cache
+htmlcov
+coverage.xml
+!poetry.lock

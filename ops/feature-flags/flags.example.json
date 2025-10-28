@@ -1,0 +1,6 @@
+{
+  "adt1_modern_stack": {
+    "description": "Routes ADT1 traffic to FastAPI service",
+    "enabled": false
+  }
+}

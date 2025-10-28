@@ -1,0 +1,1533 @@
+{
+  "forms": [
+    {
+      "id": "ACCOUNTNSOLVENCY",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/AccountnSolvency.cshtml",
+        "ComplyCrafter_UI/Views/Form/AccountnSolvencyForm.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/MSMERespositry.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/AccountnSolvencyController .cs"
+      ],
+      "data": [],
+      "missing": [
+        "BL",
+        "Data"
+      ]
+    },
+    {
+      "id": "ADT1",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/ADT1.cshtml",
+        "ComplyCrafter_UI/Views/Form/ADT1Form.cshtml",
+        "frontend/apps/portal/src/app/forms/adt1/adt1.component.html",
+        "frontend/apps/portal/src/app/forms/adt1/adt1.component.ts"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/ADT1Repository.cs",
+        "services/forms/app/services/adt1_service.py"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/ADT1Controller.cs",
+        "services/forms/app/api/routes/adt1.py"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/ADT1.cs",
+        "services/forms/app/models/adt1.py"
+      ],
+      "missing": [],
+      "phase": "Phase 1"
+    },
+    {
+      "id": "ADT3",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/ADT3.cshtml",
+        "ComplyCrafter_UI/Views/Form/ADT3Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/ADT3Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/ADT3Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/ADT3.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "AOC4",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/AOC4.cshtml",
+        "ComplyCrafter_UI/Views/Form/AOC4Form.cshtml",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.component.ts",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.config.ts"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/AOC4Repository.cs",
+        "services/forms/app/services/json_submission_service.py"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/AOC4Controller.cs",
+        "services/forms/app/api/routes/aoc4.py"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/AOC4.cs",
+        "services/forms/app/models/json_submission.py (Aoc4Submission)"
+      ],
+      "missing": [],
+      "phase": "Phase 3"
+    },
+    {
+      "id": "AOC4CFS",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/AOC4CFS.cshtml",
+        "ComplyCrafter_UI/Views/Form/AOC4CFSForm.cshtml",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.component.ts",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.config.ts"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/AOC4CFSRepository.cs",
+        "services/forms/app/services/json_submission_service.py"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/AOC4CFSController.cs",
+        "services/forms/app/api/routes/aoc4cfs.py"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/AOC4CFS.cs",
+        "services/forms/app/models/json_submission.py (Aoc4cfsSubmission)"
+      ],
+      "missing": [],
+      "phase": "Phase 3"
+    },
+    {
+      "id": "AOC4CFSCHILD",
+      "ui": [],
+      "businessLogic": [],
+      "api": [],
+      "data": [
+        "ComplyCrafter_Data/Forms/AOC4CFSCHILD.cs"
+      ],
+      "missing": [
+        "UI",
+        "BL",
+        "API"
+      ]
+    },
+    {
+      "id": "AOC5",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/AOC5.cshtml",
+        "ComplyCrafter_UI/Views/Form/AOC5Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/AOC5Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/AOC5Controllercs.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/AOC5.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "AOCCUNTNSOLVENCYFORM",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/AOCCUNTNSOLVENCYFORMRepository .cs"
+      ],
+      "api": [],
+      "data": [
+        "ComplyCrafter_Data/Forms/AoccuntnSolvencyForm.cs"
+      ],
+      "missing": [
+        "UI",
+        "API"
+      ]
+    },
+    {
+      "id": "BEN2",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/BEN2.cshtml",
+        "ComplyCrafter_UI/Views/Form/BEN2Form.cshtml",
+        "frontend/apps/portal/src/app/forms/ben2/ben2.component.ts"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/BEN2Repository.cs",
+        "services/forms/app/services/ben2_service.py"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/BEN2Controller.cs",
+        "services/forms/app/api/routes/ben2.py"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/BEN2.cs",
+        "services/forms/app/models/ben2.py"
+      ],
+      "missing": [],
+      "phase": "Phase 2"
+    },
+    {
+      "id": "BOARDREPORT",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/boardreport.cshtml",
+        "ComplyCrafter_UI/Views/Form/boardreportForm.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/BOARDREPORTRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/BOARDREPORTController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/BOARDREPORT.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "CHARGE",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/CHARGE.cshtml",
+        "ComplyCrafter_UI/Views/Form/CHARGEForm.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/CHARGERepository .cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/CHARGEController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/CHARGE.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "CHG1",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/CHG1.cshtml",
+        "ComplyCrafter_UI/Views/Form/CHG1Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/CHG1Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/CHG1Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/CHG1.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "CHG4",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/CHG4.cshtml",
+        "ComplyCrafter_UI/Views/Form/CHG4Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/CHG4Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/CHG4Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/CHG4.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "CHG6",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/CHG6.cshtml",
+        "ComplyCrafter_UI/Views/Form/CHG6Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/CHG6Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/CHG6Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/CHG6.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "CHG8",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/CHG8.cshtml",
+        "ComplyCrafter_UI/Views/Form/CHG8Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/CHG8Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/CHG8Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/CHG8.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "CHG9",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/CHG9.cshtml",
+        "ComplyCrafter_UI/Views/Form/CHG9Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/CHG9Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/CHG9Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/CHG9.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "DIR11",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/DIR11.cshtml",
+        "ComplyCrafter_UI/Views/Form/DIR11Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/DIR11Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/DIR11Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/DIR11.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "DIR12",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/DIR12.cshtml",
+        "ComplyCrafter_UI/Views/Form/DIR12Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/DIR12Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/DIR12Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/DIR12.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "DIR3",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/DIR3.cshtml",
+        "ComplyCrafter_UI/Views/Form/DIR3Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/DIR3Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/DIR3Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/DIR3.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "DIR5",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/DIR5.cshtml",
+        "ComplyCrafter_UI/Views/Form/DIR5Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/DIR5Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/DIR5Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/DIR5.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "DIR6",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/DIR6.cshtml",
+        "ComplyCrafter_UI/Views/Form/DIR6Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/DIR6Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/DIR6Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/DIR6.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "DIR9",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/DIR9.cshtml",
+        "ComplyCrafter_UI/Views/Form/DIR9Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/DIR9Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/DIR9Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/DIR9.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "DPT3",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/DPT3.cshtml",
+        "ComplyCrafter_UI/Views/Form/DPT3Form.cshtml",
+        "frontend/apps/portal/src/app/forms/dpt3/dpt3.component.ts"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/DPT3Repository.cs",
+        "services/forms/app/services/dpt3_service.py"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/DPT3Controller.cs",
+        "services/forms/app/api/routes/dpt3.py"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/DPT3.cs",
+        "services/forms/app/models/dpt3.py"
+      ],
+      "missing": [],
+      "phase": "Phase 2"
+    },
+    {
+      "id": "DPT4",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/DPT4.cshtml",
+        "ComplyCrafter_UI/Views/Form/DPT4Form.cshtml"
+      ],
+      "businessLogic": [],
+      "api": [],
+      "data": [],
+      "missing": [
+        "BL",
+        "API",
+        "Data"
+      ],
+      "phase": "Phase 3 (planned)"
+    },
+    {
+      "id": "FORM11",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/Form11.cshtml",
+        "ComplyCrafter_UI/Views/Form/Form11Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/FORM11Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/FORM11Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/FORM11.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "FORM12",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/Form12.cshtml",
+        "ComplyCrafter_UI/Views/Form/Form12Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/FORM12Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/FORM12Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/FORM12.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "FORM15",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/Form15.cshtml",
+        "ComplyCrafter_UI/Views/Form/Form15Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/FORM15Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/FORM15Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/FORM15.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "FORM22",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/Form22.cshtml",
+        "ComplyCrafter_UI/Views/Form/Form22Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/FORM22Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/FORM22Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/FORM22.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "FORM23",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/Form23.cshtml",
+        "ComplyCrafter_UI/Views/Form/Form23Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/FORM23Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/FORM23Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/FORM23.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "FORM24",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/Form24.cshtml",
+        "ComplyCrafter_UI/Views/Form/Form24Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/FORM24Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/FORM24Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/FORM24.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "FORM3",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/Form3.cshtml",
+        "ComplyCrafter_UI/Views/Form/Form3Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/FORM3Repository .cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/FORM3Controller .cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/Form3.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "FORM4",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/Form4.cshtml",
+        "ComplyCrafter_UI/Views/Form/Form4Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/FORM4Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/FORM4Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/Form4.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "FORM5",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/Form5.cshtml",
+        "ComplyCrafter_UI/Views/Form/Form5Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/FORM5Repository .cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/FORM5Controller .cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/FORM5.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "GNL1",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/GNL1.cshtml",
+        "ComplyCrafter_UI/Views/Form/GNL1Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/GNL1Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/GNL1Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/GNL1.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "GNL2",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/GNL2.cshtml",
+        "ComplyCrafter_UI/Views/Form/GNL2Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/GNL2Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/GNL2Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/GNL2.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "GNL3",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/GNL3.cshtml",
+        "ComplyCrafter_UI/Views/Form/GNL3Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/GNL3Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/GNL3Controller .cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/GNL3.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "IEPF2",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/IEPF2.cshtml",
+        "ComplyCrafter_UI/Views/Form/IEPF2Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/IEPF2Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/IEPF2Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/IEPF2.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "IEPF5",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/IEPF5.cshtml",
+        "ComplyCrafter_UI/Views/Form/IEPF5Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/IEPF5Repositorycs.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/IEPF5Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/IEPF5.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "INC12",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/INC12.cshtml",
+        "ComplyCrafter_UI/Views/Form/INC12Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/INC12Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/INC12Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/INC12.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "INC20A",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/INC20A.cshtml",
+        "ComplyCrafter_UI/Views/Form/INC20AForm.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/INC20ARepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/INC20AController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/INC20A.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "INC22",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/INC22.cshtml",
+        "ComplyCrafter_UI/Views/Form/INC22Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/INC22Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/INC22Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/INC22.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "INC23",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/INC23.cshtml",
+        "ComplyCrafter_UI/Views/Form/INC23Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/INC23Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/INC23Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/INC23.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "INC24",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/INC24.cshtml",
+        "ComplyCrafter_UI/Views/Form/INC24Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/INC24Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/INC24Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/INC24.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "INC28",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/INC28.cshtml",
+        "ComplyCrafter_UI/Views/Form/INC28Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/INC28Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/INC28Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/INC28.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "INC4",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/INC4.cshtml",
+        "ComplyCrafter_UI/Views/Form/INC4Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/INC4Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/INC4Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/INC4.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "MGT14",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/MGT14.cshtml",
+        "ComplyCrafter_UI/Views/Form/MGT14Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/MGT14Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/MGT14Controller .cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/MGT14.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "MGT6",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/MGT6.cshtml",
+        "ComplyCrafter_UI/Views/Form/MGT6Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/MGT6Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/MGT6Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/MGT6.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "MGT7A",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/MGT7A.cshtml",
+        "ComplyCrafter_UI/Views/Form/MGT7AForm.cshtml",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.component.ts",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.config.ts"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/MGT7ARepository.cs",
+        "services/forms/app/services/json_submission_service.py"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/MGT7AController.cs",
+        "services/forms/app/api/routes/mgt7a.py"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/MGT7A.cs",
+        "services/forms/app/models/json_submission.py (Mgt7aSubmission)"
+      ],
+      "missing": [],
+      "phase": "Phase 3"
+    },
+    {
+      "id": "MGT8",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/MGT8.cshtml",
+        "ComplyCrafter_UI/Views/Form/MGT8Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/MGT8Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/MGT8Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/MGT8.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "MGT9",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/MGT9.cshtml",
+        "ComplyCrafter_UI/Views/Form/MGT9Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/MGT9Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/MGT9Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/MGT9.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "MR1",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/MR1.cshtml",
+        "ComplyCrafter_UI/Views/Form/MR1Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/MR1Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/MR1Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/MR1.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "MSC3",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/MSC3.cshtml",
+        "ComplyCrafter_UI/Views/Form/MSC3Form.cshtml"
+      ],
+      "businessLogic": [],
+      "api": [],
+      "data": [],
+      "missing": [
+        "BL",
+        "API",
+        "Data"
+      ],
+      "phase": "Phase 3 (planned)"
+    },
+    {
+      "id": "MSME",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/MSME.cshtml",
+        "ComplyCrafter_UI/Views/Form/MSMEForm.cshtml",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.component.ts",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.config.ts"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/MSMERespositry.cs",
+        "services/forms/app/services/json_submission_service.py"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/MSMEController.cs",
+        "services/forms/app/api/routes/msme.py"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/MSME.cs",
+        "services/forms/app/models/json_submission.py (MsmeSubmission)"
+      ],
+      "missing": [],
+      "phase": "Phase 3"
+    },
+    {
+      "id": "MSME1",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/MSME1.cshtml",
+        "ComplyCrafter_UI/Views/Form/MSME1Form.cshtml",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.component.ts",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.config.ts"
+      ],
+      "businessLogic": [
+        "services/forms/app/services/json_submission_service.py"
+      ],
+      "api": [
+        "services/forms/app/api/routes/msme1.py"
+      ],
+      "data": [
+        "services/forms/app/models/json_submission.py (Msme1Submission)"
+      ],
+      "missing": [],
+      "phase": "Phase 3"
+    },
+    {
+      "id": "MSMERESPOSITRY",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/MSMERespositry.cs"
+      ],
+      "api": [],
+      "data": [],
+      "missing": [
+        "UI",
+        "API",
+        "Data"
+      ]
+    },
+    {
+      "id": "NDH1",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/NDH1.cshtml",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.component.ts",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.config.ts"
+      ],
+      "businessLogic": [
+        "services/forms/app/services/json_submission_service.py"
+      ],
+      "api": [
+        "services/forms/app/api/routes/ndh1.py"
+      ],
+      "data": [
+        "services/forms/app/models/json_submission.py (Ndh1Submission)"
+      ],
+      "missing": [],
+      "phase": "Phase 3"
+    },
+    {
+      "id": "NDH2",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/NDH2.cshtml",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.component.ts",
+        "frontend/apps/portal/src/app/forms/generic-form/phase3-form.config.ts"
+      ],
+      "businessLogic": [
+        "services/forms/app/services/json_submission_service.py"
+      ],
+      "api": [
+        "services/forms/app/api/routes/ndh2.py"
+      ],
+      "data": [
+        "services/forms/app/models/json_submission.py (Ndh2Submission)"
+      ],
+      "missing": [],
+      "phase": "Phase 3"
+    },
+    {
+      "id": "PAS2",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/PAS2.cshtml",
+        "ComplyCrafter_UI/Views/Form/PAS2Form.cshtml"
+      ],
+      "businessLogic": [],
+      "api": [],
+      "data": [],
+      "missing": [
+        "BL",
+        "API",
+        "Data"
+      ]
+    },
+    {
+      "id": "PAS3",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/PAS3.cshtml",
+        "ComplyCrafter_UI/Views/Form/PAS3Form.cshtml",
+        "frontend/apps/portal/src/app/forms/pas3/pas3.component.ts"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/PAS3Repository.cs",
+        "services/forms/app/services/pas3_service.py"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/PAS3Controller.cs",
+        "services/forms/app/api/routes/pas3.py"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/PAS3.cs",
+        "services/forms/app/models/pas3.py"
+      ],
+      "missing": [],
+      "phase": "Phase 2"
+    },
+    {
+      "id": "PAS6",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/PAS6.cshtml",
+        "ComplyCrafter_UI/Views/Form/PAS6Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/PAS6Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/PAS6Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/PAS6.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "RUN",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/RUN.cshtml",
+        "ComplyCrafter_UI/Views/Form/RUNForm.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/RUNRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/RUNController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/RUN.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "RUNLLP",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/RUNLLP.cshtml",
+        "ComplyCrafter_UI/Views/Form/RUNLLPForm.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/RUNLLPRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/RUNLLPController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/RUNLLP.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "SH11",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/SH11.cshtml",
+        "ComplyCrafter_UI/Views/Form/SH11Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/SH11Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/SH11Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/SH11.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "SH7",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/SH7.cshtml",
+        "ComplyCrafter_UI/Views/Form/SH7Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/SH7Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/SH7Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/SH7.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "SH7SHARE",
+      "ui": [],
+      "businessLogic": [],
+      "api": [],
+      "data": [
+        "ComplyCrafter_Data/Forms/SH7Share.cs"
+      ],
+      "missing": [
+        "UI",
+        "BL",
+        "API"
+      ]
+    },
+    {
+      "id": "SH7STRUCTURE",
+      "ui": [],
+      "businessLogic": [],
+      "api": [],
+      "data": [
+        "ComplyCrafter_Data/Forms/SH7Structure.cs"
+      ],
+      "missing": [
+        "UI",
+        "BL",
+        "API"
+      ]
+    },
+    {
+      "id": "SH8",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/SH8.cshtml",
+        "ComplyCrafter_UI/Views/Form/SH8Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/SH8Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/SH8Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/SH8.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "SH9",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/SH9.cshtml",
+        "ComplyCrafter_UI/Views/Form/SH9Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/SH9Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/SH9Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/SH9.cs"
+      ],
+      "missing": []
+    },
+    {
+      "id": "STK2",
+      "ui": [
+        "ComplyCrafter_UI/Views/Form/STK2.cshtml",
+        "ComplyCrafter_UI/Views/Form/STK2Form.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/Forms/STK2Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/Form/STK2Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Forms/STK2.cs"
+      ],
+      "missing": []
+    }
+  ],
+  "domains": [
+    {
+      "id": "APILOG",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/ApiLogRepository.cs"
+      ],
+      "api": [],
+      "data": [
+        "ComplyCrafter_Data/ApiLog.cs"
+      ]
+    },
+    {
+      "id": "AUDITOR",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/Auditor.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/AuditorRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/AuditorController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Auditor.cs"
+      ]
+    },
+    {
+      "id": "CAPITAL",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/Capital.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/CapitalRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/CapitalController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Capital.cs"
+      ]
+    },
+    {
+      "id": "CLASSMASTER",
+      "ui": [],
+      "businessLogic": [],
+      "api": [
+        "ComplyCrafter_API/Controllers/ClassMasterController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/ClassMaster.cs"
+      ]
+    },
+    {
+      "id": "COMPANY",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/Company.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/CompanyRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/CompanyController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Company.cs"
+      ]
+    },
+    {
+      "id": "COMPANYNOTICE",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/CompanyNotice.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/CompanyNoticeRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/CompanyNoticeController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/CompanyNotice.cs"
+      ]
+    },
+    {
+      "id": "CUSTOMEMAIL",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/CustomEmailRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/CustomEmailController.cs"
+      ],
+      "data": []
+    },
+    {
+      "id": "DEBENTURE",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/Debenture.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/DebentureRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/DebentureController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Debenture.cs"
+      ]
+    },
+    {
+      "id": "DIRECTOR",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/Director.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/DirectorRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/DirectorController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Director.cs"
+      ]
+    },
+    {
+      "id": "DMS",
+      "ui": [
+        "ComplyCrafter_UI/Views/Customer/DMS.cshtml",
+        "ComplyCrafter_UI/Views/Home/DMS.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/DMSRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/DMSController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/DMS.cs"
+      ]
+    },
+    {
+      "id": "DPT4",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/DPT4Repository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/DPT4Controller.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/DPT4.cs"
+      ]
+    },
+    {
+      "id": "EMAILTRACKER",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/EmailTrackerRepository.cs"
+      ],
+      "api": [],
+      "data": [
+        "ComplyCrafter_Data/EmailTracker.cs"
+      ]
+    },
+    {
+      "id": "ENCRYPTDECRYPT",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/EncryptDecrypt.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/EncryptDecryptController.cs"
+      ],
+      "data": []
+    },
+    {
+      "id": "LOGINTRACKER",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/LoginTrackerRepository.cs"
+      ],
+      "api": [],
+      "data": [
+        "ComplyCrafter_Data/LoginTracker.cs"
+      ]
+    },
+    {
+      "id": "MEETING",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/Meeting.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/MeetingRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/MeetingController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Meeting.cs"
+      ]
+    },
+    {
+      "id": "MEETINGAGENDADETAIL",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/MeetingAgendaDetailRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/MeetingAgendaDetailController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/MeetingAgendaDetail.cs"
+      ]
+    },
+    {
+      "id": "OTHERAUDITOR",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/OtherAuditor.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/OtherAuditorRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/OtherAuditorController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/OtherAuditor.cs"
+      ]
+    },
+    {
+      "id": "PAYMENTDETAILS",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/PaymentDetailsRepository.cs"
+      ],
+      "api": [],
+      "data": [
+        "ComplyCrafter_Data/PaymentDetails.cs"
+      ]
+    },
+    {
+      "id": "RESOLUTION",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/Resolution.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/ResolutionRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/ResolutionController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Resolution.cs"
+      ]
+    },
+    {
+      "id": "SHAREHOLDER",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/Shareholder.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/ShareholderRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/ShareholderController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/Shareholder.cs"
+      ]
+    },
+    {
+      "id": "SHAREHOLDERMANAGEMENT",
+      "ui": [
+        "ComplyCrafter_UI/Views/Home/ShareholderManagement.cshtml"
+      ],
+      "businessLogic": [
+        "ComplyCrafter_BL/ShareholderManagementRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/ShareholderManagementController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/ShareholderManagement.cs"
+      ]
+    },
+    {
+      "id": "SUBSCRIPTIONPLANS",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/SubscriptionPlansRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/SubscriptionPlansController.cs"
+      ],
+      "data": [
+        "ComplyCrafter_Data/SubscriptionPlans.cs"
+      ]
+    },
+    {
+      "id": "USER",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/UserRepository.cs"
+      ],
+      "api": [
+        "ComplyCrafter_API/Controllers/UserController.cs"
+      ],
+      "data": []
+    },
+    {
+      "id": "USERSUBSCRIPTIONS",
+      "ui": [],
+      "businessLogic": [
+        "ComplyCrafter_BL/UserSubscriptionsRepository.cs"
+      ],
+      "api": [],
+      "data": [
+        "ComplyCrafter_Data/UserSubscriptions.cs"
+      ]
+    }
+  ]
+}

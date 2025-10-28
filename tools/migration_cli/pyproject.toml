@@ -1,0 +1,9 @@
+[project]
+name = "migration_cli"
+version = "0.1.0"
+description = "Utilities for generating Angular/Python assets from legacy inventories"
+requires-python = ">=3.11"
+dependencies = ["httpx>=0.26.0"]
+
+[project.scripts]
+migration-cli = "migration_cli.cli:main"

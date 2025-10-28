@@ -1,0 +1,500 @@
+{
+  "version": "6.0",
+  "nxVersion": "18.3.5",
+  "deps": {
+    "@angular/animations": "^17.2.0",
+    "@angular/common": "^17.2.0",
+    "@angular/compiler": "^17.2.0",
+    "@angular/compiler-cli": "^17.2.0",
+    "@angular/core": "^17.2.0",
+    "@angular/forms": "^17.2.0",
+    "@angular/platform-browser": "^17.2.0",
+    "@angular/platform-browser-dynamic": "^17.2.0",
+    "@angular/router": "^17.2.0",
+    "@ngrx/signals": "^17.1.0",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.6.2",
+    "zone.js": "^0.14.4",
+    "tailwindcss": "^3.4.14",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "@analogjs/vite-plugin-angular": "^1.11.0",
+    "@angular-devkit/build-angular": "^17.3.8",
+    "@angular-eslint/eslint-plugin": "^17.4.1",
+    "@angular-eslint/eslint-plugin-template": "^17.4.1",
+    "jest-preset-angular": "^17.2.2",
+    "ts-jest": "^29.2.5",
+    "@angular-eslint/template-parser": "^20.4.0",
+    "@nx/angular": "^18.0.0",
+    "@nx/eslint": "^18.0.0",
+    "@nx/eslint-plugin": "^18.0.0",
+    "@nx/js": "^18.0.0",
+    "@nx/vite": "^18.0.0",
+    "@nx/workspace": "^18.0.0",
+    "@playwright/test": "^1.49.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.17",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "jest": "^29.7.0",
+    "nx": "^18.0.0",
+    "prettier": "^3.1.1",
+    "typescript": "~5.3.3",
+    "vite": "^5.2.0"
+  },
+  "pathMappings": {
+    "@frontend/ui": [
+      "libs/ui/src/index.ts"
+    ],
+    "@frontend/state": [
+      "libs/state/src/index.ts"
+    ],
+    "@frontend/data-access": [
+      "libs/data-access/src/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "state": [
+        {
+          "file": "libs/state/project.json",
+          "hash": "14156664077812877266"
+        },
+        {
+          "file": "libs/state/src/index.ts",
+          "hash": "15009275146840056617"
+        },
+        {
+          "file": "libs/state/src/lib/app-state.service.ts",
+          "hash": "1089124973021920339",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "libs/state/tsconfig.json",
+          "hash": "9946910434463256616"
+        },
+        {
+          "file": "libs/state/tsconfig.lib.json",
+          "hash": "12480100303034631599"
+        },
+        {
+          "file": "libs/state/tsconfig.spec.json",
+          "hash": "6477295622161358505"
+        }
+      ],
+      "portal": [
+        {
+          "file": "apps/portal/.eslintrc.json",
+          "hash": "15997290921560346953"
+        },
+        {
+          "file": "apps/portal/jest.config.ts",
+          "hash": "12155471971296488848"
+        },
+        {
+          "file": "apps/portal/project.json",
+          "hash": "2132625010181915292"
+        },
+        {
+          "file": "apps/portal/src/app/app.component.html",
+          "hash": "4544854186660480127"
+        },
+        {
+          "file": "apps/portal/src/app/app.component.scss",
+          "hash": "13771655869125025697"
+        },
+        {
+          "file": "apps/portal/src/app/app.component.ts",
+          "hash": "8442190484062130140",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/app.config.ts",
+          "hash": "4094521795842211161",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:@angular/common",
+            "npm:@angular/platform-browser"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/app.routes.ts",
+          "hash": "13537202962607992671",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/dashboard/dashboard.component.html",
+          "hash": "6349459190333141602"
+        },
+        {
+          "file": "apps/portal/src/app/dashboard/dashboard.component.scss",
+          "hash": "3987850504778360568"
+        },
+        {
+          "file": "apps/portal/src/app/dashboard/dashboard.component.ts",
+          "hash": "6240227187918489936",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/adt1/adt1.component.html",
+          "hash": "17120123638297126535"
+        },
+        {
+          "file": "apps/portal/src/app/forms/adt1/adt1.component.scss",
+          "hash": "16993531041113366062"
+        },
+        {
+          "file": "apps/portal/src/app/forms/adt1/adt1.component.spec.ts",
+          "hash": "10383381427441749083",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/adt1/adt1.component.ts",
+          "hash": "4781534666447719227",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/common",
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/adt1/adt1.model.ts",
+          "hash": "16628007763765602651"
+        },
+        {
+          "file": "apps/portal/src/app/forms/ben2/ben2.component.html",
+          "hash": "6634296150630248197"
+        },
+        {
+          "file": "apps/portal/src/app/forms/ben2/ben2.component.scss",
+          "hash": "14065820087529740606"
+        },
+        {
+          "file": "apps/portal/src/app/forms/ben2/ben2.component.spec.ts",
+          "hash": "17598356412339819042",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/ben2/ben2.component.ts",
+          "hash": "5074519689044128354",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/ben2/ben2.model.ts",
+          "hash": "2623988633564556694"
+        },
+        {
+          "file": "apps/portal/src/app/forms/dpt3/dpt3.component.html",
+          "hash": "17054393059453355184"
+        },
+        {
+          "file": "apps/portal/src/app/forms/dpt3/dpt3.component.scss",
+          "hash": "14065820087529740606"
+        },
+        {
+          "file": "apps/portal/src/app/forms/dpt3/dpt3.component.spec.ts",
+          "hash": "18171111792105477460",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/dpt3/dpt3.component.ts",
+          "hash": "11423375335285022037",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/dpt3/dpt3.model.ts",
+          "hash": "1322370521499205828"
+        },
+        {
+          "file": "apps/portal/src/app/forms/forms.routes.ts",
+          "hash": "4904433110201563639",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/pas3/pas3.component.html",
+          "hash": "3530371493115719699"
+        },
+        {
+          "file": "apps/portal/src/app/forms/pas3/pas3.component.scss",
+          "hash": "14065820087529740606"
+        },
+        {
+          "file": "apps/portal/src/app/forms/pas3/pas3.component.spec.ts",
+          "hash": "17354058690431102717",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/pas3/pas3.component.ts",
+          "hash": "14457576283022217071",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/pas3/pas3.model.ts",
+          "hash": "16418816021767051262"
+        },
+        {
+          "file": "apps/portal/src/index.html",
+          "hash": "16412267038136246168"
+        },
+        {
+          "file": "apps/portal/src/main.ts",
+          "hash": "14420088177726562137",
+          "deps": [
+            "npm:@angular/platform-browser"
+          ]
+        },
+        {
+          "file": "apps/portal/src/polyfills.ts",
+          "hash": "17716552174347683189",
+          "deps": [
+            "npm:zone.js"
+          ]
+        },
+        {
+          "file": "apps/portal/src/styles.scss",
+          "hash": "7443305300075879116"
+        },
+        {
+          "file": "apps/portal/src/test-setup.ts",
+          "hash": "17711435995618823417",
+          "deps": [
+            "npm:jest-preset-angular/setup-jest"
+          ]
+        },
+        {
+          "file": "apps/portal/tsconfig.app.json",
+          "hash": "13132314048500214937"
+        },
+        {
+          "file": "apps/portal/tsconfig.json",
+          "hash": "5646305585171328697"
+        },
+        {
+          "file": "apps/portal/tsconfig.spec.json",
+          "hash": "13077269916096599383"
+        },
+        {
+          "file": "apps/portal/vite.config.ts",
+          "hash": "14515058888450676166",
+          "deps": [
+            "npm:vite",
+            "npm:@nx/vite"
+          ]
+        }
+      ],
+      "ui": [
+        {
+          "file": "libs/ui/project.json",
+          "hash": "3135697844928206269"
+        },
+        {
+          "file": "libs/ui/src/index.ts",
+          "hash": "9160671341837812385"
+        },
+        {
+          "file": "libs/ui/src/lib/cc-card.component.ts",
+          "hash": "3402212409030378605",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "libs/ui/src/lib/index.ts",
+          "hash": "14699619501476222168"
+        },
+        {
+          "file": "libs/ui/tsconfig.json",
+          "hash": "2464116320343411644"
+        },
+        {
+          "file": "libs/ui/tsconfig.lib.json",
+          "hash": "12480100303034631599"
+        },
+        {
+          "file": "libs/ui/tsconfig.spec.json",
+          "hash": "6477295622161358505"
+        },
+        {
+          "file": "libs/ui/vite.config.ts",
+          "hash": "13448652034975397664",
+          "deps": [
+            "npm:vite",
+            "npm:@nx/vite/plugins/nx-tsconfig-paths.plugin"
+          ]
+        }
+      ],
+      "data-access": [
+        {
+          "file": "libs/data-access/project.json",
+          "hash": "12328523711758727007"
+        },
+        {
+          "file": "libs/data-access/src/index.ts",
+          "hash": "9230982222396554872"
+        },
+        {
+          "file": "libs/data-access/src/lib/api-client.service.ts",
+          "hash": "5081517090177240092",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "libs/data-access/tsconfig.json",
+          "hash": "9946910434463256616"
+        },
+        {
+          "file": "libs/data-access/tsconfig.lib.json",
+          "hash": "12480100303034631599"
+        },
+        {
+          "file": "libs/data-access/tsconfig.spec.json",
+          "hash": "6477295622161358505"
+        }
+      ]
+    },
+    "nonProjectFiles": [
+      {
+        "file": ".eslintrc.json",
+        "hash": "16412181249753735853"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "2435288524742606092"
+      },
+      {
+        "file": "README.md",
+        "hash": "3979512354017622998"
+      },
+      {
+        "file": "angular.json",
+        "hash": "15358258221982020575"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "6310892213805146435"
+      },
+      {
+        "file": "nx.json",
+        "hash": "12392162808938226120"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "9595623110313580458"
+      },
+      {
+        "file": "package.json",
+        "hash": "13348747672282004048"
+      },
+      {
+        "file": "playwright.config.ts",
+        "hash": "7585391373052903145"
+      },
+      {
+        "file": "postcss.config.js",
+        "hash": "17789872283383255573"
+      },
+      {
+        "file": "tailwind.config.js",
+        "hash": "13441098802472140305"
+      },
+      {
+        "file": "test-results/.last-run.json",
+        "hash": "4132064207420498965"
+      },
+      {
+        "file": "test-results/adt1-ADT1-form-renders-and-validates-required-fields-chromium/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/adt1-ADT1-form-renders-and-validates-required-fields-chromium/trace.zip",
+        "hash": "7035906171275841780"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-BEN2-Filing-chromium/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-BEN2-Filing-chromium/trace.zip",
+        "hash": "2565581161026652762"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-DPT3-Filing-chromium/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-DPT3-Filing-chromium/trace.zip",
+        "hash": "12421108444167511094"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-PAS3-Filing-chromium/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-PAS3-Filing-chromium/trace.zip",
+        "hash": "7576922337015030096"
+      },
+      {
+        "file": "tests/adt1.spec.ts",
+        "hash": "6348355978623396936"
+      },
+      {
+        "file": "tests/forms-phase2.spec.ts",
+        "hash": "14568563953766198556"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "11227494062919091813"
+      }
+    ]
+  }
+}

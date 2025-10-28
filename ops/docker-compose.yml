@@ -1,0 +1,65 @@
+version: '3.9'
+
+services:
+  frontend:
+    build: ../frontend
+    command: npm run start
+    ports:
+      - "4200:4200"
+    volumes:
+      - ../frontend:/usr/src/app
+    environment:
+      - NX_DEVDATA=1
+    depends_on:
+      - gateway
+
+  gateway:
+    build: ../services/gateway
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://comply:comply@db:5432/comply
+      - AUTH_ISSUER=http://keycloak:8080/realms/comply
+      - FORMS_BASE_URL=http://forms:8100
+    depends_on:
+      - db
+      - forms
+
+  forms:
+    build: ../services/forms
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8100 --reload
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://comply:comply@db:5432/comply
+    ports:
+      - "8100:8100"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=comply
+      - POSTGRES_PASSWORD=comply
+      - POSTGRES_DB=comply
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    command: start-dev --http-port=8080
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - "8080:8080"
+
+volumes:
+  db-data:

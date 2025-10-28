@@ -1,0 +1,11 @@
+{
+  "name": "@complycrafter/api-client",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "generate": "openapi-typescript ../../services/gateway/openapi.json --output src/generated.ts"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^6.6.0"
+  }
+}

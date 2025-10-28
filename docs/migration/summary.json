@@ -1,0 +1,78 @@
+{
+  "migration_date": "2024-10-27",
+  "total_forms_migrated": 51,
+  "categories": {
+    "charge_forms": [
+      "CHARGE",
+      "CHG1",
+      "CHG4",
+      "CHG6",
+      "CHG8",
+      "CHG9"
+    ],
+    "director_forms": [
+      "DIR3",
+      "DIR5",
+      "DIR6",
+      "DIR9",
+      "DIR11",
+      "DIR12"
+    ],
+    "deposit_forms": [
+      "DPT4"
+    ],
+    "general_forms": [
+      "GNL1",
+      "GNL2",
+      "GNL3"
+    ],
+    "iepf_forms": [
+      "IEPF2",
+      "IEPF5"
+    ],
+    "incorporation_forms": [
+      "INC4",
+      "INC12",
+      "INC20A",
+      "INC22",
+      "INC23",
+      "INC24",
+      "INC28"
+    ],
+    "management_forms": [
+      "MGT6",
+      "MGT8",
+      "MGT9",
+      "MGT14"
+    ],
+    "other_forms": [
+      "PAS2",
+      "PAS6",
+      "RUN",
+      "RUNLLP",
+      "SH7",
+      "SH8",
+      "SH9",
+      "SH11",
+      "STK2"
+    ],
+    "form_series": [
+      "Form3",
+      "Form4",
+      "Form5",
+      "Form11",
+      "Form12",
+      "Form15",
+      "Form22",
+      "Form23",
+      "Form24",
+      "Form28"
+    ],
+    "miscellaneous": [
+      "MR1",
+      "MSC3",
+      "BOARDREPORT"
+    ]
+  },
+  "migration_status": "completed"
+}

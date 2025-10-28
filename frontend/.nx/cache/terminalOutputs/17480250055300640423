@@ -1,0 +1,15 @@
+[1m[33mUnable to load test config from config file /Users/aghoresgwarprasadsingh/Desktop/OHA Systems/Comply-Crafter/frontend/apps/portal/vite.config.ts[39m[22m
+[1m[33mSome settings may not be applied as expected.[39m[22m
+[1m[33mYou can manually set the config in the project, portal, configuration.[39m[22m
+[31mWebSocket server error:
+Error: listen EPERM: operation not permitted 0.0.0.0:24678
+    at Server.setupListenHandle [as _listen2] (node:net:1917:21)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Object.listen (file:///Users/aghoresgwarprasadsingh/Desktop/OHA%20Systems/Comply-Crafter/frontend/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:59516:21)
+    at file:///Users/aghoresgwarprasadsingh/Desktop/OHA%20Systems/Comply-Crafter/frontend/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64101:45
+    at Array.forEach (<anonymous>)
+    at Object.listen (file:///Users/aghoresgwarprasadsingh/Desktop/OHA%20Systems/Comply-Crafter/frontend/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64101:16)
+    at _createServer (file:///Users/aghoresgwarprasadsingh/Desktop/OHA%20Systems/Comply-Crafter/frontend/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:63423:11)
+    at async createViteServer (file:///Users/aghoresgwarprasadsingh/Desktop/OHA%20Systems/Comply-Crafter/frontend/node_modules/vitest/dist/vendor/cli-api.OdDWuB7Y.js:10407:18)
+    at async createVitest (file:///Users/aghoresgwarprasadsingh/Desktop/OHA%20Systems/Comply-Crafter/frontend/node_modules/vitest/dist/vendor/cli-api.OdDWuB7Y.js:11755:18)[39m

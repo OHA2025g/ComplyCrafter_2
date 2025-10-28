@@ -1,0 +1,89 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: traffic-migration-job
+  namespace: comply-crafter
+spec:
+  template:
+    spec:
+      containers:
+      - name: traffic-migrator
+        image: comply-crafter/traffic-migrator:latest
+        env:
+        - name: TARGET_ENVIRONMENT
+          value: "green"
+        - name: TRAFFIC_PERCENTAGE
+          value: "100"
+        - name: HEALTH_CHECK_URL
+          value: "http://comply-crafter-green:80/healthz"
+        - name: ROLLBACK_THRESHOLD
+          value: "5"
+        command: ["/bin/sh"]
+        args:
+        - -c
+        - |
+          #!/bin/sh
+          echo "Starting traffic migration to green environment..."
+          
+          # Health check function
+          health_check() {
+            local url=$1
+            local max_attempts=10
+            local attempt=1
+            
+            while [ $attempt -le $max_attempts ]; do
+              if curl -f -s "$url" > /dev/null; then
+                echo "Health check passed on attempt $attempt"
+                return 0
+              fi
+              echo "Health check failed on attempt $attempt, retrying..."
+              sleep 30
+              attempt=$((attempt + 1))
+            done
+            
+            echo "Health check failed after $max_attempts attempts"
+            return 1
+          }
+          
+          # Verify green environment health
+          if ! health_check "$HEALTH_CHECK_URL"; then
+            echo "Green environment is not healthy, aborting migration"
+            exit 1
+          fi
+          
+          # Update ingress to route traffic to green
+          kubectl patch ingress comply-crafter-ingress -n comply-crafter --type='merge' -p='
+          {
+            "spec": {
+              "rules": [{
+                "host": "comply-crafter.your-domain.com",
+                "http": {
+                  "paths": [{
+                    "path": "/",
+                    "pathType": "Prefix",
+                    "backend": {
+                      "service": {
+                        "name": "comply-crafter-green",
+                        "port": {"number": 80}
+                      }
+                    }
+                  }]
+                }
+              }]
+            }
+          }'
+          
+          echo "Traffic migration completed successfully"
+          
+          # Update config map
+          kubectl patch configmap blue-green-config -n comply-crafter --type='merge' -p='
+          {
+            "data": {
+              "current-environment": "green",
+              "traffic-split": "100"
+            }
+          }'
+          
+          echo "Configuration updated to reflect green environment"
+      restartPolicy: Never
+  backoffLimit: 3

@@ -1,0 +1,27 @@
+<cc-card>
+  <h2 class="form-title">BEN2 Filing</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <div class="grid">
+      <label *ngFor="let field of fields">
+        {{ field.label }}
+        <ng-container [ngSwitch]="field.controlType">
+          <select *ngSwitchCase="'select'" [formControlName]="field.name">
+            <option [ngValue]="null">Select</option>
+            <option [ngValue]="true">Yes</option>
+            <option [ngValue]="false">No</option>
+          </select>
+          <input *ngSwitchCase="'date'" type="date" [formControlName]="field.name" />
+          <input *ngSwitchCase="'number'" type="number" [formControlName]="field.name" />
+          <input *ngSwitchCase="'email'" type="email" [formControlName]="field.name" />
+          <input *ngSwitchDefault type="text" [formControlName]="field.name" />
+        </ng-container>
+      </label>
+    </div>
+    <button type="submit" [disabled]="submitting">Submit</button>
+  </form>
+
+  <section *ngIf="lastResponse" class="preview">
+    <h4>Last submitted payload</h4>
+    <pre>{{ lastResponse | json }}</pre>
+  </section>
+</cc-card>

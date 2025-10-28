@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "gateway"
+version = "0.1.0"
+description = "FastAPI gateway/BFF for the modernized ComplyCrafter stack"
+authors = ["ComplyCrafter Team <dev@complycrafter.local>"]
+packages = [
+  { include = "app" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.109.0"
+uvicorn = { version = "^0.26.0", extras = ["standard"] }
+pydantic = "^2.6.0"
+pydantic-settings = "^2.1.0"
+sqlalchemy = "^2.0.25"
+asyncpg = "^0.29.0"
+httpx = "^0.26.0"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-asyncio = "^0.23.3"
+ruff = "^0.2.0"
+black = "^23.12.1"
+
+[build-system]
+requires = ["poetry-core>=1.6.0"]
+build-backend = "poetry.core.masonry.api"

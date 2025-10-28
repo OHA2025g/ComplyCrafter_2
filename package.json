@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@nx/jest": "^18.3.5"
+  }
+}

@@ -1,0 +1,81 @@
+<div class="dir6-form-container">
+  <div class="form-header">
+    <h2>Form DIR6</h2>
+    <p>Form description and instructions</p>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button type="button" 
+            class="tab-button" 
+            [class.active]="activeTab === 'details'"
+            (click)="setActiveTab('details')">
+      Details
+    </button>
+    <button type="button" 
+            class="tab-button" 
+            [class.active]="activeTab === 'attachments'"
+            (click)="setActiveTab('attachments')">
+      Attachments
+    </button>
+  </div>
+
+  <form [formGroup]="dir6Form" (ngSubmit)="onSubmit()" class="dir6-form">
+    
+    <!-- Details Tab -->
+    <div *ngIf="activeTab === 'details'" class="tab-content">
+      
+      <!-- Company Information -->
+      <div class="form-section">
+        <h3>Company Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cin">CIN *</label>
+            <input type="text" id="cin" formControlName="cin" class="form-control" readonly>
+          </div>
+          <div class="form-group">
+            <label for="companyName">Company Name *</label>
+            <input type="text" id="companyName" formControlName="companyName" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="companyAddress">Company Address *</label>
+            <textarea id="companyAddress" formControlName="companyAddress" class="form-control" readonly></textarea>
+          </div>
+          <div class="form-group">
+            <label for="companyEmail">Company Email *</label>
+            <input type="email" id="companyEmail" formControlName="companyEmail" class="form-control" readonly>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form-specific fields will be added here based on the actual form structure -->
+      <!-- This is a template that needs to be customized for each form -->
+      
+    </div>
+
+    <!-- Attachments Tab -->
+    <div *ngIf="activeTab === 'attachments'" class="tab-content">
+      <div class="form-section">
+        <h3>Attachments</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="attachment1">Attachment 1</label>
+            <input type="file" id="attachment1" class="form-control" accept=".pdf,.doc,.docx">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="router.navigate(['/forms/dir6'])">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="dir6Form.invalid">
+        { isEditMode ? 'Update' : 'Submit' }
+      </button>
+    </div>
+  </form>
+</div>

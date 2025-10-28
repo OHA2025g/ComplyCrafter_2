@@ -1,0 +1,28 @@
+export interface Ben2FormModel {
+  refUser: number | null;
+  companyId: number | null;
+  cin: string | null;
+  companyName: string | null;
+  companyAddress: string | null;
+  companyEmail: string | null;
+  reportingCompany: boolean | null;
+  declarationOwnership: boolean | null;
+  changeOwnership: boolean | null;
+  changeExiting: boolean | null;
+  changeReportingCompany: boolean | null;
+  cinHoldingCompany: number | null;
+  nameHoldingCompany: string | null;
+  numberOfSignificantOwners: number | null;
+  copyAttachment: string | null;
+  optionalAttachment: string | null;
+  resolutionNumber: number | null;
+  resolutionDate: string | null;
+  designation: string | null;
+  signitory: string | null;
+  dinPan: string | null;
+  category: string | null;
+  nameOfPcs: string | null;
+  associateOrFellow: string | null;
+  membershipNumber: number | null;
+  refUserName: string | null;
+}

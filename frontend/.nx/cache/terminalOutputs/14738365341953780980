@@ -1,0 +1,6 @@
+[31mfailed to load config from /Users/aghoresgwarprasadsingh/Desktop/OHA Systems/Comply-Crafter/frontend/apps/portal/vite.config.ts[39m
+
+[0m[7m[1m[31m NX [39m[22m[27m[0m  [31mThe requested module 'vite' does not provide an export named 'defaultClientConditions'[39m
+
+Pass --verbose to see the stacktrace.
+

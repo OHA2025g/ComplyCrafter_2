@@ -1,0 +1,85 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rollback-job
+  namespace: comply-crafter
+spec:
+  template:
+    spec:
+      containers:
+      - name: rollback-executor
+        image: comply-crafter/rollback-executor:latest
+        env:
+        - name: ROLLBACK_TO_ENVIRONMENT
+          value: "blue"
+        - name: HEALTH_CHECK_URL
+          value: "http://comply-crafter-blue:80/healthz"
+        command: ["/bin/sh"]
+        args:
+        - -c
+        - |
+          #!/bin/sh
+          echo "Starting rollback to blue environment..."
+          
+          # Health check function
+          health_check() {
+            local url=$1
+            local max_attempts=5
+            local attempt=1
+            
+            while [ $attempt -le $max_attempts ]; do
+              if curl -f -s "$url" > /dev/null; then
+                echo "Health check passed on attempt $attempt"
+                return 0
+              fi
+              echo "Health check failed on attempt $attempt, retrying..."
+              sleep 10
+              attempt=$((attempt + 1))
+            done
+            
+            echo "Health check failed after $max_attempts attempts"
+            return 1
+          }
+          
+          # Verify blue environment health
+          if ! health_check "$HEALTH_CHECK_URL"; then
+            echo "Blue environment is not healthy, cannot rollback"
+            exit 1
+          fi
+          
+          # Rollback ingress to blue environment
+          kubectl patch ingress comply-crafter-ingress -n comply-crafter --type='merge' -p='
+          {
+            "spec": {
+              "rules": [{
+                "host": "comply-crafter.your-domain.com",
+                "http": {
+                  "paths": [{
+                    "path": "/",
+                    "pathType": "Prefix",
+                    "backend": {
+                      "service": {
+                        "name": "comply-crafter-blue",
+                        "port": {"number": 80}
+                      }
+                    }
+                  }]
+                }
+              }]
+            }
+          }'
+          
+          echo "Rollback completed successfully"
+          
+          # Update config map
+          kubectl patch configmap blue-green-config -n comply-crafter --type='merge' -p='
+          {
+            "data": {
+              "current-environment": "blue",
+              "traffic-split": "100"
+            }
+          }'
+          
+          echo "Configuration updated to reflect blue environment"
+      restartPolicy: Never
+  backoffLimit: 3
