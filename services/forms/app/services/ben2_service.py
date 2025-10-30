@@ -8,8 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from libs.python.data_access import get_async_session
 
-from ..models import BEN2
-from ..schemas import Ben2Create, Ben2Read
+from app.models import BEN2
+from app.schemas import Ben2Create, Ben2Read
 
 
 class Ben2Service:

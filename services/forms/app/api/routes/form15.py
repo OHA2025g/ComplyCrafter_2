@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.form15 import Form15, Form15Create, Form15Update, Form15View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/form15", tags=["form15"])
 async def create_form15(
     form15_data: Form15Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new form15 record"""
     try:
         form15_service = Form15Service(db)
-        form15 = form15_service.create_form15(form15_data, current_user.id)
+        form15 = await form15_service.create_form15(form15_data, current_user.id)
         return form15
     except Exception as e:
         logger.error(f"Error creating form15: {str(e)}")
@@ -34,12 +34,12 @@ async def get_form15s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all form15s with pagination"""
     try:
         form15_service = Form15Service(db)
-        form15s = form15_service.get_form15s(skip=skip, limit=limit)
+        form15s = await form15_service.get_form15s(skip=skip, limit=limit)
         return form15s
     except Exception as e:
         logger.error(f"Error getting form15s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_form15s(
 async def get_form15(
     form15_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific form15 by ID"""
     try:
         form15_service = Form15Service(db)
-        form15 = form15_service.get_form15(form15_id)
+        form15 = await form15_service.get_form15(form15_id)
         if not form15:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_form15(
     form15_id: int,
     form15_data: Form15Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a form15 record"""
     try:
         form15_service = Form15Service(db)
-        form15 = form15_service.update_form15(form15_id, form15_data, current_user.id)
+        form15 = await form15_service.update_form15(form15_id, form15_data, current_user.id)
         if not form15:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_form15(
 async def delete_form15(
     form15_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a form15 record (soft delete)"""
     try:
         form15_service = Form15Service(db)
-        success = form15_service.delete_form15(form15_id, current_user.id)
+        success = await form15_service.delete_form15(form15_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_form15(
 async def get_form15s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all form15s for a specific company"""
     try:
         form15_service = Form15Service(db)
-        form15s = form15_service.get_form15s_by_company(company_id)
+        form15s = await form15_service.get_form15s_by_company(company_id)
         return form15s
     except Exception as e:
         logger.error(f"Error getting form15s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_form15_status(
     form15_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a form15"""
     try:
         form15_service = Form15Service(db)
-        success = form15_service.change_status(form15_id, status, current_user.id)
+        success = await form15_service.change_status(form15_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_form15_status(
             )
         
         # Return the updated form15
-        form15 = form15_service.get_form15(form15_id)
+        form15 = await form15_service.get_form15(form15_id)
         return form15
     except HTTPException:
         raise

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.sh7 import SH7, SH7Create, SH7Update, SH7View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/sh7", tags=["sh7"])
 async def create_sh7(
     sh7_data: SH7Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new sh7 record"""
     try:
         sh7_service = SH7Service(db)
-        sh7 = sh7_service.create_sh7(sh7_data, current_user.id)
+        sh7 = await sh7_service.create_sh7(sh7_data, current_user.id)
         return sh7
     except Exception as e:
         logger.error(f"Error creating sh7: {str(e)}")
@@ -34,12 +34,12 @@ async def get_sh7s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all sh7s with pagination"""
     try:
         sh7_service = SH7Service(db)
-        sh7s = sh7_service.get_sh7s(skip=skip, limit=limit)
+        sh7s = await sh7_service.get_sh7s(skip=skip, limit=limit)
         return sh7s
     except Exception as e:
         logger.error(f"Error getting sh7s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_sh7s(
 async def get_sh7(
     sh7_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific sh7 by ID"""
     try:
         sh7_service = SH7Service(db)
-        sh7 = sh7_service.get_sh7(sh7_id)
+        sh7 = await sh7_service.get_sh7(sh7_id)
         if not sh7:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_sh7(
     sh7_id: int,
     sh7_data: SH7Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a sh7 record"""
     try:
         sh7_service = SH7Service(db)
-        sh7 = sh7_service.update_sh7(sh7_id, sh7_data, current_user.id)
+        sh7 = await sh7_service.update_sh7(sh7_id, sh7_data, current_user.id)
         if not sh7:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_sh7(
 async def delete_sh7(
     sh7_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a sh7 record (soft delete)"""
     try:
         sh7_service = SH7Service(db)
-        success = sh7_service.delete_sh7(sh7_id, current_user.id)
+        success = await sh7_service.delete_sh7(sh7_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_sh7(
 async def get_sh7s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all sh7s for a specific company"""
     try:
         sh7_service = SH7Service(db)
-        sh7s = sh7_service.get_sh7s_by_company(company_id)
+        sh7s = await sh7_service.get_sh7s_by_company(company_id)
         return sh7s
     except Exception as e:
         logger.error(f"Error getting sh7s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_sh7_status(
     sh7_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a sh7"""
     try:
         sh7_service = SH7Service(db)
-        success = sh7_service.change_status(sh7_id, status, current_user.id)
+        success = await sh7_service.change_status(sh7_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_sh7_status(
             )
         
         # Return the updated sh7
-        sh7 = sh7_service.get_sh7(sh7_id)
+        sh7 = await sh7_service.get_sh7(sh7_id)
         return sh7
     except HTTPException:
         raise

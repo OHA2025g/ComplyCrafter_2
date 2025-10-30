@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.chg8 import CHG8, CHG8Create, CHG8Update, CHG8View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/chg8", tags=["chg8"])
 async def create_chg8(
     chg8_data: CHG8Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new chg8 record"""
     try:
         chg8_service = CHG8Service(db)
-        chg8 = chg8_service.create_chg8(chg8_data, current_user.id)
+        chg8 = await chg8_service.create_chg8(chg8_data, current_user.id)
         return chg8
     except Exception as e:
         logger.error(f"Error creating chg8: {str(e)}")
@@ -34,12 +34,12 @@ async def get_chg8s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all chg8s with pagination"""
     try:
         chg8_service = CHG8Service(db)
-        chg8s = chg8_service.get_chg8s(skip=skip, limit=limit)
+        chg8s = await chg8_service.get_chg8s(skip=skip, limit=limit)
         return chg8s
     except Exception as e:
         logger.error(f"Error getting chg8s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_chg8s(
 async def get_chg8(
     chg8_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific chg8 by ID"""
     try:
         chg8_service = CHG8Service(db)
-        chg8 = chg8_service.get_chg8(chg8_id)
+        chg8 = await chg8_service.get_chg8(chg8_id)
         if not chg8:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_chg8(
     chg8_id: int,
     chg8_data: CHG8Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a chg8 record"""
     try:
         chg8_service = CHG8Service(db)
-        chg8 = chg8_service.update_chg8(chg8_id, chg8_data, current_user.id)
+        chg8 = await chg8_service.update_chg8(chg8_id, chg8_data, current_user.id)
         if not chg8:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_chg8(
 async def delete_chg8(
     chg8_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a chg8 record (soft delete)"""
     try:
         chg8_service = CHG8Service(db)
-        success = chg8_service.delete_chg8(chg8_id, current_user.id)
+        success = await chg8_service.delete_chg8(chg8_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_chg8(
 async def get_chg8s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all chg8s for a specific company"""
     try:
         chg8_service = CHG8Service(db)
-        chg8s = chg8_service.get_chg8s_by_company(company_id)
+        chg8s = await chg8_service.get_chg8s_by_company(company_id)
         return chg8s
     except Exception as e:
         logger.error(f"Error getting chg8s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_chg8_status(
     chg8_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a chg8"""
     try:
         chg8_service = CHG8Service(db)
-        success = chg8_service.change_status(chg8_id, status, current_user.id)
+        success = await chg8_service.change_status(chg8_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_chg8_status(
             )
         
         # Return the updated chg8
-        chg8 = chg8_service.get_chg8(chg8_id)
+        chg8 = await chg8_service.get_chg8(chg8_id)
         return chg8
     except HTTPException:
         raise

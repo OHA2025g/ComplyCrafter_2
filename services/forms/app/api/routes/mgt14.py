@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.mgt14 import MGT14, MGT14Create, MGT14Update, MGT14View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/mgt14", tags=["mgt14"])
 async def create_mgt14(
     mgt14_data: MGT14Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new mgt14 record"""
     try:
         mgt14_service = MGT14Service(db)
-        mgt14 = mgt14_service.create_mgt14(mgt14_data, current_user.id)
+        mgt14 = await mgt14_service.create_mgt14(mgt14_data, current_user.id)
         return mgt14
     except Exception as e:
         logger.error(f"Error creating mgt14: {str(e)}")
@@ -34,12 +34,12 @@ async def get_mgt14s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all mgt14s with pagination"""
     try:
         mgt14_service = MGT14Service(db)
-        mgt14s = mgt14_service.get_mgt14s(skip=skip, limit=limit)
+        mgt14s = await mgt14_service.get_mgt14s(skip=skip, limit=limit)
         return mgt14s
     except Exception as e:
         logger.error(f"Error getting mgt14s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_mgt14s(
 async def get_mgt14(
     mgt14_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific mgt14 by ID"""
     try:
         mgt14_service = MGT14Service(db)
-        mgt14 = mgt14_service.get_mgt14(mgt14_id)
+        mgt14 = await mgt14_service.get_mgt14(mgt14_id)
         if not mgt14:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_mgt14(
     mgt14_id: int,
     mgt14_data: MGT14Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a mgt14 record"""
     try:
         mgt14_service = MGT14Service(db)
-        mgt14 = mgt14_service.update_mgt14(mgt14_id, mgt14_data, current_user.id)
+        mgt14 = await mgt14_service.update_mgt14(mgt14_id, mgt14_data, current_user.id)
         if not mgt14:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_mgt14(
 async def delete_mgt14(
     mgt14_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a mgt14 record (soft delete)"""
     try:
         mgt14_service = MGT14Service(db)
-        success = mgt14_service.delete_mgt14(mgt14_id, current_user.id)
+        success = await mgt14_service.delete_mgt14(mgt14_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_mgt14(
 async def get_mgt14s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all mgt14s for a specific company"""
     try:
         mgt14_service = MGT14Service(db)
-        mgt14s = mgt14_service.get_mgt14s_by_company(company_id)
+        mgt14s = await mgt14_service.get_mgt14s_by_company(company_id)
         return mgt14s
     except Exception as e:
         logger.error(f"Error getting mgt14s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_mgt14_status(
     mgt14_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a mgt14"""
     try:
         mgt14_service = MGT14Service(db)
-        success = mgt14_service.change_status(mgt14_id, status, current_user.id)
+        success = await mgt14_service.change_status(mgt14_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_mgt14_status(
             )
         
         # Return the updated mgt14
-        mgt14 = mgt14_service.get_mgt14(mgt14_id)
+        mgt14 = await mgt14_service.get_mgt14(mgt14_id)
         return mgt14
     except HTTPException:
         raise

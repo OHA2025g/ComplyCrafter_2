@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.charge import CHARGE, CHARGECreate, CHARGEUpdate, CHARGEView
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/charge", tags=["charge"])
 async def create_charge(
     charge_data: CHARGECreate,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new charge record"""
     try:
         charge_service = CHARGEService(db)
-        charge = charge_service.create_charge(charge_data, current_user.id)
+        charge = await charge_service.create_charge(charge_data, current_user.id)
         return charge
     except Exception as e:
         logger.error(f"Error creating charge: {str(e)}")
@@ -34,12 +34,12 @@ async def get_charges(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all charges with pagination"""
     try:
         charge_service = CHARGEService(db)
-        charges = charge_service.get_charges(skip=skip, limit=limit)
+        charges = await charge_service.get_charges(skip=skip, limit=limit)
         return charges
     except Exception as e:
         logger.error(f"Error getting charges: {str(e)}")
@@ -52,12 +52,12 @@ async def get_charges(
 async def get_charge(
     charge_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific charge by ID"""
     try:
         charge_service = CHARGEService(db)
-        charge = charge_service.get_charge(charge_id)
+        charge = await charge_service.get_charge(charge_id)
         if not charge:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_charge(
     charge_id: int,
     charge_data: CHARGEUpdate,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a charge record"""
     try:
         charge_service = CHARGEService(db)
-        charge = charge_service.update_charge(charge_id, charge_data, current_user.id)
+        charge = await charge_service.update_charge(charge_id, charge_data, current_user.id)
         if not charge:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_charge(
 async def delete_charge(
     charge_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a charge record (soft delete)"""
     try:
         charge_service = CHARGEService(db)
-        success = charge_service.delete_charge(charge_id, current_user.id)
+        success = await charge_service.delete_charge(charge_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_charge(
 async def get_charges_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all charges for a specific company"""
     try:
         charge_service = CHARGEService(db)
-        charges = charge_service.get_charges_by_company(company_id)
+        charges = await charge_service.get_charges_by_company(company_id)
         return charges
     except Exception as e:
         logger.error(f"Error getting charges for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_charge_status(
     charge_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a charge"""
     try:
         charge_service = CHARGEService(db)
-        success = charge_service.change_status(charge_id, status, current_user.id)
+        success = await charge_service.change_status(charge_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_charge_status(
             )
         
         # Return the updated charge
-        charge = charge_service.get_charge(charge_id)
+        charge = await charge_service.get_charge(charge_id)
         return charge
     except HTTPException:
         raise

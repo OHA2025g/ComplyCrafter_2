@@ -1,169 +1,179 @@
-# Architecture Documentation
+# 🏗️ Architecture Documentation
+## ComplyCrafter - Complete Architecture Overview
 
-Complete architecture documentation for the ComplyCrafter modern application.
-
----
-
-## 📋 Documents
-
-### 1. **ARCHITECTURE_OVERVIEW.md** (Comprehensive - 1,600+ lines)
-Complete system architecture including:
-- System architecture diagram
-- Frontend architecture (Angular 17)
-- Backend architecture (FastAPI microservices)
-- Data architecture (PostgreSQL + Redis)
-- Security architecture (JWT, RBAC)
-- Deployment architecture (Kubernetes)
-- Integration architecture
-- Scaling strategy
-- Monitoring & observability
-- CI/CD pipeline
-- Disaster recovery
-- Architecture decisions
-
-### 2. **DATA_FLOW_DIAGRAMS.md** (Detailed - 1,100+ lines)
-Data flow documentation covering:
-- Form submission flow (end-to-end)
-- User authentication flow
-- File upload flow
-- Search & filter flow
-- Company data flow
-- Real-time notification flow
-- Report generation flow
-- Payment processing flow
-- Data synchronization flow
-
-### 3. **DATA_MODEL_DIAGRAMS.md** (Comprehensive - 1,800+ lines)
-Complete database and model documentation:
-- Entity relationship diagrams
-- Core domain models (User, Company, Director, Auditor)
-- Form table structures (all 51 forms)
-- Audit & tracking models
-- Pydantic schema models (255 models)
-- TypeScript interface models (183 interfaces)
-- Data relationships matrix
-- Database indexes (755+ indexes)
-- Cascade rules
-- Best practices
-
-### 4. **adr/** (Architecture Decision Records)
-- ADR-0001: Technology Stack Selection
+**Version:** 1.0  
+**Last Updated:** October 31, 2025  
+**Status:** ✅ Complete
 
 ---
 
-## 🏗️ Architecture Overview
+## 📋 Architecture Diagrams Index
 
-### System Components
+### **All 9 Architecture Diagrams with Mermaid Code** ✅
 
-```
-Frontend (Angular 17)
-    ↓
-API Gateway (FastAPI)
-    ↓
-┌─────────────┬──────────────┬───────────┬──────────┐
-│             │              │           │          │
-Forms Service Compliance   Billing    Jobs
-(FastAPI)    Service      Service    Service
-    ↓            ↓            ↓          ↓
-        PostgreSQL 15 + Redis 7
-```
-
-### Key Architectural Patterns
-
-| Pattern | Implementation | Benefit |
-|---------|----------------|---------|
-| **Microservices** | 5 independent services | Scalability, fault isolation |
-| **Layered Architecture** | API/Service/Data layers | Separation of concerns |
-| **Repository Pattern** | Service layer abstraction | Testability, flexibility |
-| **API Gateway** | Centralized entry point | Security, routing |
-| **CQRS** | Separate read/write paths | Performance optimization |
+| # | Diagram | File | Description |
+|---|---------|------|-------------|
+| 1 | **System/Application Architecture** | [01_SYSTEM_APPLICATION_ARCHITECTURE.md](./01_SYSTEM_APPLICATION_ARCHITECTURE.md) | Complete system overview, microservices, tech stack |
+| 2 | **Frontend Architecture** | [02_FRONTEND_ARCHITECTURE.md](./02_FRONTEND_ARCHITECTURE.md) | Angular components, routing, state management |
+| 3 | **Backend Architecture** | [03_BACKEND_ARCHITECTURE.md](./03_BACKEND_ARCHITECTURE.md) | FastAPI services, routes, business logic |
+| 4 | **Data Architecture** | [04_DATA_ARCHITECTURE.md](./04_DATA_ARCHITECTURE.md) | Database design, schemas, ORM structure |
+| 5 | **Security Architecture** | [05_SECURITY_ARCHITECTURE.md](./05_SECURITY_ARCHITECTURE.md) | Auth, encryption, threat mitigation |
+| 6 | **Deployment Architecture** | [06_DEPLOYMENT_ARCHITECTURE.md](./06_DEPLOYMENT_ARCHITECTURE.md) | Docker, Kubernetes, CI/CD pipeline |
+| 7 | **Integration Architecture** | [07_INTEGRATION_ARCHITECTURE.md](./07_INTEGRATION_ARCHITECTURE.md) | External integrations, APIs, webhooks |
+| 8 | **Data Model Diagram** | [08_DATA_MODEL_DIAGRAM.md](./08_DATA_MODEL_DIAGRAM.md) | Complete ERD, table relationships |
+| 9 | **Data Flow Diagrams** | [09_DATA_FLOW_DIAGRAMS.md](./09_DATA_FLOW_DIAGRAMS.md) | Form submission, auth flows, data processing |
 
 ---
 
-## 📊 Architecture Metrics
+## 🎯 Quick Navigation
 
-| Metric | Value |
-|--------|-------|
-| **Services** | 5 microservices |
-| **API Endpoints** | 550+ |
-| **Database Tables** | 165 |
-| **Avg Response Time** | <100ms |
-| **Throughput** | 450+ req/sec |
-| **Availability** | 99.95% |
-| **Auto-scaling** | Enabled |
-| **Disaster Recovery** | < 1 hour RTO |
+### **Getting Started**
+Start with [System Architecture](./01_SYSTEM_APPLICATION_ARCHITECTURE.md) for complete overview
 
----
+### **Frontend Developers**
+- [Frontend Architecture](./02_FRONTEND_ARCHITECTURE.md)
+- [Data Flow Diagrams](./09_DATA_FLOW_DIAGRAMS.md)
 
-## 🎯 Quick Reference
+### **Backend Developers**
+- [Backend Architecture](./03_BACKEND_ARCHITECTURE.md)
+- [Data Architecture](./04_DATA_ARCHITECTURE.md)
+- [Data Model Diagram](./08_DATA_MODEL_DIAGRAM.md)
 
-### For System Architects
-- **Overview**: `ARCHITECTURE_OVERVIEW.md`
-- **Decisions**: `adr/`
-- **Patterns**: Section 12 in Overview
+### **DevOps Engineers**
+- [Deployment Architecture](./06_DEPLOYMENT_ARCHITECTURE.md)
+- [Security Architecture](./05_SECURITY_ARCHITECTURE.md)
 
-### For Developers
-- **Data Flows**: `DATA_FLOW_DIAGRAMS.md`
-- **Integration**: Section 7 in Overview
-- **Security**: Section 5 in Overview
-
-### For DevOps
-- **Deployment**: Section 6 in Overview
-- **Scaling**: Section 8 in Overview
-- **Monitoring**: Section 9 in Overview
-
-### For Security Team
-- **Security**: Section 5 in Overview
-- **Auth Flow**: Section 2 in Data Flow
-- **Compliance**: Documented throughout
+### **Integration Developers**
+- [Integration Architecture](./07_INTEGRATION_ARCHITECTURE.md)
 
 ---
 
-## 🔍 Architecture Highlights
+## 📊 Architecture Summary
 
-### Modern Stack
-- ✅ Angular 17 (latest)
-- ✅ FastAPI (Python 3.11)
-- ✅ PostgreSQL 15
-- ✅ Kubernetes orchestration
-- ✅ Docker containerization
+### **Technology Stack**
+- **Frontend:** Angular 17 + NX 18
+- **Backend:** FastAPI + Python 3.11
+- **Database:** PostgreSQL 15
+- **Infrastructure:** Docker + Kubernetes
 
-### Performance
-- ✅ <100ms API response
-- ✅ <2s page load
-- ✅ 450+ requests/second
-- ✅ 200+ concurrent users
+### **Key Metrics**
+- **Forms:** 62 complete forms
+- **API Endpoints:** 230 endpoints
+- **Database Tables:** 64 tables
+- **Services:** 4 microservices
+- **Components:** 65 frontend components
 
-### Security
-- ✅ JWT authentication
-- ✅ Role-based access
-- ✅ Encryption at rest/transit
-- ✅ Complete audit trail
+### **Architecture Patterns**
+- ✅ Microservices
+- ✅ RESTful API
+- ✅ Async/Await
+- ✅ Dependency Injection
+- ✅ Repository Pattern
+- ✅ MVC/MVVM
 
-### Scalability
-- ✅ Horizontal pod autoscaling
-- ✅ Microservices architecture
-- ✅ Load balancing
-- ✅ Database replication
+---
 
-### Reliability
-- ✅ 99.95% uptime SLA
-- ✅ Blue-green deployment
-- ✅ Automated failover
-- ✅ Disaster recovery < 1hr
+## 🎨 Diagram Types
+
+### **Structural Diagrams**
+1. System Architecture - Overall structure
+2. Frontend Architecture - Client layer
+3. Backend Architecture - Server layer
+4. Data Architecture - Database layer
+
+### **Behavioral Diagrams**
+9. Data Flow Diagrams - Process flows
+
+### **Deployment Diagrams**
+6. Deployment Architecture - Infrastructure
+
+### **Security Diagrams**
+5. Security Architecture - Security layers
+
+### **Integration Diagrams**
+7. Integration Architecture - External systems
+
+### **Data Diagrams**
+4. Data Architecture - Schema design
+8. Data Model - ERD
+
+---
+
+## 📐 Mermaid Diagram Features
+
+All diagrams include:
+- ✅ **Mermaid Code** - Copy-paste ready
+- ✅ **Color Coding** - Visual hierarchy
+- ✅ **Detailed Labels** - Clear descriptions
+- ✅ **Relationships** - System connections
+- ✅ **Annotations** - Implementation notes
+
+### **How to View:**
+1. **GitHub/GitLab** - Auto-renders Mermaid
+2. **VS Code** - Mermaid preview extension
+3. **Online** - https://mermaid.live/
+4. **Export** - PNG/SVG/PDF
+
+---
+
+## 🔄 Architecture Evolution
+
+### **Current (v1.0)**
+- All core components operational
+- Basic integrations complete
+- Docker-based deployment
+
+### **Near Future (v1.5)**
+- Keycloak SSO integration
+- Enhanced security
+- Kubernetes deployment
+
+### **Long Term (v2.0)**
+- Full external integrations
+- Advanced analytics
+- Multi-region deployment
 
 ---
 
 ## 📚 Additional Resources
 
-- **API Documentation**: http://localhost:8001/docs
-- **Database Schema**: See individual form wireframes
-- **Code Examples**: In form wireframe documentation
-- **Deployment Guide**: `../deployment/`
+### **PDF Diagrams** (Legacy)
+- Comply Crafter Current Architecture Diagram.pdf
+- ComplyCrafter Data Architecture Diagram.pdf
+- ComplyCrafter Data Flow Diagram.pdf
+
+### **Related Documentation**
+- [Implementation Details](../implementation/)
+- [Deployment Guides](../deployment/)
+- [Testing Reports](../testing/)
 
 ---
 
-**Status:** ✅ Complete  
-**Last Updated:** October 27, 2024  
-**Version:** 1.0
+## ✅ Architecture Review Checklist
 
+- [x] System architecture documented ✅
+- [x] Frontend architecture detailed ✅
+- [x] Backend architecture explained ✅
+- [x] Data model defined ✅
+- [x] Security architecture designed ✅
+- [x] Deployment strategy planned ✅
+- [x] Integration points identified ✅
+- [x] Data flows mapped ✅
+- [x] All diagrams use Mermaid ✅
+
+---
+
+## 📞 Questions?
+
+For architecture questions:
+- Review specific diagram
+- Check [Implementation Docs](../implementation/)
+- Contact: architecture@complycrafter.com
+
+---
+
+**Version:** 1.0
+**Diagrams:** 9 complete  
+**Status:** ✅ Production Ready
+
+**Last Updated:** October 31, 2025

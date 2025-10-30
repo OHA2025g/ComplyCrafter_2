@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.dir9 import DIR9, DIR9Create, DIR9Update, DIR9View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/dir9", tags=["dir9"])
 async def create_dir9(
     dir9_data: DIR9Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new dir9 record"""
     try:
         dir9_service = DIR9Service(db)
-        dir9 = dir9_service.create_dir9(dir9_data, current_user.id)
+        dir9 = await dir9_service.create_dir9(dir9_data, current_user.id)
         return dir9
     except Exception as e:
         logger.error(f"Error creating dir9: {str(e)}")
@@ -34,12 +34,12 @@ async def get_dir9s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all dir9s with pagination"""
     try:
         dir9_service = DIR9Service(db)
-        dir9s = dir9_service.get_dir9s(skip=skip, limit=limit)
+        dir9s = await dir9_service.get_dir9s(skip=skip, limit=limit)
         return dir9s
     except Exception as e:
         logger.error(f"Error getting dir9s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_dir9s(
 async def get_dir9(
     dir9_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific dir9 by ID"""
     try:
         dir9_service = DIR9Service(db)
-        dir9 = dir9_service.get_dir9(dir9_id)
+        dir9 = await dir9_service.get_dir9(dir9_id)
         if not dir9:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_dir9(
     dir9_id: int,
     dir9_data: DIR9Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a dir9 record"""
     try:
         dir9_service = DIR9Service(db)
-        dir9 = dir9_service.update_dir9(dir9_id, dir9_data, current_user.id)
+        dir9 = await dir9_service.update_dir9(dir9_id, dir9_data, current_user.id)
         if not dir9:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_dir9(
 async def delete_dir9(
     dir9_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a dir9 record (soft delete)"""
     try:
         dir9_service = DIR9Service(db)
-        success = dir9_service.delete_dir9(dir9_id, current_user.id)
+        success = await dir9_service.delete_dir9(dir9_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_dir9(
 async def get_dir9s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all dir9s for a specific company"""
     try:
         dir9_service = DIR9Service(db)
-        dir9s = dir9_service.get_dir9s_by_company(company_id)
+        dir9s = await dir9_service.get_dir9s_by_company(company_id)
         return dir9s
     except Exception as e:
         logger.error(f"Error getting dir9s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_dir9_status(
     dir9_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a dir9"""
     try:
         dir9_service = DIR9Service(db)
-        success = dir9_service.change_status(dir9_id, status, current_user.id)
+        success = await dir9_service.change_status(dir9_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_dir9_status(
             )
         
         # Return the updated dir9
-        dir9 = dir9_service.get_dir9(dir9_id)
+        dir9 = await dir9_service.get_dir9(dir9_id)
         return dir9
     except HTTPException:
         raise

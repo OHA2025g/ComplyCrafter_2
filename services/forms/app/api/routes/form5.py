@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.form5 import Form5, Form5Create, Form5Update, Form5View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/form5", tags=["form5"])
 async def create_form5(
     form5_data: Form5Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new form5 record"""
     try:
         form5_service = Form5Service(db)
-        form5 = form5_service.create_form5(form5_data, current_user.id)
+        form5 = await form5_service.create_form5(form5_data, current_user.id)
         return form5
     except Exception as e:
         logger.error(f"Error creating form5: {str(e)}")
@@ -34,12 +34,12 @@ async def get_form5s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all form5s with pagination"""
     try:
         form5_service = Form5Service(db)
-        form5s = form5_service.get_form5s(skip=skip, limit=limit)
+        form5s = await form5_service.get_form5s(skip=skip, limit=limit)
         return form5s
     except Exception as e:
         logger.error(f"Error getting form5s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_form5s(
 async def get_form5(
     form5_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific form5 by ID"""
     try:
         form5_service = Form5Service(db)
-        form5 = form5_service.get_form5(form5_id)
+        form5 = await form5_service.get_form5(form5_id)
         if not form5:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_form5(
     form5_id: int,
     form5_data: Form5Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a form5 record"""
     try:
         form5_service = Form5Service(db)
-        form5 = form5_service.update_form5(form5_id, form5_data, current_user.id)
+        form5 = await form5_service.update_form5(form5_id, form5_data, current_user.id)
         if not form5:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_form5(
 async def delete_form5(
     form5_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a form5 record (soft delete)"""
     try:
         form5_service = Form5Service(db)
-        success = form5_service.delete_form5(form5_id, current_user.id)
+        success = await form5_service.delete_form5(form5_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_form5(
 async def get_form5s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all form5s for a specific company"""
     try:
         form5_service = Form5Service(db)
-        form5s = form5_service.get_form5s_by_company(company_id)
+        form5s = await form5_service.get_form5s_by_company(company_id)
         return form5s
     except Exception as e:
         logger.error(f"Error getting form5s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_form5_status(
     form5_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a form5"""
     try:
         form5_service = Form5Service(db)
-        success = form5_service.change_status(form5_id, status, current_user.id)
+        success = await form5_service.change_status(form5_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_form5_status(
             )
         
         # Return the updated form5
-        form5 = form5_service.get_form5(form5_id)
+        form5 = await form5_service.get_form5(form5_id)
         return form5
     except HTTPException:
         raise

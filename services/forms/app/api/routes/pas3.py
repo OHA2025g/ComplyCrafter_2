@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 
-from ..schemas import Pas3Create, Pas3Read
-from ..services.pas3_service import Pas3Service, get_service
+from ...schemas import Pas3Create, Pas3Read
+from ...services.pas3_service import Pas3Service, get_service
 
 router = APIRouter(prefix='/forms/pas3', tags=['forms'])
 

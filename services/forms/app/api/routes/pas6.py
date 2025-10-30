@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.pas6 import PAS6, PAS6Create, PAS6Update, PAS6View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/pas6", tags=["pas6"])
 async def create_pas6(
     pas6_data: PAS6Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new pas6 record"""
     try:
         pas6_service = PAS6Service(db)
-        pas6 = pas6_service.create_pas6(pas6_data, current_user.id)
+        pas6 = await pas6_service.create_pas6(pas6_data, current_user.id)
         return pas6
     except Exception as e:
         logger.error(f"Error creating pas6: {str(e)}")
@@ -34,12 +34,12 @@ async def get_pas6s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all pas6s with pagination"""
     try:
         pas6_service = PAS6Service(db)
-        pas6s = pas6_service.get_pas6s(skip=skip, limit=limit)
+        pas6s = await pas6_service.get_pas6s(skip=skip, limit=limit)
         return pas6s
     except Exception as e:
         logger.error(f"Error getting pas6s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_pas6s(
 async def get_pas6(
     pas6_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific pas6 by ID"""
     try:
         pas6_service = PAS6Service(db)
-        pas6 = pas6_service.get_pas6(pas6_id)
+        pas6 = await pas6_service.get_pas6(pas6_id)
         if not pas6:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_pas6(
     pas6_id: int,
     pas6_data: PAS6Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a pas6 record"""
     try:
         pas6_service = PAS6Service(db)
-        pas6 = pas6_service.update_pas6(pas6_id, pas6_data, current_user.id)
+        pas6 = await pas6_service.update_pas6(pas6_id, pas6_data, current_user.id)
         if not pas6:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_pas6(
 async def delete_pas6(
     pas6_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a pas6 record (soft delete)"""
     try:
         pas6_service = PAS6Service(db)
-        success = pas6_service.delete_pas6(pas6_id, current_user.id)
+        success = await pas6_service.delete_pas6(pas6_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_pas6(
 async def get_pas6s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all pas6s for a specific company"""
     try:
         pas6_service = PAS6Service(db)
-        pas6s = pas6_service.get_pas6s_by_company(company_id)
+        pas6s = await pas6_service.get_pas6s_by_company(company_id)
         return pas6s
     except Exception as e:
         logger.error(f"Error getting pas6s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_pas6_status(
     pas6_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a pas6"""
     try:
         pas6_service = PAS6Service(db)
-        success = pas6_service.change_status(pas6_id, status, current_user.id)
+        success = await pas6_service.change_status(pas6_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_pas6_status(
             )
         
         # Return the updated pas6
-        pas6 = pas6_service.get_pas6(pas6_id)
+        pas6 = await pas6_service.get_pas6(pas6_id)
         return pas6
     except HTTPException:
         raise

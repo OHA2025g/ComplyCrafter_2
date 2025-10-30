@@ -22,7 +22,7 @@
     "@angular-devkit/build-angular": "^17.3.8",
     "@angular-eslint/eslint-plugin": "^17.4.1",
     "@angular-eslint/eslint-plugin-template": "^17.4.1",
-    "jest-preset-angular": "^17.2.2",
+    "jest-preset-angular": "^14.0.0",
     "ts-jest": "^29.2.5",
     "@angular-eslint/template-parser": "^20.4.0",
     "@nx/angular": "^18.0.0",
@@ -58,32 +58,75 @@
   "nxJsonPlugins": [],
   "fileMap": {
     "projectFileMap": {
-      "state": [
+      "ui": [
         {
-          "file": "libs/state/project.json",
-          "hash": "14156664077812877266"
+          "file": "libs/ui/project.json",
+          "hash": "3135697844928206269"
         },
         {
-          "file": "libs/state/src/index.ts",
-          "hash": "15009275146840056617"
+          "file": "libs/ui/src/index.ts",
+          "hash": "9160671341837812385"
         },
         {
-          "file": "libs/state/src/lib/app-state.service.ts",
-          "hash": "1089124973021920339",
+          "file": "libs/ui/src/lib/cc-card.component.ts",
+          "hash": "3402212409030378605",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
-          "file": "libs/state/tsconfig.json",
-          "hash": "9946910434463256616"
+          "file": "libs/ui/src/lib/index.ts",
+          "hash": "14699619501476222168"
         },
         {
-          "file": "libs/state/tsconfig.lib.json",
+          "file": "libs/ui/tsconfig.json",
+          "hash": "2464116320343411644"
+        },
+        {
+          "file": "libs/ui/tsconfig.lib.json",
           "hash": "12480100303034631599"
         },
         {
-          "file": "libs/state/tsconfig.spec.json",
+          "file": "libs/ui/tsconfig.spec.json",
+          "hash": "6477295622161358505"
+        },
+        {
+          "file": "libs/ui/vite.config.ts",
+          "hash": "13448652034975397664",
+          "deps": [
+            "npm:vite",
+            "npm:@nx/vite/plugins/nx-tsconfig-paths.plugin"
+          ]
+        }
+      ],
+      "data-access": [
+        {
+          "file": "libs/data-access/project.json",
+          "hash": "12328523711758727007"
+        },
+        {
+          "file": "libs/data-access/src/index.ts",
+          "hash": "9230982222396554872"
+        },
+        {
+          "file": "libs/data-access/src/lib/api-client.service.ts",
+          "hash": "18441237981081371319",
+          "deps": [
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "libs/data-access/tsconfig.json",
+          "hash": "9946910434463256616"
+        },
+        {
+          "file": "libs/data-access/tsconfig.lib.json",
+          "hash": "12480100303034631599"
+        },
+        {
+          "file": "libs/data-access/tsconfig.spec.json",
           "hash": "6477295622161358505"
         }
       ],
@@ -135,6 +178,10 @@
           ]
         },
         {
+          "file": "apps/portal/src/app/core/README.md",
+          "hash": "8924798597189854729"
+        },
+        {
           "file": "apps/portal/src/app/dashboard/dashboard.component.html",
           "hash": "6349459190333141602"
         },
@@ -147,6 +194,1705 @@
           "hash": "6240227187918489936",
           "deps": [
             "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/README.md",
+          "hash": "18281108388751181361"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/adt1/adt1.component.html",
+          "hash": "17120123638297126535"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/adt1/adt1.component.scss",
+          "hash": "16993531041113366062"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/adt1/adt1.component.spec.ts",
+          "hash": "10383381427441749083",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/adt1/adt1.component.ts",
+          "hash": "4781534666447719227",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/common",
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/adt1/adt1.model.ts",
+          "hash": "16628007763765602651"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/ben2/ben2.component.html",
+          "hash": "6634296150630248197"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/ben2/ben2.component.scss",
+          "hash": "14065820087529740606"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/ben2/ben2.component.spec.ts",
+          "hash": "17598356412339819042",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/ben2/ben2.component.ts",
+          "hash": "5074519689044128354",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/ben2/ben2.model.ts",
+          "hash": "2623988633564556694"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/boardreport/boardreport.component.html",
+          "hash": "532742467885170483"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/boardreport/boardreport.component.scss",
+          "hash": "16117540402098437348"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/boardreport/boardreport.component.ts",
+          "hash": "8699643360845629012",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/boardreport/boardreport.model.ts",
+          "hash": "4262264733926444530"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/boardreport/boardreport.service.ts",
+          "hash": "6346045123256745993",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/charge/charge.component.html",
+          "hash": "10911608641305270525"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/charge/charge.component.scss",
+          "hash": "17750601431791723430"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/charge/charge.component.ts",
+          "hash": "10738221531336311581",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/charge/charge.model.ts",
+          "hash": "1578865411555839186"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/charge/charge.service.ts",
+          "hash": "16634026282725861696",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg1/chg1.component.html",
+          "hash": "8381177426590461422"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg1/chg1.component.scss",
+          "hash": "5786747734530114203"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg1/chg1.component.ts",
+          "hash": "14631841982760610559",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg1/chg1.model.ts",
+          "hash": "10446673434161267540"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg1/chg1.service.ts",
+          "hash": "17005534501669719952",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg4/chg4.component.html",
+          "hash": "10189703051208339111"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg4/chg4.component.scss",
+          "hash": "9830330126748550797"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg4/chg4.component.ts",
+          "hash": "895572078293157409",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg4/chg4.model.ts",
+          "hash": "208941964446768837"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg4/chg4.service.ts",
+          "hash": "5989454998212126192",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg6/chg6.component.html",
+          "hash": "2054146901508616012"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg6/chg6.component.scss",
+          "hash": "12850156538509837737"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg6/chg6.component.ts",
+          "hash": "2674133496170635188",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg6/chg6.model.ts",
+          "hash": "17731404573748555441"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg6/chg6.service.ts",
+          "hash": "5736214971162301135",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg8/chg8.component.html",
+          "hash": "16681208762449464427"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg8/chg8.component.scss",
+          "hash": "4391597905150335067"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg8/chg8.component.ts",
+          "hash": "14828062882977007301",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg8/chg8.model.ts",
+          "hash": "10108075076148040703"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg8/chg8.service.ts",
+          "hash": "8452986974940563307",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg9/chg9.component.html",
+          "hash": "11034410360094732917"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg9/chg9.component.scss",
+          "hash": "502036739061559709"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg9/chg9.component.ts",
+          "hash": "325358203328219144",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg9/chg9.model.ts",
+          "hash": "17713305047374863446"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/chg9/chg9.service.ts",
+          "hash": "10838927696051015785",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir11/dir11.component.html",
+          "hash": "3675507990944232315"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir11/dir11.component.scss",
+          "hash": "10437134813352122239"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir11/dir11.component.ts",
+          "hash": "6423016248395165964",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir11/dir11.model.ts",
+          "hash": "6595628123822697285"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir11/dir11.service.ts",
+          "hash": "2843328636603788204",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir12/dir12.component.html",
+          "hash": "10604410098968804996"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir12/dir12.component.scss",
+          "hash": "7828520770503704651"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir12/dir12.component.ts",
+          "hash": "16765938836765226046",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir12/dir12.model.ts",
+          "hash": "12473787319920017755"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir12/dir12.service.ts",
+          "hash": "1953087515534253962",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir3/dir3.component.html",
+          "hash": "17077318013564959727"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir3/dir3.component.scss",
+          "hash": "5499030251539963845"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir3/dir3.component.ts",
+          "hash": "4882829567872488490",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir3/dir3.model.ts",
+          "hash": "9060659142753752183"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir3/dir3.service.ts",
+          "hash": "3760457403934716794",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir5/dir5.component.html",
+          "hash": "17930737690758430636"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir5/dir5.component.scss",
+          "hash": "12837754742774299691"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir5/dir5.component.ts",
+          "hash": "16170464517627811185",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir5/dir5.model.ts",
+          "hash": "2009052218782710666"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir5/dir5.service.ts",
+          "hash": "9741542851395996468",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir6/dir6.component.html",
+          "hash": "566366445105332499"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir6/dir6.component.scss",
+          "hash": "15399163563808235378"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir6/dir6.component.ts",
+          "hash": "18290046270789165248",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir6/dir6.model.ts",
+          "hash": "3511754822730793070"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir6/dir6.service.ts",
+          "hash": "1366399848949902053",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir9/dir9.component.html",
+          "hash": "7537596344864990965"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir9/dir9.component.scss",
+          "hash": "9260852366683882697"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir9/dir9.component.ts",
+          "hash": "6404446157632507710",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir9/dir9.model.ts",
+          "hash": "18223341719282110221"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dir9/dir9.service.ts",
+          "hash": "862703855665384125",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dpt3/dpt3.component.html",
+          "hash": "17054393059453355184"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dpt3/dpt3.component.scss",
+          "hash": "14065820087529740606"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dpt3/dpt3.component.spec.ts",
+          "hash": "18171111792105477460",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dpt3/dpt3.component.ts",
+          "hash": "11423375335285022037",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dpt3/dpt3.model.ts",
+          "hash": "1322370521499205828"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dpt4/dpt4.component.html",
+          "hash": "15376954339174568523"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dpt4/dpt4.component.scss",
+          "hash": "11092953390687436971"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dpt4/dpt4.component.ts",
+          "hash": "2876382542975668653",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dpt4/dpt4.model.ts",
+          "hash": "2282666687199917234"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/dpt4/dpt4.service.ts",
+          "hash": "1303130376050722139",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form11/form11.component.html",
+          "hash": "18070488815613873121"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form11/form11.component.scss",
+          "hash": "17087269257675624910"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form11/form11.component.ts",
+          "hash": "18408239696460036876",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form11/form11.model.ts",
+          "hash": "2525138761287653587"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form11/form11.service.ts",
+          "hash": "10854804628756614064",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form12/form12.component.html",
+          "hash": "12012906495335337009"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form12/form12.component.scss",
+          "hash": "992358635012295653"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form12/form12.component.ts",
+          "hash": "15189105314383035522",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form12/form12.model.ts",
+          "hash": "1510456021877429767"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form12/form12.service.ts",
+          "hash": "8958346890885224079",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form15/form15.component.html",
+          "hash": "1754686447647799844"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form15/form15.component.scss",
+          "hash": "6005070144018324569"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form15/form15.component.ts",
+          "hash": "10372808818075991516",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form15/form15.model.ts",
+          "hash": "6036204806951540374"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form15/form15.service.ts",
+          "hash": "15297362769406767042",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form22/form22.component.html",
+          "hash": "1990569119036663300"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form22/form22.component.scss",
+          "hash": "12079785517670154401"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form22/form22.component.ts",
+          "hash": "3327571514364838175",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form22/form22.model.ts",
+          "hash": "14756094819755560323"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form22/form22.service.ts",
+          "hash": "1715514310856764221",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form23/form23.component.html",
+          "hash": "928251227019756764"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form23/form23.component.scss",
+          "hash": "1975681553279667804"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form23/form23.component.ts",
+          "hash": "11467170182184515922",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form23/form23.model.ts",
+          "hash": "15753024652787943725"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form23/form23.service.ts",
+          "hash": "4958994615813217709",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form24/form24.component.html",
+          "hash": "15495906059786007680"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form24/form24.component.scss",
+          "hash": "3581377023824646025"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form24/form24.component.ts",
+          "hash": "15028757843409302165",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form24/form24.model.ts",
+          "hash": "12058014708838284009"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form24/form24.service.ts",
+          "hash": "8828554146364383397",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form28/form28.component.html",
+          "hash": "16541205154172329421"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form28/form28.component.scss",
+          "hash": "196868399536061475"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form28/form28.component.ts",
+          "hash": "17742231960129581095",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form28/form28.model.ts",
+          "hash": "12509128998026136985"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form28/form28.service.ts",
+          "hash": "13285973785564044935",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form3/form3.component.html",
+          "hash": "5912131651981395308"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form3/form3.component.scss",
+          "hash": "7975046373969004110"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form3/form3.component.ts",
+          "hash": "15973205090498044223",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form3/form3.model.ts",
+          "hash": "15214452502115676699"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form3/form3.service.ts",
+          "hash": "9030827668482050921",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form4/form4.component.html",
+          "hash": "8078312207581803979"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form4/form4.component.scss",
+          "hash": "12384842145365975044"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form4/form4.component.ts",
+          "hash": "4898410398274257825",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form4/form4.model.ts",
+          "hash": "14991445509162336191"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form4/form4.service.ts",
+          "hash": "17046783064948145145",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form5/form5.component.html",
+          "hash": "1543344415235513015"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form5/form5.component.scss",
+          "hash": "8366773127681455744"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form5/form5.component.ts",
+          "hash": "17455307053601065971",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form5/form5.model.ts",
+          "hash": "5313808250053368411"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/form5/form5.service.ts",
+          "hash": "17700550735672270110",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/forms.routes.ts",
+          "hash": "7333422273176832843",
+          "deps": [
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/generic-form/phase3-form.component.html",
+          "hash": "11455163731961618797"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/generic-form/phase3-form.component.scss",
+          "hash": "12066990550569107054"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/generic-form/phase3-form.component.spec.ts",
+          "hash": "8508121904027162826",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:rxjs",
+            "data-access"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/generic-form/phase3-form.component.ts",
+          "hash": "16467824957370982952",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:@angular/forms",
+            "npm:rxjs",
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/generic-form/phase3-form.config.ts",
+          "hash": "11384764505688201243"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl1/gnl1.component.html",
+          "hash": "13038354965400084803"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl1/gnl1.component.scss",
+          "hash": "10096760655324210409"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl1/gnl1.component.ts",
+          "hash": "11843473263410120152",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl1/gnl1.model.ts",
+          "hash": "863678770735450243"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl1/gnl1.service.ts",
+          "hash": "55300473635255907",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl2/gnl2.component.html",
+          "hash": "32282859484352422"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl2/gnl2.component.scss",
+          "hash": "9016488385334309809"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl2/gnl2.component.ts",
+          "hash": "8128429931076005634",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl2/gnl2.model.ts",
+          "hash": "13033620219821094419"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl2/gnl2.service.ts",
+          "hash": "17053911398196106945",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl3/gnl3.component.html",
+          "hash": "1565138525969110200"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl3/gnl3.component.scss",
+          "hash": "4609631529245504078"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl3/gnl3.component.ts",
+          "hash": "17012013559034558503",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl3/gnl3.model.ts",
+          "hash": "6893475775548521410"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/gnl3/gnl3.service.ts",
+          "hash": "6646036663973251010",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/iepf2/iepf2.component.html",
+          "hash": "6820046213702581597"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/iepf2/iepf2.component.scss",
+          "hash": "3708043580386091272"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/iepf2/iepf2.component.ts",
+          "hash": "2729817388716488851",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/iepf2/iepf2.model.ts",
+          "hash": "1019032920649735650"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/iepf2/iepf2.service.ts",
+          "hash": "3839178048475904237",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/iepf5/iepf5.component.html",
+          "hash": "7904331226844151040"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/iepf5/iepf5.component.scss",
+          "hash": "12574013250260896541"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/iepf5/iepf5.component.ts",
+          "hash": "14110613372981855377",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/iepf5/iepf5.model.ts",
+          "hash": "1987582016697469159"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/iepf5/iepf5.service.ts",
+          "hash": "17548012123784563418",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc12/inc12.component.html",
+          "hash": "6706549111854450166"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc12/inc12.component.scss",
+          "hash": "12730388110556350959"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc12/inc12.component.ts",
+          "hash": "13969484041640927330",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc12/inc12.model.ts",
+          "hash": "7915556347369829701"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc12/inc12.service.ts",
+          "hash": "7563342579844244559",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc20a/inc20a.component.html",
+          "hash": "3452195814519552482"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc20a/inc20a.component.scss",
+          "hash": "2808864483540960932"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc20a/inc20a.component.ts",
+          "hash": "12208551619755145624",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc20a/inc20a.model.ts",
+          "hash": "14439976108805594601"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc20a/inc20a.service.ts",
+          "hash": "15994681243754573544",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc22/inc22.component.html",
+          "hash": "7712055966179039539"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc22/inc22.component.scss",
+          "hash": "13461238762821570386"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc22/inc22.component.ts",
+          "hash": "16234860513597104837",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc22/inc22.model.ts",
+          "hash": "10611167538985152032"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc22/inc22.service.ts",
+          "hash": "5600139687299868993",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc23/inc23.component.html",
+          "hash": "5340680033001208039"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc23/inc23.component.scss",
+          "hash": "1890168487355052789"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc23/inc23.component.ts",
+          "hash": "13964257399165457455",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc23/inc23.model.ts",
+          "hash": "11884355449540479523"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc23/inc23.service.ts",
+          "hash": "13465310182424158222",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc24/inc24.component.html",
+          "hash": "16357641678642542328"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc24/inc24.component.scss",
+          "hash": "3444463900674015461"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc24/inc24.component.ts",
+          "hash": "17087318163046711147",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc24/inc24.model.ts",
+          "hash": "7853116229387843556"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc24/inc24.service.ts",
+          "hash": "4225234507367876778",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc28/inc28.component.html",
+          "hash": "2290667824225509957"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc28/inc28.component.scss",
+          "hash": "11188746328200955303"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc28/inc28.component.ts",
+          "hash": "5700303495081095028",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc28/inc28.model.ts",
+          "hash": "50824074648742654"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc28/inc28.service.ts",
+          "hash": "11029914134595813575",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc4/inc4.component.html",
+          "hash": "15102650122952409753"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc4/inc4.component.scss",
+          "hash": "6541418412392251685"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc4/inc4.component.ts",
+          "hash": "11691512798474879144",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc4/inc4.model.ts",
+          "hash": "9804477809610917935"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/inc4/inc4.service.ts",
+          "hash": "12774182683517897886",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt14/mgt14.component.html",
+          "hash": "5241478212590930623"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt14/mgt14.component.scss",
+          "hash": "8476257415599584522"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt14/mgt14.component.ts",
+          "hash": "7409320922041537831",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt14/mgt14.model.ts",
+          "hash": "800527183067779779"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt14/mgt14.service.ts",
+          "hash": "6280655706066781753",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt6/mgt6.component.html",
+          "hash": "3883666210867521747"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt6/mgt6.component.scss",
+          "hash": "2333465619940437030"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt6/mgt6.component.ts",
+          "hash": "8036216410383559409",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt6/mgt6.model.ts",
+          "hash": "11914053584714620470"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt6/mgt6.service.ts",
+          "hash": "8518416938869042777",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt8/mgt8.component.html",
+          "hash": "6508022423068962394"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt8/mgt8.component.scss",
+          "hash": "8782604290702043450"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt8/mgt8.component.ts",
+          "hash": "2553560211099562232",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt8/mgt8.model.ts",
+          "hash": "1329810141357974341"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt8/mgt8.service.ts",
+          "hash": "199132219022283810",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt9/mgt9.component.html",
+          "hash": "7316842807218600384"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt9/mgt9.component.scss",
+          "hash": "3890415782805741340"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt9/mgt9.component.ts",
+          "hash": "16491227207591957027",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt9/mgt9.model.ts",
+          "hash": "383985928975462107"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mgt9/mgt9.service.ts",
+          "hash": "16682370124566320322",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mr1/mr1.component.html",
+          "hash": "18390257970006252911"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mr1/mr1.component.scss",
+          "hash": "8759192518310832935"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mr1/mr1.component.ts",
+          "hash": "8779139592953007875",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mr1/mr1.model.ts",
+          "hash": "4487330097243498650"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/mr1/mr1.service.ts",
+          "hash": "14422910531646037744",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/msc3/msc3.component.html",
+          "hash": "6783414647786618363"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/msc3/msc3.component.scss",
+          "hash": "17821289590415691467"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/msc3/msc3.component.ts",
+          "hash": "6975913701245032306",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/msc3/msc3.model.ts",
+          "hash": "10649312658490517226"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/msc3/msc3.service.ts",
+          "hash": "15587734376128433264",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas2/pas2.component.html",
+          "hash": "16023495948602478919"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas2/pas2.component.scss",
+          "hash": "14771669917246904186"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas2/pas2.component.ts",
+          "hash": "7670687615911892005",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas2/pas2.model.ts",
+          "hash": "10913388947246918386"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas2/pas2.service.ts",
+          "hash": "18020109945323605513",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas3/pas3.component.html",
+          "hash": "3530371493115719699"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas3/pas3.component.scss",
+          "hash": "14065820087529740606"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas3/pas3.component.spec.ts",
+          "hash": "17354058690431102717",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas3/pas3.component.ts",
+          "hash": "14457576283022217071",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/common",
+            "npm:rxjs",
+            "data-access",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas3/pas3.model.ts",
+          "hash": "16418816021767051262"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas6/pas6.component.html",
+          "hash": "2528271273291848653"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas6/pas6.component.scss",
+          "hash": "5638501485187317741"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas6/pas6.component.ts",
+          "hash": "8439909451481407916",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas6/pas6.model.ts",
+          "hash": "5607722918829725124"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/pas6/pas6.service.ts",
+          "hash": "6375052519822692430",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/run/run.component.html",
+          "hash": "2913853338640451911"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/run/run.component.scss",
+          "hash": "12289026787309623432"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/run/run.component.ts",
+          "hash": "14484921349100507244",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/run/run.model.ts",
+          "hash": "1527959005865995650"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/run/run.service.ts",
+          "hash": "8502208992210815912",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/runllp/runllp.component.html",
+          "hash": "5108987889507029237"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/runllp/runllp.component.scss",
+          "hash": "8214365691337560057"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/runllp/runllp.component.ts",
+          "hash": "10922657456780854067",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/runllp/runllp.model.ts",
+          "hash": "3242447477103456668"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/runllp/runllp.service.ts",
+          "hash": "17564208660641523144",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh11/sh11.component.html",
+          "hash": "7483104873233895835"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh11/sh11.component.scss",
+          "hash": "14775762784820045719"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh11/sh11.component.ts",
+          "hash": "13083711021171729374",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh11/sh11.model.ts",
+          "hash": "11297703583994654144"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh11/sh11.service.ts",
+          "hash": "17966303568513369908",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh7/sh7.component.html",
+          "hash": "17387927616499288113"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh7/sh7.component.scss",
+          "hash": "18194730483662759874"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh7/sh7.component.ts",
+          "hash": "16483258845639636641",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh7/sh7.model.ts",
+          "hash": "10732417611180976885"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh7/sh7.service.ts",
+          "hash": "6366922055895166380",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh8/sh8.component.html",
+          "hash": "9634861263641985784"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh8/sh8.component.scss",
+          "hash": "2292455179955548162"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh8/sh8.component.ts",
+          "hash": "10352788261489738157",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh8/sh8.model.ts",
+          "hash": "11236337601642820763"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh8/sh8.service.ts",
+          "hash": "16786331383319175160",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh9/sh9.component.html",
+          "hash": "11765269736320836183"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh9/sh9.component.scss",
+          "hash": "2889925406140339864"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh9/sh9.component.ts",
+          "hash": "13822714433486188707",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh9/sh9.model.ts",
+          "hash": "7948085530085897303"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/sh9/sh9.service.ts",
+          "hash": "8268171118932212719",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/stk2/stk2.component.html",
+          "hash": "13894797176973110399"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/stk2/stk2.component.scss",
+          "hash": "2248099419968528420"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/stk2/stk2.component.ts",
+          "hash": "14016271174407372712",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/forms",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/stk2/stk2.model.ts",
+          "hash": "7956373420424510820"
+        },
+        {
+          "file": "apps/portal/src/app/features/forms/stk2/stk2.service.ts",
+          "hash": "2759506682993523249",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:rxjs"
           ]
         },
         {
@@ -249,6 +1995,10 @@
           ]
         },
         {
+          "file": "apps/portal/src/app/forms/generic-form/phase3-form.config.ts",
+          "hash": "11384764505688201243"
+        },
+        {
           "file": "apps/portal/src/app/forms/pas3/pas3.component.html",
           "hash": "3530371493115719699"
         },
@@ -278,6 +2028,10 @@
         {
           "file": "apps/portal/src/app/forms/pas3/pas3.model.ts",
           "hash": "16418816021767051262"
+        },
+        {
+          "file": "apps/portal/src/app/shared/README.md",
+          "hash": "17033829203115281447"
         },
         {
           "file": "apps/portal/src/index.html",
@@ -329,75 +2083,32 @@
           ]
         }
       ],
-      "ui": [
+      "state": [
         {
-          "file": "libs/ui/project.json",
-          "hash": "3135697844928206269"
+          "file": "libs/state/project.json",
+          "hash": "14156664077812877266"
         },
         {
-          "file": "libs/ui/src/index.ts",
-          "hash": "9160671341837812385"
+          "file": "libs/state/src/index.ts",
+          "hash": "15009275146840056617"
         },
         {
-          "file": "libs/ui/src/lib/cc-card.component.ts",
-          "hash": "3402212409030378605",
+          "file": "libs/state/src/lib/app-state.service.ts",
+          "hash": "1089124973021920339",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
-          "file": "libs/ui/src/lib/index.ts",
-          "hash": "14699619501476222168"
-        },
-        {
-          "file": "libs/ui/tsconfig.json",
-          "hash": "2464116320343411644"
-        },
-        {
-          "file": "libs/ui/tsconfig.lib.json",
-          "hash": "12480100303034631599"
-        },
-        {
-          "file": "libs/ui/tsconfig.spec.json",
-          "hash": "6477295622161358505"
-        },
-        {
-          "file": "libs/ui/vite.config.ts",
-          "hash": "13448652034975397664",
-          "deps": [
-            "npm:vite",
-            "npm:@nx/vite/plugins/nx-tsconfig-paths.plugin"
-          ]
-        }
-      ],
-      "data-access": [
-        {
-          "file": "libs/data-access/project.json",
-          "hash": "12328523711758727007"
-        },
-        {
-          "file": "libs/data-access/src/index.ts",
-          "hash": "9230982222396554872"
-        },
-        {
-          "file": "libs/data-access/src/lib/api-client.service.ts",
-          "hash": "5081517090177240092",
-          "deps": [
-            "npm:@angular/common",
-            "npm:@angular/core",
-            "npm:rxjs"
-          ]
-        },
-        {
-          "file": "libs/data-access/tsconfig.json",
+          "file": "libs/state/tsconfig.json",
           "hash": "9946910434463256616"
         },
         {
-          "file": "libs/data-access/tsconfig.lib.json",
+          "file": "libs/state/tsconfig.lib.json",
           "hash": "12480100303034631599"
         },
         {
-          "file": "libs/data-access/tsconfig.spec.json",
+          "file": "libs/state/tsconfig.spec.json",
           "hash": "6477295622161358505"
         }
       ]
@@ -412,8 +2123,12 @@
         "hash": "2435288524742606092"
       },
       {
+        "file": "Dockerfile",
+        "hash": "12464672101259610841"
+      },
+      {
         "file": "README.md",
-        "hash": "3979512354017622998"
+        "hash": "17745774963331913929"
       },
       {
         "file": "angular.json",
@@ -429,11 +2144,11 @@
       },
       {
         "file": "package-lock.json",
-        "hash": "9595623110313580458"
+        "hash": "101959656406657545"
       },
       {
         "file": "package.json",
-        "hash": "13348747672282004048"
+        "hash": "6242939907413005334"
       },
       {
         "file": "playwright.config.ts",
@@ -448,8 +2163,24 @@
         "hash": "13441098802472140305"
       },
       {
+        "file": "test-results/.last-run 2.json",
+        "hash": "14694065644177241415"
+      },
+      {
+        "file": "test-results/.last-run 3.json",
+        "hash": "4132064207420498965"
+      },
+      {
         "file": "test-results/.last-run.json",
         "hash": "4132064207420498965"
+      },
+      {
+        "file": "test-results/adt1-ADT1-form-renders-and-validates-required-fields-chromium 2/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/adt1-ADT1-form-renders-and-validates-required-fields-chromium 2/trace.zip",
+        "hash": "13267399581800689040"
       },
       {
         "file": "test-results/adt1-ADT1-form-renders-and-validates-required-fields-chromium/error-context.md",
@@ -460,6 +2191,14 @@
         "hash": "7035906171275841780"
       },
       {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-BEN2-Filing-chromium 2/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-BEN2-Filing-chromium 2/trace.zip",
+        "hash": "11003233223454677079"
+      },
+      {
         "file": "test-results/forms-phase2-Phase-2-forms-render-renders-BEN2-Filing-chromium/error-context.md",
         "hash": "6732094356024544310"
       },
@@ -468,12 +2207,28 @@
         "hash": "2565581161026652762"
       },
       {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-DPT3-Filing-chromium 2/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-DPT3-Filing-chromium 2/trace.zip",
+        "hash": "16737129624827054624"
+      },
+      {
         "file": "test-results/forms-phase2-Phase-2-forms-render-renders-DPT3-Filing-chromium/error-context.md",
         "hash": "6732094356024544310"
       },
       {
         "file": "test-results/forms-phase2-Phase-2-forms-render-renders-DPT3-Filing-chromium/trace.zip",
         "hash": "12421108444167511094"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-PAS3-Filing-chromium 2/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-PAS3-Filing-chromium 2/trace.zip",
+        "hash": "9179059520818467135"
       },
       {
         "file": "test-results/forms-phase2-Phase-2-forms-render-renders-PAS3-Filing-chromium/error-context.md",
@@ -490,6 +2245,10 @@
       {
         "file": "tests/forms-phase2.spec.ts",
         "hash": "14568563953766198556"
+      },
+      {
+        "file": "tests/forms-phase3.spec.ts",
+        "hash": "6363896137052649030"
       },
       {
         "file": "tsconfig.base.json",

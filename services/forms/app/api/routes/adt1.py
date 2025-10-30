@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 
-from ..schemas.adt1 import Adt1Create, Adt1Read
-from ..services.adt1_service import Adt1Service, get_service
+from ...schemas.adt1 import Adt1Create, Adt1Read
+from ...services.adt1_service import Adt1Service, get_service
 
 
 router = APIRouter(prefix="/forms/adt1", tags=["forms"])

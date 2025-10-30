@@ -1,0 +1,176 @@
+<div class="generic-form-container" *ngIf="formConfig">
+  <!-- Header -->
+  <div class="form-header">
+    <button type="button" class="back-button" (click)="goBack()">
+      ← Back to Forms
+    </button>
+    <h1 class="form-title">{{ formConfig.title }}</h1>
+    <p class="form-description">{{ formConfig.description }}</p>
+    <span class="form-category" *ngIf="formConfig.category">
+      {{ formConfig.category }}
+    </span>
+  </div>
+
+  <!-- Success Message -->
+  <div class="alert alert-success" *ngIf="submitSuccess">
+    <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+    </svg>
+    <div>
+      <strong>Success!</strong>
+      {{ formConfig.successMessage || 'Form submitted successfully!' }}
+      <span *ngIf="submissionId"> (ID: {{ submissionId }})</span>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div class="alert alert-error" *ngIf="submitError">
+    <svg class="alert-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+    <div>
+      <strong>Error!</strong>
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <!-- Form -->
+  <cc-card>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
+      <!-- Dynamic Fields -->
+      <div class="form-grid">
+        <div 
+          *ngFor="let field of formConfig.fields" 
+          class="form-field"
+          [class.full-width]="field.controlType === 'textarea'"
+        >
+          <label [for]="field.name" class="field-label">
+            {{ field.label }}
+            <span class="required-marker" *ngIf="field.required">*</span>
+          </label>
+
+          <!-- Text Input -->
+          <input
+            *ngIf="field.controlType === 'text' || field.controlType === 'email' || field.controlType === 'tel'"
+            [type]="field.controlType"
+            [id]="field.name"
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder || ''"
+            [pattern]="field.pattern || ''"
+            class="form-input"
+            [class.error]="hasError(field.name)"
+          />
+
+          <!-- Number Input -->
+          <input
+            *ngIf="field.controlType === 'number'"
+            type="number"
+            [id]="field.name"
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder || ''"
+            [min]="field.min"
+            [max]="field.max"
+            class="form-input"
+            [class.error]="hasError(field.name)"
+          />
+
+          <!-- Date Input -->
+          <input
+            *ngIf="field.controlType === 'date'"
+            type="date"
+            [id]="field.name"
+            [formControlName]="field.name"
+            class="form-input"
+            [class.error]="hasError(field.name)"
+          />
+
+          <!-- Textarea -->
+          <textarea
+            *ngIf="field.controlType === 'textarea'"
+            [id]="field.name"
+            [formControlName]="field.name"
+            [placeholder]="field.placeholder || ''"
+            [rows]="field.rows || 4"
+            class="form-input"
+            [class.error]="hasError(field.name)"
+          ></textarea>
+
+          <!-- Select Dropdown -->
+          <select
+            *ngIf="field.controlType === 'select'"
+            [id]="field.name"
+            [formControlName]="field.name"
+            class="form-input"
+            [class.error]="hasError(field.name)"
+          >
+            <option value="">-- Select {{ field.label }} --</option>
+            <option *ngFor="let option of field.options" [value]="option">
+              {{ option }}
+            </option>
+          </select>
+
+          <!-- Checkbox -->
+          <div *ngIf="field.controlType === 'checkbox'" class="checkbox-wrapper">
+            <input
+              type="checkbox"
+              [id]="field.name"
+              [formControlName]="field.name"
+              class="form-checkbox"
+            />
+            <label [for]="field.name" class="checkbox-label">
+              {{ field.placeholder || 'Check to confirm' }}
+            </label>
+          </div>
+
+          <!-- Field Hint -->
+          <div class="field-hint" *ngIf="field.hint && !hasError(field.name)">
+            {{ field.hint }}
+          </div>
+
+          <!-- Error Message -->
+          <div class="field-error" *ngIf="hasError(field.name)">
+            {{ getErrorMessage(field.name) }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button 
+          type="button" 
+          (click)="onReset()" 
+          class="btn btn-secondary"
+          [disabled]="submitting"
+        >
+          Reset
+        </button>
+        <button 
+          type="submit" 
+          class="btn btn-primary"
+          [disabled]="submitting || form.invalid"
+        >
+          <span *ngIf="!submitting">
+            {{ formConfig.submitLabel || 'Submit Form' }}
+          </span>
+          <span *ngIf="submitting" class="loading-spinner">
+            <svg class="spinner" viewBox="0 0 50 50">
+              <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+            </svg>
+            Submitting...
+          </span>
+        </button>
+      </div>
+    </form>
+  </cc-card>
+</div>
+
+<!-- Loading State -->
+<div class="loading-container" *ngIf="!formConfig">
+  <div class="loading-spinner">
+    <svg class="spinner" viewBox="0 0 50 50">
+      <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+    </svg>
+    <p>Loading form...</p>
+  </div>
+</div>
+

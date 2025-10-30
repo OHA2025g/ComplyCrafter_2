@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.boardreport import BOARDREPORT, BOARDREPORTCreate, BOARDREPORTUpdate, BOARDREPORTView
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/boardreport", tags=["boardreport"])
 async def create_boardreport(
     boardreport_data: BOARDREPORTCreate,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new boardreport record"""
     try:
         boardreport_service = BOARDREPORTService(db)
-        boardreport = boardreport_service.create_boardreport(boardreport_data, current_user.id)
+        boardreport = await boardreport_service.create_boardreport(boardreport_data, current_user.id)
         return boardreport
     except Exception as e:
         logger.error(f"Error creating boardreport: {str(e)}")
@@ -34,12 +34,12 @@ async def get_boardreports(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all boardreports with pagination"""
     try:
         boardreport_service = BOARDREPORTService(db)
-        boardreports = boardreport_service.get_boardreports(skip=skip, limit=limit)
+        boardreports = await boardreport_service.get_boardreports(skip=skip, limit=limit)
         return boardreports
     except Exception as e:
         logger.error(f"Error getting boardreports: {str(e)}")
@@ -52,12 +52,12 @@ async def get_boardreports(
 async def get_boardreport(
     boardreport_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific boardreport by ID"""
     try:
         boardreport_service = BOARDREPORTService(db)
-        boardreport = boardreport_service.get_boardreport(boardreport_id)
+        boardreport = await boardreport_service.get_boardreport(boardreport_id)
         if not boardreport:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_boardreport(
     boardreport_id: int,
     boardreport_data: BOARDREPORTUpdate,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a boardreport record"""
     try:
         boardreport_service = BOARDREPORTService(db)
-        boardreport = boardreport_service.update_boardreport(boardreport_id, boardreport_data, current_user.id)
+        boardreport = await boardreport_service.update_boardreport(boardreport_id, boardreport_data, current_user.id)
         if not boardreport:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_boardreport(
 async def delete_boardreport(
     boardreport_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a boardreport record (soft delete)"""
     try:
         boardreport_service = BOARDREPORTService(db)
-        success = boardreport_service.delete_boardreport(boardreport_id, current_user.id)
+        success = await boardreport_service.delete_boardreport(boardreport_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_boardreport(
 async def get_boardreports_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all boardreports for a specific company"""
     try:
         boardreport_service = BOARDREPORTService(db)
-        boardreports = boardreport_service.get_boardreports_by_company(company_id)
+        boardreports = await boardreport_service.get_boardreports_by_company(company_id)
         return boardreports
     except Exception as e:
         logger.error(f"Error getting boardreports for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_boardreport_status(
     boardreport_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a boardreport"""
     try:
         boardreport_service = BOARDREPORTService(db)
-        success = boardreport_service.change_status(boardreport_id, status, current_user.id)
+        success = await boardreport_service.change_status(boardreport_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_boardreport_status(
             )
         
         # Return the updated boardreport
-        boardreport = boardreport_service.get_boardreport(boardreport_id)
+        boardreport = await boardreport_service.get_boardreport(boardreport_id)
         return boardreport
     except HTTPException:
         raise

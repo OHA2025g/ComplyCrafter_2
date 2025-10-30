@@ -1,0 +1,61 @@
+<div class="login-container">
+  <cc-card>
+    <div class="login-header">
+      <h1 class="title">Welcome back</h1>
+      <p class="subtitle">Sign in to access ComplyCrafter forms</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+      <div class="field">
+        <label for="username">Username or Email</label>
+        <input 
+          id="username" 
+          type="text" 
+          formControlName="username"
+          placeholder="Enter your username"
+          autocomplete="username"
+        />
+        <div class="error" *ngIf="f.username.touched && f.username.invalid">
+          Username is required
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input 
+          id="password" 
+          type="password" 
+          formControlName="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+        />
+        <div class="error" *ngIf="f.password.touched && f.password.invalid">
+          Password is required (min 8 characters)
+        </div>
+      </div>
+
+      <div class="field-row">
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="rememberMe" />
+          Remember me
+        </label>
+        <a href="#" class="link">Forgot password?</a>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit" [disabled]="submitting || form.invalid">
+          <span *ngIf="!submitting">Sign in</span>
+          <span *ngIf="submitting">Signing in...</span>
+        </button>
+      </div>
+
+      <div class="notice error" *ngIf="error">{{ error }}</div>
+
+      <div class="signup-link">
+        Don't have an account? 
+        <a routerLink="/forms/signup" class="link">Create account</a>
+      </div>
+    </form>
+  </cc-card>
+</div>
+

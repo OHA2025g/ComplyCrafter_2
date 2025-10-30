@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.inc28 import INC28, INC28Create, INC28Update, INC28View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/inc28", tags=["inc28"])
 async def create_inc28(
     inc28_data: INC28Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new inc28 record"""
     try:
         inc28_service = INC28Service(db)
-        inc28 = inc28_service.create_inc28(inc28_data, current_user.id)
+        inc28 = await inc28_service.create_inc28(inc28_data, current_user.id)
         return inc28
     except Exception as e:
         logger.error(f"Error creating inc28: {str(e)}")
@@ -34,12 +34,12 @@ async def get_inc28s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all inc28s with pagination"""
     try:
         inc28_service = INC28Service(db)
-        inc28s = inc28_service.get_inc28s(skip=skip, limit=limit)
+        inc28s = await inc28_service.get_inc28s(skip=skip, limit=limit)
         return inc28s
     except Exception as e:
         logger.error(f"Error getting inc28s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_inc28s(
 async def get_inc28(
     inc28_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific inc28 by ID"""
     try:
         inc28_service = INC28Service(db)
-        inc28 = inc28_service.get_inc28(inc28_id)
+        inc28 = await inc28_service.get_inc28(inc28_id)
         if not inc28:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_inc28(
     inc28_id: int,
     inc28_data: INC28Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a inc28 record"""
     try:
         inc28_service = INC28Service(db)
-        inc28 = inc28_service.update_inc28(inc28_id, inc28_data, current_user.id)
+        inc28 = await inc28_service.update_inc28(inc28_id, inc28_data, current_user.id)
         if not inc28:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_inc28(
 async def delete_inc28(
     inc28_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a inc28 record (soft delete)"""
     try:
         inc28_service = INC28Service(db)
-        success = inc28_service.delete_inc28(inc28_id, current_user.id)
+        success = await inc28_service.delete_inc28(inc28_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_inc28(
 async def get_inc28s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all inc28s for a specific company"""
     try:
         inc28_service = INC28Service(db)
-        inc28s = inc28_service.get_inc28s_by_company(company_id)
+        inc28s = await inc28_service.get_inc28s_by_company(company_id)
         return inc28s
     except Exception as e:
         logger.error(f"Error getting inc28s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_inc28_status(
     inc28_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a inc28"""
     try:
         inc28_service = INC28Service(db)
-        success = inc28_service.change_status(inc28_id, status, current_user.id)
+        success = await inc28_service.change_status(inc28_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_inc28_status(
             )
         
         # Return the updated inc28
-        inc28 = inc28_service.get_inc28(inc28_id)
+        inc28 = await inc28_service.get_inc28(inc28_id)
         return inc28
     except HTTPException:
         raise

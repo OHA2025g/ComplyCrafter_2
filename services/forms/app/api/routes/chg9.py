@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.chg9 import CHG9, CHG9Create, CHG9Update, CHG9View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/chg9", tags=["chg9"])
 async def create_chg9(
     chg9_data: CHG9Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new chg9 record"""
     try:
         chg9_service = CHG9Service(db)
-        chg9 = chg9_service.create_chg9(chg9_data, current_user.id)
+        chg9 = await chg9_service.create_chg9(chg9_data, current_user.id)
         return chg9
     except Exception as e:
         logger.error(f"Error creating chg9: {str(e)}")
@@ -34,12 +34,12 @@ async def get_chg9s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all chg9s with pagination"""
     try:
         chg9_service = CHG9Service(db)
-        chg9s = chg9_service.get_chg9s(skip=skip, limit=limit)
+        chg9s = await chg9_service.get_chg9s(skip=skip, limit=limit)
         return chg9s
     except Exception as e:
         logger.error(f"Error getting chg9s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_chg9s(
 async def get_chg9(
     chg9_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific chg9 by ID"""
     try:
         chg9_service = CHG9Service(db)
-        chg9 = chg9_service.get_chg9(chg9_id)
+        chg9 = await chg9_service.get_chg9(chg9_id)
         if not chg9:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_chg9(
     chg9_id: int,
     chg9_data: CHG9Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a chg9 record"""
     try:
         chg9_service = CHG9Service(db)
-        chg9 = chg9_service.update_chg9(chg9_id, chg9_data, current_user.id)
+        chg9 = await chg9_service.update_chg9(chg9_id, chg9_data, current_user.id)
         if not chg9:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_chg9(
 async def delete_chg9(
     chg9_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a chg9 record (soft delete)"""
     try:
         chg9_service = CHG9Service(db)
-        success = chg9_service.delete_chg9(chg9_id, current_user.id)
+        success = await chg9_service.delete_chg9(chg9_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_chg9(
 async def get_chg9s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all chg9s for a specific company"""
     try:
         chg9_service = CHG9Service(db)
-        chg9s = chg9_service.get_chg9s_by_company(company_id)
+        chg9s = await chg9_service.get_chg9s_by_company(company_id)
         return chg9s
     except Exception as e:
         logger.error(f"Error getting chg9s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_chg9_status(
     chg9_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a chg9"""
     try:
         chg9_service = CHG9Service(db)
-        success = chg9_service.change_status(chg9_id, status, current_user.id)
+        success = await chg9_service.change_status(chg9_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_chg9_status(
             )
         
         # Return the updated chg9
-        chg9 = chg9_service.get_chg9(chg9_id)
+        chg9 = await chg9_service.get_chg9(chg9_id)
         return chg9
     except HTTPException:
         raise

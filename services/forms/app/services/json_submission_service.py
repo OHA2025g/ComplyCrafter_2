@@ -8,8 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from libs.python.data_access import get_async_session
 
-from ..models.json_submission import JsonSubmission
-from ..schemas.json_submission import JsonSubmissionCreate, JsonSubmissionRead
+from app.models.json_submission import JsonSubmission
+from app.schemas.json_submission import JsonSubmissionCreate, JsonSubmissionRead
 
 ModelT = TypeVar('ModelT', bound=JsonSubmission)
 

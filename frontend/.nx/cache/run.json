@@ -1,21 +1,21 @@
 {
   "run": {
-    "command": "nx test portal",
-    "startTime": "2025-10-25T13:37:41.133Z",
-    "endTime": "2025-10-25T13:37:41.270Z",
+    "command": "nx serve portal",
+    "startTime": "2025-10-30T18:51:34.422Z",
+    "endTime": "2025-10-30T19:05:14.543Z",
     "inner": false
   },
   "tasks": [
     {
-      "taskId": "portal:test",
-      "target": "test",
+      "taskId": "portal:serve",
+      "target": "serve",
       "projectName": "portal",
-      "hash": "1331333939470814280",
-      "startTime": "2025-10-25T13:37:41.137Z",
-      "endTime": "2025-10-25T13:37:41.270Z",
+      "hash": "11223597270306162132",
+      "startTime": "2025-10-30T18:51:34.430Z",
+      "endTime": "2025-10-30T19:05:14.535Z",
       "params": "",
       "cacheStatus": "cache-miss",
-      "status": 1
+      "status": 0
     }
   ]
 }

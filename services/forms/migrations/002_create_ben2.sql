@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS ben2_submissions (
     copy_attachment VARCHAR(255) NULL,
     optional_attachment VARCHAR(255) NULL,
     resolution_number Integer NULL,
-    resolution_date DateTime NULL,
+    resolution_date TIMESTAMP NULL,
     designation VARCHAR(255) NULL,
     signitory VARCHAR(255) NULL,
     din_pan VARCHAR(255) NULL,

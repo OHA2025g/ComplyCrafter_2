@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS pas3_submissions (
     another_attachment VARCHAR(255) NULL,
     optional_attachment VARCHAR(255) NULL,
     resolution_number VARCHAR(255) NULL,
-    resolution_date DateTime NULL,
+    resolution_date TIMESTAMP NULL,
     designation VARCHAR(255) NULL,
     signatory VARCHAR(255) NULL,
     category VARCHAR(255) NULL,
@@ -46,6 +46,6 @@ CREATE TABLE IF NOT EXISTS pas3_submissions (
     total_amount_shares_issue Float NULL,
     total_amount_shares_sub Float NULL,
     total_amount_shares_paid Float NULL,
-    deleted_on DateTime NULL,
+    deleted_on TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT NOW()
 );

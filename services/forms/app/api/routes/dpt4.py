@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.dpt4 import DPT4, DPT4Create, DPT4Update, DPT4View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/dpt4", tags=["dpt4"])
 async def create_dpt4(
     dpt4_data: DPT4Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new dpt4 record"""
     try:
         dpt4_service = DPT4Service(db)
-        dpt4 = dpt4_service.create_dpt4(dpt4_data, current_user.id)
+        dpt4 = await dpt4_service.create_dpt4(dpt4_data, current_user.id)
         return dpt4
     except Exception as e:
         logger.error(f"Error creating dpt4: {str(e)}")
@@ -34,12 +34,12 @@ async def get_dpt4s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all dpt4s with pagination"""
     try:
         dpt4_service = DPT4Service(db)
-        dpt4s = dpt4_service.get_dpt4s(skip=skip, limit=limit)
+        dpt4s = await dpt4_service.get_dpt4s(skip=skip, limit=limit)
         return dpt4s
     except Exception as e:
         logger.error(f"Error getting dpt4s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_dpt4s(
 async def get_dpt4(
     dpt4_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific dpt4 by ID"""
     try:
         dpt4_service = DPT4Service(db)
-        dpt4 = dpt4_service.get_dpt4(dpt4_id)
+        dpt4 = await dpt4_service.get_dpt4(dpt4_id)
         if not dpt4:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_dpt4(
     dpt4_id: int,
     dpt4_data: DPT4Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a dpt4 record"""
     try:
         dpt4_service = DPT4Service(db)
-        dpt4 = dpt4_service.update_dpt4(dpt4_id, dpt4_data, current_user.id)
+        dpt4 = await dpt4_service.update_dpt4(dpt4_id, dpt4_data, current_user.id)
         if not dpt4:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_dpt4(
 async def delete_dpt4(
     dpt4_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a dpt4 record (soft delete)"""
     try:
         dpt4_service = DPT4Service(db)
-        success = dpt4_service.delete_dpt4(dpt4_id, current_user.id)
+        success = await dpt4_service.delete_dpt4(dpt4_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_dpt4(
 async def get_dpt4s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all dpt4s for a specific company"""
     try:
         dpt4_service = DPT4Service(db)
-        dpt4s = dpt4_service.get_dpt4s_by_company(company_id)
+        dpt4s = await dpt4_service.get_dpt4s_by_company(company_id)
         return dpt4s
     except Exception as e:
         logger.error(f"Error getting dpt4s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_dpt4_status(
     dpt4_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a dpt4"""
     try:
         dpt4_service = DPT4Service(db)
-        success = dpt4_service.change_status(dpt4_id, status, current_user.id)
+        success = await dpt4_service.change_status(dpt4_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_dpt4_status(
             )
         
         # Return the updated dpt4
-        dpt4 = dpt4_service.get_dpt4(dpt4_id)
+        dpt4 = await dpt4_service.get_dpt4(dpt4_id)
         return dpt4
     except HTTPException:
         raise

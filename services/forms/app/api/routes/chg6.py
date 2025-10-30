@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.chg6 import CHG6, CHG6Create, CHG6Update, CHG6View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/chg6", tags=["chg6"])
 async def create_chg6(
     chg6_data: CHG6Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new chg6 record"""
     try:
         chg6_service = CHG6Service(db)
-        chg6 = chg6_service.create_chg6(chg6_data, current_user.id)
+        chg6 = await chg6_service.create_chg6(chg6_data, current_user.id)
         return chg6
     except Exception as e:
         logger.error(f"Error creating chg6: {str(e)}")
@@ -34,12 +34,12 @@ async def get_chg6s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all chg6s with pagination"""
     try:
         chg6_service = CHG6Service(db)
-        chg6s = chg6_service.get_chg6s(skip=skip, limit=limit)
+        chg6s = await chg6_service.get_chg6s(skip=skip, limit=limit)
         return chg6s
     except Exception as e:
         logger.error(f"Error getting chg6s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_chg6s(
 async def get_chg6(
     chg6_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific chg6 by ID"""
     try:
         chg6_service = CHG6Service(db)
-        chg6 = chg6_service.get_chg6(chg6_id)
+        chg6 = await chg6_service.get_chg6(chg6_id)
         if not chg6:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_chg6(
     chg6_id: int,
     chg6_data: CHG6Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a chg6 record"""
     try:
         chg6_service = CHG6Service(db)
-        chg6 = chg6_service.update_chg6(chg6_id, chg6_data, current_user.id)
+        chg6 = await chg6_service.update_chg6(chg6_id, chg6_data, current_user.id)
         if not chg6:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_chg6(
 async def delete_chg6(
     chg6_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a chg6 record (soft delete)"""
     try:
         chg6_service = CHG6Service(db)
-        success = chg6_service.delete_chg6(chg6_id, current_user.id)
+        success = await chg6_service.delete_chg6(chg6_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_chg6(
 async def get_chg6s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all chg6s for a specific company"""
     try:
         chg6_service = CHG6Service(db)
-        chg6s = chg6_service.get_chg6s_by_company(company_id)
+        chg6s = await chg6_service.get_chg6s_by_company(company_id)
         return chg6s
     except Exception as e:
         logger.error(f"Error getting chg6s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_chg6_status(
     chg6_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a chg6"""
     try:
         chg6_service = CHG6Service(db)
-        success = chg6_service.change_status(chg6_id, status, current_user.id)
+        success = await chg6_service.change_status(chg6_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_chg6_status(
             )
         
         # Return the updated chg6
-        chg6 = chg6_service.get_chg6(chg6_id)
+        chg6 = await chg6_service.get_chg6(chg6_id)
         return chg6
     except HTTPException:
         raise

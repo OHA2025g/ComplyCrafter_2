@@ -1,0 +1,36 @@
+<div class="signup-container">
+  <cc-card>
+    <h1 class="title">Create your account</h1>
+    <p class="subtitle">Sign up to access all MCA forms</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" type="text" formControlName="username" />
+        <div class="error" *ngIf="f.username.touched && f.username.invalid">Username is required (3-150 chars)</div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" />
+        <div class="error" *ngIf="f.email.touched && f.email.invalid">Valid email is required</div>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" />
+        <div class="error" *ngIf="f.password.touched && f.password.invalid">8-128 characters required</div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="submit" [disabled]="submitting || form.invalid">
+          <span *ngIf="!submitting">Create account</span>
+          <span *ngIf="submitting">Creating...</span>
+        </button>
+      </div>
+
+      <div class="notice success" *ngIf="success">Account created! Redirecting...</div>
+      <div class="notice error" *ngIf="error">{{ error }}</div>
+    </form>
+  </cc-card>
+</div>

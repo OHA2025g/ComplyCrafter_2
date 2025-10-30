@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.sh11 import SH11, SH11Create, SH11Update, SH11View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/sh11", tags=["sh11"])
 async def create_sh11(
     sh11_data: SH11Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new sh11 record"""
     try:
         sh11_service = SH11Service(db)
-        sh11 = sh11_service.create_sh11(sh11_data, current_user.id)
+        sh11 = await sh11_service.create_sh11(sh11_data, current_user.id)
         return sh11
     except Exception as e:
         logger.error(f"Error creating sh11: {str(e)}")
@@ -34,12 +34,12 @@ async def get_sh11s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all sh11s with pagination"""
     try:
         sh11_service = SH11Service(db)
-        sh11s = sh11_service.get_sh11s(skip=skip, limit=limit)
+        sh11s = await sh11_service.get_sh11s(skip=skip, limit=limit)
         return sh11s
     except Exception as e:
         logger.error(f"Error getting sh11s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_sh11s(
 async def get_sh11(
     sh11_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific sh11 by ID"""
     try:
         sh11_service = SH11Service(db)
-        sh11 = sh11_service.get_sh11(sh11_id)
+        sh11 = await sh11_service.get_sh11(sh11_id)
         if not sh11:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_sh11(
     sh11_id: int,
     sh11_data: SH11Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a sh11 record"""
     try:
         sh11_service = SH11Service(db)
-        sh11 = sh11_service.update_sh11(sh11_id, sh11_data, current_user.id)
+        sh11 = await sh11_service.update_sh11(sh11_id, sh11_data, current_user.id)
         if not sh11:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_sh11(
 async def delete_sh11(
     sh11_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a sh11 record (soft delete)"""
     try:
         sh11_service = SH11Service(db)
-        success = sh11_service.delete_sh11(sh11_id, current_user.id)
+        success = await sh11_service.delete_sh11(sh11_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_sh11(
 async def get_sh11s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all sh11s for a specific company"""
     try:
         sh11_service = SH11Service(db)
-        sh11s = sh11_service.get_sh11s_by_company(company_id)
+        sh11s = await sh11_service.get_sh11s_by_company(company_id)
         return sh11s
     except Exception as e:
         logger.error(f"Error getting sh11s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_sh11_status(
     sh11_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a sh11"""
     try:
         sh11_service = SH11Service(db)
-        success = sh11_service.change_status(sh11_id, status, current_user.id)
+        success = await sh11_service.change_status(sh11_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_sh11_status(
             )
         
         # Return the updated sh11
-        sh11 = sh11_service.get_sh11(sh11_id)
+        sh11 = await sh11_service.get_sh11(sh11_id)
         return sh11
     except HTTPException:
         raise

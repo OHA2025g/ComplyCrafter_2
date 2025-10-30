@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.form3 import Form3, Form3Create, Form3Update, Form3View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/form3", tags=["form3"])
 async def create_form3(
     form3_data: Form3Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new form3 record"""
     try:
         form3_service = Form3Service(db)
-        form3 = form3_service.create_form3(form3_data, current_user.id)
+        form3 = await form3_service.create_form3(form3_data, current_user.id)
         return form3
     except Exception as e:
         logger.error(f"Error creating form3: {str(e)}")
@@ -34,12 +34,12 @@ async def get_form3s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all form3s with pagination"""
     try:
         form3_service = Form3Service(db)
-        form3s = form3_service.get_form3s(skip=skip, limit=limit)
+        form3s = await form3_service.get_form3s(skip=skip, limit=limit)
         return form3s
     except Exception as e:
         logger.error(f"Error getting form3s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_form3s(
 async def get_form3(
     form3_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific form3 by ID"""
     try:
         form3_service = Form3Service(db)
-        form3 = form3_service.get_form3(form3_id)
+        form3 = await form3_service.get_form3(form3_id)
         if not form3:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_form3(
     form3_id: int,
     form3_data: Form3Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a form3 record"""
     try:
         form3_service = Form3Service(db)
-        form3 = form3_service.update_form3(form3_id, form3_data, current_user.id)
+        form3 = await form3_service.update_form3(form3_id, form3_data, current_user.id)
         if not form3:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_form3(
 async def delete_form3(
     form3_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a form3 record (soft delete)"""
     try:
         form3_service = Form3Service(db)
-        success = form3_service.delete_form3(form3_id, current_user.id)
+        success = await form3_service.delete_form3(form3_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_form3(
 async def get_form3s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all form3s for a specific company"""
     try:
         form3_service = Form3Service(db)
-        form3s = form3_service.get_form3s_by_company(company_id)
+        form3s = await form3_service.get_form3s_by_company(company_id)
         return form3s
     except Exception as e:
         logger.error(f"Error getting form3s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_form3_status(
     form3_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a form3"""
     try:
         form3_service = Form3Service(db)
-        success = form3_service.change_status(form3_id, status, current_user.id)
+        success = await form3_service.change_status(form3_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_form3_status(
             )
         
         # Return the updated form3
-        form3 = form3_service.get_form3(form3_id)
+        form3 = await form3_service.get_form3(form3_id)
         return form3
     except HTTPException:
         raise

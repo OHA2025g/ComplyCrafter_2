@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 
-from ..schemas import Ben2Create, Ben2Read
-from ..services.ben2_service import Ben2Service, get_service
+from ...schemas import Ben2Create, Ben2Read
+from ...services.ben2_service import Ben2Service, get_service
 
 router = APIRouter(prefix='/forms/ben2', tags=['forms'])
 

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.mgt9 import MGT9, MGT9Create, MGT9Update, MGT9View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/mgt9", tags=["mgt9"])
 async def create_mgt9(
     mgt9_data: MGT9Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new mgt9 record"""
     try:
         mgt9_service = MGT9Service(db)
-        mgt9 = mgt9_service.create_mgt9(mgt9_data, current_user.id)
+        mgt9 = await mgt9_service.create_mgt9(mgt9_data, current_user.id)
         return mgt9
     except Exception as e:
         logger.error(f"Error creating mgt9: {str(e)}")
@@ -34,12 +34,12 @@ async def get_mgt9s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all mgt9s with pagination"""
     try:
         mgt9_service = MGT9Service(db)
-        mgt9s = mgt9_service.get_mgt9s(skip=skip, limit=limit)
+        mgt9s = await mgt9_service.get_mgt9s(skip=skip, limit=limit)
         return mgt9s
     except Exception as e:
         logger.error(f"Error getting mgt9s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_mgt9s(
 async def get_mgt9(
     mgt9_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific mgt9 by ID"""
     try:
         mgt9_service = MGT9Service(db)
-        mgt9 = mgt9_service.get_mgt9(mgt9_id)
+        mgt9 = await mgt9_service.get_mgt9(mgt9_id)
         if not mgt9:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_mgt9(
     mgt9_id: int,
     mgt9_data: MGT9Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a mgt9 record"""
     try:
         mgt9_service = MGT9Service(db)
-        mgt9 = mgt9_service.update_mgt9(mgt9_id, mgt9_data, current_user.id)
+        mgt9 = await mgt9_service.update_mgt9(mgt9_id, mgt9_data, current_user.id)
         if not mgt9:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_mgt9(
 async def delete_mgt9(
     mgt9_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a mgt9 record (soft delete)"""
     try:
         mgt9_service = MGT9Service(db)
-        success = mgt9_service.delete_mgt9(mgt9_id, current_user.id)
+        success = await mgt9_service.delete_mgt9(mgt9_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_mgt9(
 async def get_mgt9s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all mgt9s for a specific company"""
     try:
         mgt9_service = MGT9Service(db)
-        mgt9s = mgt9_service.get_mgt9s_by_company(company_id)
+        mgt9s = await mgt9_service.get_mgt9s_by_company(company_id)
         return mgt9s
     except Exception as e:
         logger.error(f"Error getting mgt9s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_mgt9_status(
     mgt9_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a mgt9"""
     try:
         mgt9_service = MGT9Service(db)
-        success = mgt9_service.change_status(mgt9_id, status, current_user.id)
+        success = await mgt9_service.change_status(mgt9_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_mgt9_status(
             )
         
         # Return the updated mgt9
-        mgt9 = mgt9_service.get_mgt9(mgt9_id)
+        mgt9 = await mgt9_service.get_mgt9(mgt9_id)
         return mgt9
     except HTTPException:
         raise

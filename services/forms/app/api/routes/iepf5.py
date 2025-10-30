@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.iepf5 import IEPF5, IEPF5Create, IEPF5Update, IEPF5View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/iepf5", tags=["iepf5"])
 async def create_iepf5(
     iepf5_data: IEPF5Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new iepf5 record"""
     try:
         iepf5_service = IEPF5Service(db)
-        iepf5 = iepf5_service.create_iepf5(iepf5_data, current_user.id)
+        iepf5 = await iepf5_service.create_iepf5(iepf5_data, current_user.id)
         return iepf5
     except Exception as e:
         logger.error(f"Error creating iepf5: {str(e)}")
@@ -34,12 +34,12 @@ async def get_iepf5s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all iepf5s with pagination"""
     try:
         iepf5_service = IEPF5Service(db)
-        iepf5s = iepf5_service.get_iepf5s(skip=skip, limit=limit)
+        iepf5s = await iepf5_service.get_iepf5s(skip=skip, limit=limit)
         return iepf5s
     except Exception as e:
         logger.error(f"Error getting iepf5s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_iepf5s(
 async def get_iepf5(
     iepf5_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific iepf5 by ID"""
     try:
         iepf5_service = IEPF5Service(db)
-        iepf5 = iepf5_service.get_iepf5(iepf5_id)
+        iepf5 = await iepf5_service.get_iepf5(iepf5_id)
         if not iepf5:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_iepf5(
     iepf5_id: int,
     iepf5_data: IEPF5Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a iepf5 record"""
     try:
         iepf5_service = IEPF5Service(db)
-        iepf5 = iepf5_service.update_iepf5(iepf5_id, iepf5_data, current_user.id)
+        iepf5 = await iepf5_service.update_iepf5(iepf5_id, iepf5_data, current_user.id)
         if not iepf5:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_iepf5(
 async def delete_iepf5(
     iepf5_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a iepf5 record (soft delete)"""
     try:
         iepf5_service = IEPF5Service(db)
-        success = iepf5_service.delete_iepf5(iepf5_id, current_user.id)
+        success = await iepf5_service.delete_iepf5(iepf5_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_iepf5(
 async def get_iepf5s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all iepf5s for a specific company"""
     try:
         iepf5_service = IEPF5Service(db)
-        iepf5s = iepf5_service.get_iepf5s_by_company(company_id)
+        iepf5s = await iepf5_service.get_iepf5s_by_company(company_id)
         return iepf5s
     except Exception as e:
         logger.error(f"Error getting iepf5s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_iepf5_status(
     iepf5_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a iepf5"""
     try:
         iepf5_service = IEPF5Service(db)
-        success = iepf5_service.change_status(iepf5_id, status, current_user.id)
+        success = await iepf5_service.change_status(iepf5_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_iepf5_status(
             )
         
         # Return the updated iepf5
-        iepf5 = iepf5_service.get_iepf5(iepf5_id)
+        iepf5 = await iepf5_service.get_iepf5(iepf5_id)
         return iepf5
     except HTTPException:
         raise

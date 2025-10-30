@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.inc24 import INC24, INC24Create, INC24Update, INC24View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/inc24", tags=["inc24"])
 async def create_inc24(
     inc24_data: INC24Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new inc24 record"""
     try:
         inc24_service = INC24Service(db)
-        inc24 = inc24_service.create_inc24(inc24_data, current_user.id)
+        inc24 = await inc24_service.create_inc24(inc24_data, current_user.id)
         return inc24
     except Exception as e:
         logger.error(f"Error creating inc24: {str(e)}")
@@ -34,12 +34,12 @@ async def get_inc24s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all inc24s with pagination"""
     try:
         inc24_service = INC24Service(db)
-        inc24s = inc24_service.get_inc24s(skip=skip, limit=limit)
+        inc24s = await inc24_service.get_inc24s(skip=skip, limit=limit)
         return inc24s
     except Exception as e:
         logger.error(f"Error getting inc24s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_inc24s(
 async def get_inc24(
     inc24_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific inc24 by ID"""
     try:
         inc24_service = INC24Service(db)
-        inc24 = inc24_service.get_inc24(inc24_id)
+        inc24 = await inc24_service.get_inc24(inc24_id)
         if not inc24:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_inc24(
     inc24_id: int,
     inc24_data: INC24Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a inc24 record"""
     try:
         inc24_service = INC24Service(db)
-        inc24 = inc24_service.update_inc24(inc24_id, inc24_data, current_user.id)
+        inc24 = await inc24_service.update_inc24(inc24_id, inc24_data, current_user.id)
         if not inc24:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_inc24(
 async def delete_inc24(
     inc24_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a inc24 record (soft delete)"""
     try:
         inc24_service = INC24Service(db)
-        success = inc24_service.delete_inc24(inc24_id, current_user.id)
+        success = await inc24_service.delete_inc24(inc24_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_inc24(
 async def get_inc24s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all inc24s for a specific company"""
     try:
         inc24_service = INC24Service(db)
-        inc24s = inc24_service.get_inc24s_by_company(company_id)
+        inc24s = await inc24_service.get_inc24s_by_company(company_id)
         return inc24s
     except Exception as e:
         logger.error(f"Error getting inc24s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_inc24_status(
     inc24_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a inc24"""
     try:
         inc24_service = INC24Service(db)
-        success = inc24_service.change_status(inc24_id, status, current_user.id)
+        success = await inc24_service.change_status(inc24_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_inc24_status(
             )
         
         # Return the updated inc24
-        inc24 = inc24_service.get_inc24(inc24_id)
+        inc24 = await inc24_service.get_inc24(inc24_id)
         return inc24
     except HTTPException:
         raise

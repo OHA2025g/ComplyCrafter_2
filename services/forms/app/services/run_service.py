@@ -1,17 +1,20 @@
-from sqlalchemy.orm import Session
+from __future__ import annotations
+
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 from sqlalchemy import and_
 from typing import List, Optional
 from ..models.run import RUN, RUNCreate, RUNUpdate, RUNView
-from ..database import get_db
+from libs.python.data_access import get_async_session
 import logging
 
 logger = logging.getLogger(__name__)
 
 class RUNService:
-    def __init__(self, db: Session):
+    def __init__(self, db: AsyncSession):
         self.db = db
 
-    def create_run(self, run_data: RUNCreate, user_id: int) -> RUN:
+    async def create_run(self, run_data: RUNCreate, user_id: int) -> RUN:
         """Create a new run record"""
         try:
             run = RUN(
@@ -20,16 +23,16 @@ class RUNService:
                 is_active=True
             )
             self.db.add(run)
-            self.db.commit()
-            self.db.refresh(run)
+            await self.db.commit()
+            await self.db.refresh(run)
             logger.info(f"Created run with ID: {run.id}")
             return run
         except Exception as e:
-            self.db.rollback()
+            await self.db.rollback()
             logger.error(f"Error creating run: {str(e)}")
             raise
 
-    def get_run(self, run_id: int) -> Optional[RUN]:
+    async def get_run(self, run_id: int) -> Optional[RUN]:
         """Get a run by ID"""
         try:
             return self.db.query(RUN).filter(
@@ -39,17 +42,17 @@ class RUNService:
             logger.error(f"Error getting run {run_id}: {str(e)}")
             raise
 
-    def get_runs(self, skip: int = 0, limit: int = 100) -> List[RUN]:
+    async def get_runs(self, skip: int = 0, limit: int = 100) -> List[RUN]:
         """Get all active runs with pagination"""
         try:
-            return self.db.query(RUN).filter(
+            return list((await self.db.execute(select(RUN).where(
                 RUN.is_active == True
-            ).offset(skip).limit(limit).all()
+            ).offset(skip).limit(limit))).scalars().all())
         except Exception as e:
             logger.error(f"Error getting runs: {str(e)}")
             raise
 
-    def get_runs_by_company(self, company_id: int) -> List[RUN]:
+    async def get_runs_by_company(self, company_id: int) -> List[RUN]:
         """Get all runs for a specific company"""
         try:
             return self.db.query(RUN).filter(
@@ -62,7 +65,7 @@ class RUNService:
             logger.error(f"Error getting runs for company {company_id}: {str(e)}")
             raise
 
-    def update_run(self, run_id: int, run_data: RUNUpdate, user_id: int) -> Optional[RUN]:
+    async def update_run(self, run_id: int, run_data: RUNUpdate, user_id: int) -> Optional[RUN]:
         """Update a run record"""
         try:
             run = self.get_run(run_id)
@@ -74,16 +77,16 @@ class RUNService:
                 setattr(run, field, value)
             
             run.updated_by = user_id
-            self.db.commit()
-            self.db.refresh(run)
+            await self.db.commit()
+            await self.db.refresh(run)
             logger.info(f"Updated run with ID: {run_id}")
             return run
         except Exception as e:
-            self.db.rollback()
+            await self.db.rollback()
             logger.error(f"Error updating run {run_id}: {str(e)}")
             raise
 
-    def delete_run(self, run_id: int, user_id: int) -> bool:
+    async def delete_run(self, run_id: int, user_id: int) -> bool:
         """Soft delete a run record"""
         try:
             run = self.get_run(run_id)
@@ -92,15 +95,15 @@ class RUNService:
 
             run.is_active = False
             run.updated_by = user_id
-            self.db.commit()
+            await self.db.commit()
             logger.info(f"Soft deleted run with ID: {run_id}")
             return True
         except Exception as e:
-            self.db.rollback()
+            await self.db.rollback()
             logger.error(f"Error deleting run {run_id}: {str(e)}")
             raise
 
-    def change_status(self, run_id: int, status: bool, user_id: int) -> bool:
+    async def change_status(self, run_id: int, status: bool, user_id: int) -> bool:
         """Change the active status of a run"""
         try:
             run = self.get_run(run_id)
@@ -109,10 +112,10 @@ class RUNService:
 
             run.is_active = status
             run.updated_by = user_id
-            self.db.commit()
+            await self.db.commit()
             logger.info(f"Changed status of run {run_id} to {status}")
             return True
         except Exception as e:
-            self.db.rollback()
+            await self.db.rollback()
             logger.error(f"Error changing status of run {run_id}: {str(e)}")
             raise

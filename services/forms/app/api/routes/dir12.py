@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.dir12 import DIR12, DIR12Create, DIR12Update, DIR12View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/dir12", tags=["dir12"])
 async def create_dir12(
     dir12_data: DIR12Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new dir12 record"""
     try:
         dir12_service = DIR12Service(db)
-        dir12 = dir12_service.create_dir12(dir12_data, current_user.id)
+        dir12 = await dir12_service.create_dir12(dir12_data, current_user.id)
         return dir12
     except Exception as e:
         logger.error(f"Error creating dir12: {str(e)}")
@@ -34,12 +34,12 @@ async def get_dir12s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all dir12s with pagination"""
     try:
         dir12_service = DIR12Service(db)
-        dir12s = dir12_service.get_dir12s(skip=skip, limit=limit)
+        dir12s = await dir12_service.get_dir12s(skip=skip, limit=limit)
         return dir12s
     except Exception as e:
         logger.error(f"Error getting dir12s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_dir12s(
 async def get_dir12(
     dir12_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific dir12 by ID"""
     try:
         dir12_service = DIR12Service(db)
-        dir12 = dir12_service.get_dir12(dir12_id)
+        dir12 = await dir12_service.get_dir12(dir12_id)
         if not dir12:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_dir12(
     dir12_id: int,
     dir12_data: DIR12Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a dir12 record"""
     try:
         dir12_service = DIR12Service(db)
-        dir12 = dir12_service.update_dir12(dir12_id, dir12_data, current_user.id)
+        dir12 = await dir12_service.update_dir12(dir12_id, dir12_data, current_user.id)
         if not dir12:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_dir12(
 async def delete_dir12(
     dir12_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a dir12 record (soft delete)"""
     try:
         dir12_service = DIR12Service(db)
-        success = dir12_service.delete_dir12(dir12_id, current_user.id)
+        success = await dir12_service.delete_dir12(dir12_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_dir12(
 async def get_dir12s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all dir12s for a specific company"""
     try:
         dir12_service = DIR12Service(db)
-        dir12s = dir12_service.get_dir12s_by_company(company_id)
+        dir12s = await dir12_service.get_dir12s_by_company(company_id)
         return dir12s
     except Exception as e:
         logger.error(f"Error getting dir12s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_dir12_status(
     dir12_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a dir12"""
     try:
         dir12_service = DIR12Service(db)
-        success = dir12_service.change_status(dir12_id, status, current_user.id)
+        success = await dir12_service.change_status(dir12_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_dir12_status(
             )
         
         # Return the updated dir12
-        dir12 = dir12_service.get_dir12(dir12_id)
+        dir12 = await dir12_service.get_dir12(dir12_id)
         return dir12
     except HTTPException:
         raise

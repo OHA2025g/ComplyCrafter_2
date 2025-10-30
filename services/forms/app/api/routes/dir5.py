@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.dir5 import DIR5, DIR5Create, DIR5Update, DIR5View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/dir5", tags=["dir5"])
 async def create_dir5(
     dir5_data: DIR5Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new dir5 record"""
     try:
         dir5_service = DIR5Service(db)
-        dir5 = dir5_service.create_dir5(dir5_data, current_user.id)
+        dir5 = await dir5_service.create_dir5(dir5_data, current_user.id)
         return dir5
     except Exception as e:
         logger.error(f"Error creating dir5: {str(e)}")
@@ -34,12 +34,12 @@ async def get_dir5s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all dir5s with pagination"""
     try:
         dir5_service = DIR5Service(db)
-        dir5s = dir5_service.get_dir5s(skip=skip, limit=limit)
+        dir5s = await dir5_service.get_dir5s(skip=skip, limit=limit)
         return dir5s
     except Exception as e:
         logger.error(f"Error getting dir5s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_dir5s(
 async def get_dir5(
     dir5_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific dir5 by ID"""
     try:
         dir5_service = DIR5Service(db)
-        dir5 = dir5_service.get_dir5(dir5_id)
+        dir5 = await dir5_service.get_dir5(dir5_id)
         if not dir5:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_dir5(
     dir5_id: int,
     dir5_data: DIR5Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a dir5 record"""
     try:
         dir5_service = DIR5Service(db)
-        dir5 = dir5_service.update_dir5(dir5_id, dir5_data, current_user.id)
+        dir5 = await dir5_service.update_dir5(dir5_id, dir5_data, current_user.id)
         if not dir5:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_dir5(
 async def delete_dir5(
     dir5_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a dir5 record (soft delete)"""
     try:
         dir5_service = DIR5Service(db)
-        success = dir5_service.delete_dir5(dir5_id, current_user.id)
+        success = await dir5_service.delete_dir5(dir5_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_dir5(
 async def get_dir5s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all dir5s for a specific company"""
     try:
         dir5_service = DIR5Service(db)
-        dir5s = dir5_service.get_dir5s_by_company(company_id)
+        dir5s = await dir5_service.get_dir5s_by_company(company_id)
         return dir5s
     except Exception as e:
         logger.error(f"Error getting dir5s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_dir5_status(
     dir5_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a dir5"""
     try:
         dir5_service = DIR5Service(db)
-        success = dir5_service.change_status(dir5_id, status, current_user.id)
+        success = await dir5_service.change_status(dir5_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_dir5_status(
             )
         
         # Return the updated dir5
-        dir5 = dir5_service.get_dir5(dir5_id)
+        dir5 = await dir5_service.get_dir5(dir5_id)
         return dir5
     except HTTPException:
         raise

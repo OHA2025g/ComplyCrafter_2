@@ -8,8 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from libs.python.data_access import get_async_session
 
-from ..models import DPT3
-from ..schemas import Dpt3Create, Dpt3Read
+from app.models import DPT3
+from app.schemas import Dpt3Create, Dpt3Read
 
 
 class Dpt3Service:

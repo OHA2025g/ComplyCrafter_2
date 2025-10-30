@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.gnl1 import GNL1, GNL1Create, GNL1Update, GNL1View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/gnl1", tags=["gnl1"])
 async def create_gnl1(
     gnl1_data: GNL1Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new gnl1 record"""
     try:
         gnl1_service = GNL1Service(db)
-        gnl1 = gnl1_service.create_gnl1(gnl1_data, current_user.id)
+        gnl1 = await gnl1_service.create_gnl1(gnl1_data, current_user.id)
         return gnl1
     except Exception as e:
         logger.error(f"Error creating gnl1: {str(e)}")
@@ -34,12 +34,12 @@ async def get_gnl1s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all gnl1s with pagination"""
     try:
         gnl1_service = GNL1Service(db)
-        gnl1s = gnl1_service.get_gnl1s(skip=skip, limit=limit)
+        gnl1s = await gnl1_service.get_gnl1s(skip=skip, limit=limit)
         return gnl1s
     except Exception as e:
         logger.error(f"Error getting gnl1s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_gnl1s(
 async def get_gnl1(
     gnl1_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific gnl1 by ID"""
     try:
         gnl1_service = GNL1Service(db)
-        gnl1 = gnl1_service.get_gnl1(gnl1_id)
+        gnl1 = await gnl1_service.get_gnl1(gnl1_id)
         if not gnl1:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_gnl1(
     gnl1_id: int,
     gnl1_data: GNL1Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a gnl1 record"""
     try:
         gnl1_service = GNL1Service(db)
-        gnl1 = gnl1_service.update_gnl1(gnl1_id, gnl1_data, current_user.id)
+        gnl1 = await gnl1_service.update_gnl1(gnl1_id, gnl1_data, current_user.id)
         if not gnl1:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_gnl1(
 async def delete_gnl1(
     gnl1_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a gnl1 record (soft delete)"""
     try:
         gnl1_service = GNL1Service(db)
-        success = gnl1_service.delete_gnl1(gnl1_id, current_user.id)
+        success = await gnl1_service.delete_gnl1(gnl1_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_gnl1(
 async def get_gnl1s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all gnl1s for a specific company"""
     try:
         gnl1_service = GNL1Service(db)
-        gnl1s = gnl1_service.get_gnl1s_by_company(company_id)
+        gnl1s = await gnl1_service.get_gnl1s_by_company(company_id)
         return gnl1s
     except Exception as e:
         logger.error(f"Error getting gnl1s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_gnl1_status(
     gnl1_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a gnl1"""
     try:
         gnl1_service = GNL1Service(db)
-        success = gnl1_service.change_status(gnl1_id, status, current_user.id)
+        success = await gnl1_service.change_status(gnl1_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_gnl1_status(
             )
         
         # Return the updated gnl1
-        gnl1 = gnl1_service.get_gnl1(gnl1_id)
+        gnl1 = await gnl1_service.get_gnl1(gnl1_id)
         return gnl1
     except HTTPException:
         raise

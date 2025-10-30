@@ -8,8 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from libs.python.data_access import get_async_session
 
-from ..models import PAS3
-from ..schemas import Pas3Create, Pas3Read
+from app.models import PAS3
+from app.schemas import Pas3Create, Pas3Read
 
 
 class Pas3Service:

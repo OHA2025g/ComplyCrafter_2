@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 from typing import List, Optional
 from ..dependencies import get_current_user, get_db
 from ...models.mr1 import MR1, MR1Create, MR1Update, MR1View
@@ -15,12 +15,12 @@ router = APIRouter(prefix="/mr1", tags=["mr1"])
 async def create_mr1(
     mr1_data: MR1Create,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Create a new mr1 record"""
     try:
         mr1_service = MR1Service(db)
-        mr1 = mr1_service.create_mr1(mr1_data, current_user.id)
+        mr1 = await mr1_service.create_mr1(mr1_data, current_user.id)
         return mr1
     except Exception as e:
         logger.error(f"Error creating mr1: {str(e)}")
@@ -34,12 +34,12 @@ async def get_mr1s(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1, le=1000),
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all mr1s with pagination"""
     try:
         mr1_service = MR1Service(db)
-        mr1s = mr1_service.get_mr1s(skip=skip, limit=limit)
+        mr1s = await mr1_service.get_mr1s(skip=skip, limit=limit)
         return mr1s
     except Exception as e:
         logger.error(f"Error getting mr1s: {str(e)}")
@@ -52,12 +52,12 @@ async def get_mr1s(
 async def get_mr1(
     mr1_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get a specific mr1 by ID"""
     try:
         mr1_service = MR1Service(db)
-        mr1 = mr1_service.get_mr1(mr1_id)
+        mr1 = await mr1_service.get_mr1(mr1_id)
         if not mr1:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -78,12 +78,12 @@ async def update_mr1(
     mr1_id: int,
     mr1_data: MR1Update,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Update a mr1 record"""
     try:
         mr1_service = MR1Service(db)
-        mr1 = mr1_service.update_mr1(mr1_id, mr1_data, current_user.id)
+        mr1 = await mr1_service.update_mr1(mr1_id, mr1_data, current_user.id)
         if not mr1:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -103,12 +103,12 @@ async def update_mr1(
 async def delete_mr1(
     mr1_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Delete a mr1 record (soft delete)"""
     try:
         mr1_service = MR1Service(db)
-        success = mr1_service.delete_mr1(mr1_id, current_user.id)
+        success = await mr1_service.delete_mr1(mr1_id, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -127,12 +127,12 @@ async def delete_mr1(
 async def get_mr1s_by_company(
     company_id: int,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Get all mr1s for a specific company"""
     try:
         mr1_service = MR1Service(db)
-        mr1s = mr1_service.get_mr1s_by_company(company_id)
+        mr1s = await mr1_service.get_mr1s_by_company(company_id)
         return mr1s
     except Exception as e:
         logger.error(f"Error getting mr1s for company {company_id}: {str(e)}")
@@ -146,12 +146,12 @@ async def change_mr1_status(
     mr1_id: int,
     status: bool,
     current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
+    db: AsyncSession = Depends(get_db)
 ):
     """Change the active status of a mr1"""
     try:
         mr1_service = MR1Service(db)
-        success = mr1_service.change_status(mr1_id, status, current_user.id)
+        success = await mr1_service.change_status(mr1_id, status, current_user.id)
         if not success:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -159,7 +159,7 @@ async def change_mr1_status(
             )
         
         # Return the updated mr1
-        mr1 = mr1_service.get_mr1(mr1_id)
+        mr1 = await mr1_service.get_mr1(mr1_id)
         return mr1
     except HTTPException:
         raise

@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   frontend:
     build: ../frontend
@@ -8,29 +6,42 @@ services:
       - "4200:4200"
     volumes:
       - ../frontend:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       - NX_DEVDATA=1
     depends_on:
       - gateway
 
   gateway:
-    build: ../services/gateway
+    build:
+      context: ..
+      dockerfile: services/gateway/Dockerfile
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
+    volumes:
+      - ../services/gateway:/app
+      - ../libs:/app/libs
     environment:
       - DATABASE_URL=postgresql+asyncpg://comply:comply@db:5432/comply
       - AUTH_ISSUER=http://keycloak:8080/realms/comply
       - FORMS_BASE_URL=http://forms:8100
+      - PYTHONPATH=/app:/app/libs
     depends_on:
       - db
       - forms
 
   forms:
-    build: ../services/forms
+    build:
+      context: ..
+      dockerfile: services/forms/Dockerfile
     command: uvicorn app.main:app --host 0.0.0.0 --port 8100 --reload
+    volumes:
+      - ../services/forms:/app
+      - ../libs:/app/libs
     environment:
       - DATABASE_URL=postgresql+asyncpg://comply:comply@db:5432/comply
+      - PYTHONPATH=/app:/app/libs
     ports:
       - "8100:8100"
     depends_on:
