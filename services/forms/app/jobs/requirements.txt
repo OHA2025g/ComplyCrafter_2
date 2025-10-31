@@ -1,0 +1,19 @@
+# MCA Cache Updater Dependencies
+# Install with: pip install -r requirements.txt
+
+# HTTP Client
+httpx==0.25.0
+
+# Database
+sqlalchemy==2.0.23
+asyncpg==0.29.0
+
+# Scheduling
+schedule==1.2.0
+
+# Async support
+aiofiles==23.2.1
+
+# Logging (built-in but listed for clarity)
+# logging - standard library
+

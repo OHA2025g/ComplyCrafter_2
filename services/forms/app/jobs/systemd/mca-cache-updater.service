@@ -1,0 +1,32 @@
+[Unit]
+Description=MCA Data Cache Updater - Automated Background Job
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=comply
+Group=comply
+WorkingDirectory=/app/services/forms/app/jobs
+Environment="DATABASE_URL=postgresql+asyncpg://comply:comply@localhost:5432/comply"
+Environment="PYTHONUNBUFFERED=1"
+ExecStart=/usr/bin/python3 /app/services/forms/app/jobs/mca_cache_updater.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Resource limits
+MemoryLimit=512M
+CPUQuota=50%
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/app/logs
+
+[Install]
+WantedBy=multi-user.target
+

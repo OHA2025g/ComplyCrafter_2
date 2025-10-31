@@ -72,5 +72,27 @@ services:
     ports:
       - "8080:8080"
 
+  mca-cache-updater:
+    image: python:3.11-slim
+    working_dir: /app
+    command: >
+      bash -c "
+        apt-get update && apt-get install -y postgresql-client &&
+        pip install httpx sqlalchemy asyncpg schedule aiofiles &&
+        python mca_cache_updater.py
+      "
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://comply:comply@db:5432/comply
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+    volumes:
+      - ../services/forms/app/jobs:/app
+      - ../services/forms/app/services:/app/services
+      - mca-cache-logs:/app/logs
+    depends_on:
+      - db
+    restart: always
+
 volumes:
   db-data:
+  mca-cache-logs:
