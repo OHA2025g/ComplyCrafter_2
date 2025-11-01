@@ -11542,11 +11542,6 @@
       },
       {
         "source": "portal",
-        "target": "ui",
-        "type": "static"
-      },
-      {
-        "source": "portal",
         "target": "npm:@angular/common",
         "type": "static"
       },
@@ -11558,6 +11553,11 @@
       {
         "source": "portal",
         "target": "npm:@angular/forms",
+        "type": "static"
+      },
+      {
+        "source": "portal",
+        "target": "ui",
         "type": "static"
       },
       {

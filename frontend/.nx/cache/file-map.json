@@ -99,34 +99,32 @@
           ]
         }
       ],
-      "data-access": [
+      "state": [
         {
-          "file": "libs/data-access/project.json",
-          "hash": "12328523711758727007"
+          "file": "libs/state/project.json",
+          "hash": "14156664077812877266"
         },
         {
-          "file": "libs/data-access/src/index.ts",
-          "hash": "9230982222396554872"
+          "file": "libs/state/src/index.ts",
+          "hash": "15009275146840056617"
         },
         {
-          "file": "libs/data-access/src/lib/api-client.service.ts",
-          "hash": "18441237981081371319",
+          "file": "libs/state/src/lib/app-state.service.ts",
+          "hash": "1089124973021920339",
           "deps": [
-            "npm:@angular/common",
-            "npm:@angular/core",
-            "npm:rxjs"
+            "npm:@angular/core"
           ]
         },
         {
-          "file": "libs/data-access/tsconfig.json",
+          "file": "libs/state/tsconfig.json",
           "hash": "9946910434463256616"
         },
         {
-          "file": "libs/data-access/tsconfig.lib.json",
+          "file": "libs/state/tsconfig.lib.json",
           "hash": "12480100303034631599"
         },
         {
-          "file": "libs/data-access/tsconfig.spec.json",
+          "file": "libs/state/tsconfig.spec.json",
           "hash": "6477295622161358505"
         }
       ],
@@ -153,11 +151,10 @@
         },
         {
           "file": "apps/portal/src/app/app.component.ts",
-          "hash": "8442190484062130140",
+          "hash": "17822701970468039213",
           "deps": [
             "npm:@angular/core",
-            "npm:@angular/router",
-            "ui"
+            "npm:@angular/router"
           ]
         },
         {
@@ -172,9 +169,47 @@
         },
         {
           "file": "apps/portal/src/app/app.routes.ts",
-          "hash": "13537202962607992671",
+          "hash": "13659361088467976308",
           "deps": [
             "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/auth/login/login.component.html",
+          "hash": "8923983964290889231"
+        },
+        {
+          "file": "apps/portal/src/app/auth/login/login.component.scss",
+          "hash": "9807879996918884033"
+        },
+        {
+          "file": "apps/portal/src/app/auth/login/login.component.ts",
+          "hash": "4995556640309107840",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "ui"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/auth/signup/signup.component.html",
+          "hash": "18101751051205984724"
+        },
+        {
+          "file": "apps/portal/src/app/auth/signup/signup.component.scss",
+          "hash": "13517836398583743846"
+        },
+        {
+          "file": "apps/portal/src/app/auth/signup/signup.component.ts",
+          "hash": "4903586778609424682",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "ui"
           ]
         },
         {
@@ -1988,10 +2023,52 @@
           "hash": "1322370521499205828"
         },
         {
+          "file": "apps/portal/src/app/forms/forms-list/forms-list.component.html",
+          "hash": "4069168319634301892"
+        },
+        {
+          "file": "apps/portal/src/app/forms/forms-list/forms-list.component.scss",
+          "hash": "17524935920634565114"
+        },
+        {
+          "file": "apps/portal/src/app/forms/forms-list/forms-list.component.ts",
+          "hash": "6296862223640624114",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/router",
+            "npm:@angular/forms",
+            "ui"
+          ]
+        },
+        {
           "file": "apps/portal/src/app/forms/forms.routes.ts",
-          "hash": "4904433110201563639",
+          "hash": "5228139645020277921",
           "deps": [
             "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/forms/generic-form/all-forms.config.ts",
+          "hash": "10396266656451604213"
+        },
+        {
+          "file": "apps/portal/src/app/forms/generic-form/generic-form.component.html",
+          "hash": "9994658935091943960"
+        },
+        {
+          "file": "apps/portal/src/app/forms/generic-form/generic-form.component.scss",
+          "hash": "8229149001790390544"
+        },
+        {
+          "file": "apps/portal/src/app/forms/generic-form/generic-form.component.ts",
+          "hash": "17887508868030321460",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/common",
+            "npm:@angular/forms",
+            "npm:@angular/router",
+            "ui"
           ]
         },
         {
@@ -2035,7 +2112,7 @@
         },
         {
           "file": "apps/portal/src/index.html",
-          "hash": "16412267038136246168"
+          "hash": "15962242105333146533"
         },
         {
           "file": "apps/portal/src/main.ts",
@@ -2076,39 +2153,41 @@
         },
         {
           "file": "apps/portal/vite.config.ts",
-          "hash": "14515058888450676166",
+          "hash": "5070662089917185826",
           "deps": [
             "npm:vite",
             "npm:@nx/vite"
           ]
         }
       ],
-      "state": [
+      "data-access": [
         {
-          "file": "libs/state/project.json",
-          "hash": "14156664077812877266"
+          "file": "libs/data-access/project.json",
+          "hash": "12328523711758727007"
         },
         {
-          "file": "libs/state/src/index.ts",
-          "hash": "15009275146840056617"
+          "file": "libs/data-access/src/index.ts",
+          "hash": "9230982222396554872"
         },
         {
-          "file": "libs/state/src/lib/app-state.service.ts",
-          "hash": "1089124973021920339",
+          "file": "libs/data-access/src/lib/api-client.service.ts",
+          "hash": "18441237981081371319",
           "deps": [
-            "npm:@angular/core"
+            "npm:@angular/common",
+            "npm:@angular/core",
+            "npm:rxjs"
           ]
         },
         {
-          "file": "libs/state/tsconfig.json",
+          "file": "libs/data-access/tsconfig.json",
           "hash": "9946910434463256616"
         },
         {
-          "file": "libs/state/tsconfig.lib.json",
+          "file": "libs/data-access/tsconfig.lib.json",
           "hash": "12480100303034631599"
         },
         {
-          "file": "libs/state/tsconfig.spec.json",
+          "file": "libs/data-access/tsconfig.spec.json",
           "hash": "6477295622161358505"
         }
       ]
