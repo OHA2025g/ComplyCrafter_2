@@ -4,7 +4,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 export const APP_ROUTES: Routes = [
   {
     path: '',
-    component: DashboardComponent
+    redirectTo: 'forms',
+    pathMatch: 'full'
   },
   {
     path: 'forms',
@@ -12,6 +13,6 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''
+    redirectTo: 'forms'
   }
 ];
