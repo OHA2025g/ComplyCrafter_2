@@ -1,8 +1,0 @@
-[31mfailed to load config from /Users/aghoresgwarprasadsingh/Desktop/OHA Systems/Comply-Crafter/frontend/apps/portal/vite.config.ts[39m
-
-[0m[7m[1m[31m NX [39m[22m[27m[0m  [31mCannot find module '@angular-devkit/build-angular/src/tools/esbuild/angular/compiler-plugin.js'[39m
-
-Require stack:
-- /Users/aghoresgwarprasadsingh/Desktop/OHA Systems/Comply-Crafter/frontend/node_modules/@analogjs/vite-plugin-angular/src/lib/utils/devkit.js
-Pass --verbose to see the stacktrace.
-

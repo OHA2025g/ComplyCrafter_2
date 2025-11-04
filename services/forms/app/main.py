@@ -1,6 +1,7 @@
 import importlib
 import logging
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes import (
     adt1,
@@ -16,6 +17,8 @@ from app.api.routes import (
     ndh2,
 )
 from app.api.routes import auth as auth_routes
+from app.api.routes import mca, dashboard, agendas, shareholder_management, capital, meetings, companies
+from app.api.routes import directors, shareholders, share_certificates, debenture_holders
 from app.core import get_settings, setup_logging
 
 # Setup logging
@@ -23,6 +26,20 @@ setup_logging()
 
 settings = get_settings()
 app = FastAPI(title=settings.app_name, version="0.1.0")
+
+# Configure CORS to allow frontend requests
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:4200",
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:4200",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(adt1.router)
 app.include_router(ben2.router)
 app.include_router(pas3.router)
@@ -37,6 +54,29 @@ app.include_router(ndh2.router)
 
 # Auth routes (signup, login, etc.)
 app.include_router(auth_routes.router)
+
+# MCA company search routes
+app.include_router(mca.router)
+# Note: companies_router moved to separate companies.py module for better organization
+
+# Dashboard routes
+app.include_router(dashboard.router)
+
+# Masters routes
+app.include_router(companies.router)
+app.include_router(directors.router)
+app.include_router(shareholders.router)
+app.include_router(share_certificates.router)
+app.include_router(debenture_holders.router)
+app.include_router(agendas.router)
+app.include_router(shareholder_management.router)
+app.include_router(capital.router)
+
+# Meeting routes
+app.include_router(meetings.board_router)
+app.include_router(meetings.agm_router)
+app.include_router(meetings.egm_router)
+app.include_router(meetings.committee_router)
 
 # Try to dynamically register all remaining routers; skip modules that fail to import
 _optional_routes = [

@@ -6,7 +6,7 @@ Date: October 31, 2025
 """
 
 from typing import Optional, List, Dict, Any
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from sqlalchemy import select, func, text
 from sqlalchemy.ext.asyncio import AsyncSession
 import json
@@ -81,7 +81,7 @@ class CompanyCacheService:
                     "postal_code": row.postal_code,
                     "raw_data": row.mca_raw_data,
                     "cached": True,
-                    "cache_age_days": (datetime.now() - row.cache_created_at).days
+                    "cache_age_days": (datetime.now(timezone.utc) - row.cache_created_at).days
                 }
             
             logger.info(f"Cache MISS for CIN: {cin}")
@@ -109,7 +109,7 @@ class CompanyCacheService:
             if expiry_days is None:
                 expiry_days = self.CACHE_EXPIRY_DAYS
             
-            expires_at = datetime.now() + timedelta(days=expiry_days)
+            expires_at = datetime.now(timezone.utc) + timedelta(days=expiry_days)
             
             # Extract company data from MCA response
             company_data = mca_data.get('results', {}).get('data', {}).get('companyData', {})
@@ -124,7 +124,7 @@ class CompanyCacheService:
                     :cin, :company_name, :company_type, :company_status,
                     :date_of_incorporation, :email_address, :authorized_capital,
                     :paid_up_capital, :roc_name, :state, :registered_address,
-                    :city, :postal_code, :mca_raw_data::jsonb, :cache_expires_at
+                    :city, :postal_code, CAST(:mca_raw_data AS jsonb), :cache_expires_at
                 )
                 ON CONFLICT (cin) DO UPDATE SET
                     company_name = EXCLUDED.company_name,
@@ -214,7 +214,7 @@ class CompanyCacheService:
                     "results": row.results_json,
                     "result_count": row.result_count,
                     "cached": True,
-                    "cache_age_hours": (datetime.now() - row.cache_created_at).total_seconds() / 3600
+                    "cache_age_hours": (datetime.now(timezone.utc) - row.cache_created_at).total_seconds() / 3600
                 }
             
             logger.info(f"Search cache MISS for: {search_query}")
@@ -232,7 +232,7 @@ class CompanyCacheService:
         """Cache search results"""
         try:
             normalized_query = self._normalize_search_query(search_query)
-            expires_at = datetime.now() + timedelta(hours=self.SEARCH_CACHE_EXPIRY_HOURS)
+            expires_at = datetime.now(timezone.utc) + timedelta(hours=self.SEARCH_CACHE_EXPIRY_HOURS)
             
             query = text("""
                 INSERT INTO company_search_cache (

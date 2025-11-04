@@ -7,7 +7,7 @@ import { GenericFormComponent } from './generic-form/generic-form.component';
  * - Phase 3+: Generic form component (51 forms)
  * - Auth: Login & Signup
  */
-export const formsRoutes: Routes = [
+export const FORMS_ROUTES: Routes = [
   // Forms Directory/List Page
   {
     path: '',

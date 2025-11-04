@@ -6,7 +6,8 @@ export default defineConfig({
   root: __dirname + '/src',
   publicDir: __dirname + '/src/assets',
   build: {
-    outDir: __dirname + '/dist'
+    outDir: __dirname + '/dist',
+    target: 'esnext'
   },
   plugins: [nxViteTsPaths()],
   server: {
@@ -20,5 +21,25 @@ export default defineConfig({
   preview: {
     port: 4300,
     host: '0.0.0.0'
+  },
+  esbuild: {
+    tsconfigRaw: {
+      compilerOptions: {
+        experimentalDecorators: true,
+        emitDecoratorMetadata: true,
+        useDefineForClassFields: false,
+        target: 'ES2020'
+      }
+    }
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      tsconfigRaw: {
+        compilerOptions: {
+          experimentalDecorators: true,
+          emitDecoratorMetadata: true
+        }
+      }
+    }
   }
 });

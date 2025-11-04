@@ -2192,6 +2192,118 @@ export const ALL_FORMS_CONFIG: Record<string, FormConfig> = {
         rows: 5
       }
     ]
+  },
+
+  // ==================== PHASE 1 & 2 FORMS ====================
+  
+  adt1: {
+    code: 'adt1',
+    title: 'ADT-1 - Appointment of Auditors',
+    description: 'Notice of appointment of auditors',
+    apiEndpoint: '/forms/adt1',
+    category: 'Auditors',
+    phase: 1,
+    fields: [...baseCompanyFields]
+  },
+
+  ben2: {
+    code: 'ben2',
+    title: 'BEN-2 - Beneficial Interest Register',
+    description: 'Register of significant beneficial owners',
+    apiEndpoint: '/forms/ben2',
+    category: 'Beneficial Ownership',
+    phase: 1,
+    fields: [...baseCompanyFields]
+  },
+
+  pas3: {
+    code: 'pas3',
+    title: 'PAS-3 - Return of Allotment',
+    description: 'Return of allotment of securities',
+    apiEndpoint: '/forms/pas3',
+    category: 'Share Allotment',
+    phase: 1,
+    fields: [...baseCompanyFields]
+  },
+
+  dpt3: {
+    code: 'dpt3',
+    title: 'DPT-3 - Return of Deposits',
+    description: 'Return of deposits',
+    apiEndpoint: '/forms/dpt3',
+    category: 'Deposits',
+    phase: 1,
+    fields: [...baseCompanyFields]
+  },
+
+  aoc4: {
+    code: 'aoc4',
+    title: 'AOC-4 - Financial Statements',
+    description: 'Filing of financial statements',
+    apiEndpoint: '/forms/aoc4',
+    category: 'Annual Returns',
+    phase: 2,
+    fields: [...baseCompanyFields]
+  },
+
+  aoc4cfs: {
+    code: 'aoc4cfs',
+    title: 'AOC-4 CFS - Consolidated Financial Statements',
+    description: 'Consolidated financial statements',
+    apiEndpoint: '/forms/aoc4cfs',
+    category: 'Annual Returns',
+    phase: 2,
+    fields: [...baseCompanyFields]
+  },
+
+  mgt7a: {
+    code: 'mgt7a',
+    title: 'MGT-7A - Annual Return',
+    description: 'Annual return for small companies',
+    apiEndpoint: '/forms/mgt7a',
+    category: 'Annual Returns',
+    phase: 2,
+    fields: [...baseCompanyFields]
+  },
+
+  msme: {
+    code: 'msme',
+    title: 'MSME Form-I - Half-yearly Return',
+    description: 'Half-yearly return of MSME payments',
+    apiEndpoint: '/forms/msme',
+    category: 'MSME',
+    phase: 2,
+    fields: [...baseCompanyFields]
+  },
+
+  msme1: {
+    code: 'msme1',
+    title: 'MSME-1 - Memorandum',
+    description: 'Memorandum of MSME information',
+    apiEndpoint: '/forms/msme1',
+    category: 'MSME',
+    phase: 2,
+    fields: [...baseCompanyFields]
+  },
+
+  ndh1: {
+    code: 'ndh1',
+    title: 'NDH-1 - Nidhi Compliances',
+    description: 'Statutory compliances by Nidhi',
+    apiEndpoint: '/forms/ndh1',
+    category: 'Nidhi',
+    phase: 2,
+    fields: [...baseCompanyFields]
+  },
+
+  ndh2: {
+    code: 'ndh2',
+    title: 'NDH-2 - Nidhi Half-yearly',
+    description: 'Half-yearly return by Nidhi',
+    apiEndpoint: '/forms/ndh2',
+    category: 'Nidhi',
+    phase: 2,
+    fields: [...baseCompanyFields]
   }
 };
 

@@ -1,0 +1,102 @@
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+interface PaidUpCapital {
+  srNo: number;
+  shareClass: string;
+  paidUpShares: number;
+  faceValue: number;
+  totalAmount: number;
+  subscriptionDate: string;
+}
+
+@Component({
+  selector: 'app-paid-up-capital',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    <div class="capital-container">
+      <div class="page-header">
+        <h1>💵 Paid-up Capital</h1>
+        <p class="subtitle">Manage paid-up capital details</p>
+      </div>
+      <div class="content-card">
+        <div class="table-controls">
+          <div class="left-controls">
+            <select [(ngModel)]="entriesPerPage" class="entries-select"><option [value]="10">10</option></select>
+            <span class="entries-label">entries per page</span>
+          </div>
+          <div class="right-controls">
+            <button class="btn-add" (click)="addCapital()">+ Add</button>
+            <input type="text" [(ngModel)]="searchTerm" (input)="filterData()" placeholder="Search..." class="search-input" />
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr><th>Sr No</th><th>Share Class</th><th>Paid-up Shares</th><th>Face Value (₹)</th><th>Total Amount (₹)</th><th>Subscription Date</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let capital of getPaginatedData()">
+                <td>{{ capital.srNo }}</td>
+                <td><span class="class-badge">{{ capital.shareClass }}</span></td>
+                <td>{{ capital.paidUpShares | number }}</td>
+                <td>{{ capital.faceValue }}</td>
+                <td>{{ capital.totalAmount | number }}</td>
+                <td>{{ capital.subscriptionDate }}</td>
+                <td class="action-cell">
+                  <button class="action-btn" title="View">👁️</button>
+                  <button class="action-btn" title="Edit">✏️</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `,
+  styles: [`
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .capital-container { padding: 2rem; max-width: 1600px; margin: 0 auto; animation: fadeInUp 0.5s ease-out; }
+    .page-header { background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05)); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+    .page-header h1 { font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0; }
+    .subtitle { color: #6c757d; margin: 0.5rem 0 0 0; }
+    .content-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .table-controls { display: flex; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .left-controls, .right-controls { display: flex; align-items: center; gap: 0.75rem; }
+    .entries-select { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; background: #f8f9fa; }
+    .entries-label { color: #6c757d; font-weight: 600; }
+    .btn-add { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 1.75rem; border-radius: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
+    .search-input { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; background: #f8f9fa; min-width: 200px; }
+    .table-wrapper { overflow-x: auto; border-radius: 12px; border: 2px solid #f0f0f0; }
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table thead { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    .data-table th { padding: 1rem; text-align: left; font-weight: 700; }
+    .data-table tbody tr { background: white; }
+    .data-table tbody tr:nth-child(even) { background: #f8f9fa; }
+    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)); }
+    .data-table td { padding: 1rem; border-bottom: 1px solid #e0e0e0; }
+    .class-badge { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
+    .action-cell { text-align: center; }
+    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 1.3rem; padding: 0.5rem; border-radius: 8px; transition: all 0.2s; }
+    .action-btn:hover { background: rgba(102, 126, 234, 0.15); transform: scale(1.15); }
+  `]
+})
+export class PaidUpCapitalComponent implements OnInit {
+  capitals: PaidUpCapital[] = [
+    { srNo: 1, shareClass: 'Equity Shares', paidUpShares: 750000, faceValue: 10, totalAmount: 7500000, subscriptionDate: '2023-06-15' },
+    { srNo: 2, shareClass: 'Preference Shares', paidUpShares: 250000, faceValue: 100, totalAmount: 25000000, subscriptionDate: '2023-06-15' }
+  ];
+  filteredData: PaidUpCapital[] = [];
+  entriesPerPage: number = 10;
+  searchTerm: string = '';
+
+  ngOnInit(): void { this.filteredData = [...this.capitals]; }
+  filterData(): void {
+    this.filteredData = this.searchTerm ? this.capitals.filter(c => c.shareClass.toLowerCase().includes(this.searchTerm.toLowerCase())) : [...this.capitals];
+  }
+  getPaginatedData(): PaidUpCapital[] { return this.filteredData; }
+  addCapital(): void { alert('Add paid-up capital'); }
+}
+

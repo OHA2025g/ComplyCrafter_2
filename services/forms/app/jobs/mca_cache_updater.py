@@ -213,8 +213,9 @@ class MCADataCacheUpdater:
         self.stats["total_companies"] = len(POPULAR_COMPANIES)
         
         try:
-            async with AsyncSessionLocal() as db:
-                cache_service = CompanyCacheService(db)
+            # Get cache stats first (using a separate session)
+            async with AsyncSessionLocal() as stats_db:
+                cache_service_stats = CompanyCacheService(stats_db)
                 
                 # Process companies in batches
                 for i in range(0, len(POPULAR_COMPANIES), BATCH_SIZE):
@@ -224,9 +225,9 @@ class MCADataCacheUpdater:
                     
                     logger.info(f"📦 Processing batch {batch_num}/{total_batches} ({len(batch)} companies)")
                     
-                    # Process batch concurrently
+                    # Process batch concurrently (each gets its own session)
                     tasks = [
-                        self._process_company(cin, cache_service)
+                        self._process_company(cin)
                         for cin in batch
                     ]
                     
@@ -258,7 +259,7 @@ class MCADataCacheUpdater:
                         await asyncio.sleep(1)
                 
                 # Get cache statistics
-                cache_stats = await cache_service.get_cache_statistics()
+                cache_stats = await cache_service_stats.get_cache_statistics()
                 
                 self.stats["end_time"] = datetime.now()
                 duration = (self.stats["end_time"] - self.stats["start_time"]).total_seconds()
@@ -272,47 +273,50 @@ class MCADataCacheUpdater:
     
     async def _process_company(
         self, 
-        cin: str, 
-        cache_service: CompanyCacheService
+        cin: str
     ) -> str:
         """
-        Process a single company
+        Process a single company (creates its own database session)
         Returns: "cached", "existing", or "failed"
         """
         try:
-            # Check if already cached and fresh
-            cached = await cache_service.get_cached_company(cin)
-            
-            if cached and cached.get("cache_age_days", 999) < 7:
-                logger.debug(f"✓ {cin} already cached (age: {cached['cache_age_days']} days)")
-                return "existing"
-            
-            # Fetch from MCA API
-            mca_data = await self.api_client.get_company_by_cin(cin)
-            
-            if not mca_data:
-                logger.warning(f"✗ Failed to fetch {cin} from MCA API")
-                return "failed"
-            
-            # Cache the data
-            success = await cache_service.cache_company_data(
-                cin=cin,
-                mca_data=mca_data,
-                expiry_days=30
-            )
-            
-            if success:
-                company_name = (
-                    mca_data.get("results", {})
-                    .get("data", {})
-                    .get("companyData", {})
-                    .get("company", cin)
+            # Create a new session for this company (avoids concurrency issues)
+            async with AsyncSessionLocal() as db:
+                cache_service = CompanyCacheService(db)
+                
+                # Check if already cached and fresh
+                cached = await cache_service.get_cached_company(cin)
+                
+                if cached and cached.get("cache_age_days", 999) < 7:
+                    logger.debug(f"✓ {cin} already cached (age: {cached['cache_age_days']} days)")
+                    return "existing"
+                
+                # Fetch from MCA API
+                mca_data = await self.api_client.get_company_by_cin(cin)
+                
+                if not mca_data:
+                    logger.warning(f"✗ Failed to fetch {cin} from MCA API")
+                    return "failed"
+                
+                # Cache the data
+                success = await cache_service.cache_company_data(
+                    cin=cin,
+                    mca_data=mca_data,
+                    expiry_days=30
                 )
-                logger.info(f"✓ Cached: {company_name} ({cin})")
-                return "cached"
-            else:
-                logger.warning(f"✗ Failed to cache {cin}")
-                return "failed"
+                
+                if success:
+                    company_name = (
+                        mca_data.get("results", {})
+                        .get("data", {})
+                        .get("companyData", {})
+                        .get("company", cin)
+                    )
+                    logger.info(f"✓ Cached: {company_name} ({cin})")
+                    return "cached"
+                else:
+                    logger.warning(f"✗ Failed to cache {cin}")
+                    return "failed"
                 
         except Exception as e:
             logger.error(f"✗ Error processing {cin}: {e}")
