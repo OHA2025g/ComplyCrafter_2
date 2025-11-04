@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 interface DashboardStats {
   clients_count: number;
@@ -201,7 +202,7 @@ interface CalendarEvent {
 })
 export class DashboardComponent implements OnInit {
   private readonly http = inject(HttpClient);
-  private readonly API_BASE_URL = 'http://localhost:8100';
+  private readonly API_BASE_URL = environment.apiUrl;
 
   stats: DashboardStats | null = null;
   events: CalendarEvent[] = [];

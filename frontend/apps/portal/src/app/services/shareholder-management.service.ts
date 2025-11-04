@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ShareholderTransaction {
   srNo: number;
@@ -16,7 +17,7 @@ export interface ShareholderTransaction {
   providedIn: 'root'
 })
 export class ShareholderManagementService {
-  private apiUrl = 'http://localhost:8100/shareholder-management';
+  private apiUrl = `${environment.apiUrl}/shareholder-management`;
 
   constructor(private http: HttpClient) {}
 

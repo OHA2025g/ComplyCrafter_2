@@ -28,14 +28,11 @@ settings = get_settings()
 app = FastAPI(title=settings.app_name, version="0.1.0")
 
 # Configure CORS to allow frontend requests
+# Get CORS origins from settings (environment variable or defaults)
+cors_origins_list = settings.cors_origins.split(",") if isinstance(settings.cors_origins, str) else settings.cors_origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:4200",
-        "http://localhost:3000",
-        "http://localhost:8000",
-        "http://127.0.0.1:4200",
-    ],
+    allow_origins=cors_origins_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

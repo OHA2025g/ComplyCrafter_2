@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    container_name: complycrafter-frontend
+    ports:
+      - "${FRONTEND_PORT:-80}:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      - API_URL=${API_URL:-https://api.menindata.org}
+      - FRONTEND_URL=${FRONTEND_URL:-https://menindata.org}
+

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface AuthorizedCapital {
   srNo: number;
@@ -33,7 +34,7 @@ export interface ShareCapital {
   providedIn: 'root'
 })
 export class CapitalService {
-  private baseUrl = 'http://localhost:8100/capital';
+  private baseUrl = `${environment.apiUrl}/capital`;
 
   constructor(private http: HttpClient) {}
 

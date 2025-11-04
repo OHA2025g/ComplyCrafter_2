@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 interface CompanyResult {
   company_name: string;
@@ -183,7 +184,7 @@ export class CompanySearchComponent {
   addSuccess = false;
   myCompanies: CompanyResult[] = [];
 
-  private readonly API_BASE_URL = 'http://localhost:8100';
+  private readonly API_BASE_URL = environment.apiUrl;
 
   async searchCompany(): Promise<void> {
     if (this.searchForm.invalid) {

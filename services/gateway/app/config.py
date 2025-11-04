@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     environment: str = "dev"
     database_url: str = "postgresql+asyncpg://comply:comply@db:5432/comply"
     auth_issuer: str = "http://keycloak:8080/realms/comply"
+    cors_origins: str = "https://menindata.org,https://www.menindata.org,http://localhost:4200,http://localhost:3000"
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

@@ -57,68 +57,6 @@
   },
   "nxJsonPlugins": [],
   "fileMap": {
-    "nonProjectFiles": [
-      {
-        "file": ".gitignore",
-        "hash": "2435288524742606092"
-      },
-      {
-        "file": "jest.preset.js",
-        "hash": "6310892213805146435"
-      },
-      {
-        "file": "package.json",
-        "hash": "6242939907413005334"
-      },
-      {
-        "file": "README.md",
-        "hash": "17745774963331913929"
-      },
-      {
-        "file": "nx.json",
-        "hash": "12392162808938226120"
-      },
-      {
-        "file": "Dockerfile",
-        "hash": "12464672101259610841"
-      },
-      {
-        "file": "angular.json",
-        "hash": "15358258221982020575"
-      },
-      {
-        "file": "tests/forms-phase2.spec.ts",
-        "hash": "14568563953766198556"
-      },
-      {
-        "file": "postcss.config.js",
-        "hash": "17789872283383255573"
-      },
-      {
-        "file": "tailwind.config.js",
-        "hash": "13441098802472140305"
-      },
-      {
-        "file": "tests/adt1.spec.ts",
-        "hash": "6348355978623396936"
-      },
-      {
-        "file": "tests/forms-phase3.spec.ts",
-        "hash": "6363896137052649030"
-      },
-      {
-        "file": ".eslintrc.json",
-        "hash": "16412181249753735853"
-      },
-      {
-        "file": "playwright.config.ts",
-        "hash": "7585391373052903145"
-      },
-      {
-        "file": "tsconfig.base.json",
-        "hash": "11227494062919091813"
-      }
-    ],
     "projectFileMap": {
       "portal": [
         {
@@ -2101,6 +2039,30 @@
           "hash": "16418816021767051262"
         },
         {
+          "file": "apps/portal/src/app/guards/auth.guard.ts",
+          "hash": "17953840435030166628",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/guards/guest.guard.ts",
+          "hash": "5008131824999841183",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/interceptors/auth.interceptor.ts",
+          "hash": "10313430965219909813",
+          "deps": [
+            "npm:@angular/common/http",
+            "npm:@angular/core"
+          ]
+        },
+        {
           "file": "apps/portal/src/app/masters/agendas.component.ts",
           "hash": "11414241046636334957",
           "deps": [
@@ -2248,6 +2210,15 @@
             "npm:@angular/core",
             "npm:@angular/common",
             "npm:rxjs"
+          ]
+        },
+        {
+          "file": "apps/portal/src/app/services/auth.service.ts",
+          "hash": "1431389322445979384",
+          "deps": [
+            "npm:@angular/core",
+            "npm:@angular/router",
+            "npm:@angular/common/http"
           ]
         },
         {
@@ -2409,39 +2380,6 @@
             "npm:vite",
             "npm:@nx/vite"
           ]
-        },
-        {
-          "file": "apps/portal/src/app/services/auth.service.ts",
-          "hash": "1431389322445979384",
-          "deps": [
-            "npm:@angular/core",
-            "npm:@angular/router",
-            "npm:@angular/common/http"
-          ]
-        },
-        {
-          "file": "apps/portal/src/app/guards/auth.guard.ts",
-          "hash": "17953840435030166628",
-          "deps": [
-            "npm:@angular/core",
-            "npm:@angular/router"
-          ]
-        },
-        {
-          "file": "apps/portal/src/app/interceptors/auth.interceptor.ts",
-          "hash": "10313430965219909813",
-          "deps": [
-            "npm:@angular/common/http",
-            "npm:@angular/core"
-          ]
-        },
-        {
-          "file": "apps/portal/src/app/guards/guest.guard.ts",
-          "hash": "5008131824999841183",
-          "deps": [
-            "npm:@angular/core",
-            "npm:@angular/router"
-          ]
         }
       ],
       "data-access": [
@@ -2472,35 +2410,6 @@
         },
         {
           "file": "libs/data-access/tsconfig.spec.json",
-          "hash": "6477295622161358505"
-        }
-      ],
-      "state": [
-        {
-          "file": "libs/state/project.json",
-          "hash": "14156664077812877266"
-        },
-        {
-          "file": "libs/state/src/index.ts",
-          "hash": "15009275146840056617"
-        },
-        {
-          "file": "libs/state/src/lib/app-state.service.ts",
-          "hash": "1089124973021920339",
-          "deps": [
-            "npm:@angular/core"
-          ]
-        },
-        {
-          "file": "libs/state/tsconfig.json",
-          "hash": "9946910434463256616"
-        },
-        {
-          "file": "libs/state/tsconfig.lib.json",
-          "hash": "12480100303034631599"
-        },
-        {
-          "file": "libs/state/tsconfig.spec.json",
           "hash": "6477295622161358505"
         }
       ],
@@ -2544,7 +2453,178 @@
             "npm:@nx/vite"
           ]
         }
+      ],
+      "state": [
+        {
+          "file": "libs/state/project.json",
+          "hash": "14156664077812877266"
+        },
+        {
+          "file": "libs/state/src/index.ts",
+          "hash": "15009275146840056617"
+        },
+        {
+          "file": "libs/state/src/lib/app-state.service.ts",
+          "hash": "1089124973021920339",
+          "deps": [
+            "npm:@angular/core"
+          ]
+        },
+        {
+          "file": "libs/state/tsconfig.json",
+          "hash": "9946910434463256616"
+        },
+        {
+          "file": "libs/state/tsconfig.lib.json",
+          "hash": "12480100303034631599"
+        },
+        {
+          "file": "libs/state/tsconfig.spec.json",
+          "hash": "6477295622161358505"
+        }
       ]
-    }
+    },
+    "nonProjectFiles": [
+      {
+        "file": ".eslintrc.json",
+        "hash": "16412181249753735853"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "2435288524742606092"
+      },
+      {
+        "file": "Dockerfile",
+        "hash": "12464672101259610841"
+      },
+      {
+        "file": "README.md",
+        "hash": "17745774963331913929"
+      },
+      {
+        "file": "angular.json",
+        "hash": "15358258221982020575"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "6310892213805146435"
+      },
+      {
+        "file": "nx.json",
+        "hash": "12392162808938226120"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "101959656406657545"
+      },
+      {
+        "file": "package.json",
+        "hash": "6242939907413005334"
+      },
+      {
+        "file": "playwright.config.ts",
+        "hash": "7585391373052903145"
+      },
+      {
+        "file": "postcss.config.js",
+        "hash": "17789872283383255573"
+      },
+      {
+        "file": "tailwind.config.js",
+        "hash": "13441098802472140305"
+      },
+      {
+        "file": "test-results/.last-run 2.json",
+        "hash": "14694065644177241415"
+      },
+      {
+        "file": "test-results/.last-run 3.json",
+        "hash": "4132064207420498965"
+      },
+      {
+        "file": "test-results/.last-run.json",
+        "hash": "4132064207420498965"
+      },
+      {
+        "file": "test-results/adt1-ADT1-form-renders-and-validates-required-fields-chromium 2/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/adt1-ADT1-form-renders-and-validates-required-fields-chromium 2/trace.zip",
+        "hash": "13267399581800689040"
+      },
+      {
+        "file": "test-results/adt1-ADT1-form-renders-and-validates-required-fields-chromium/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/adt1-ADT1-form-renders-and-validates-required-fields-chromium/trace.zip",
+        "hash": "7035906171275841780"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-BEN2-Filing-chromium 2/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-BEN2-Filing-chromium 2/trace.zip",
+        "hash": "11003233223454677079"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-BEN2-Filing-chromium/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-BEN2-Filing-chromium/trace.zip",
+        "hash": "2565581161026652762"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-DPT3-Filing-chromium 2/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-DPT3-Filing-chromium 2/trace.zip",
+        "hash": "16737129624827054624"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-DPT3-Filing-chromium/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-DPT3-Filing-chromium/trace.zip",
+        "hash": "12421108444167511094"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-PAS3-Filing-chromium 2/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-PAS3-Filing-chromium 2/trace.zip",
+        "hash": "9179059520818467135"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-PAS3-Filing-chromium/error-context.md",
+        "hash": "6732094356024544310"
+      },
+      {
+        "file": "test-results/forms-phase2-Phase-2-forms-render-renders-PAS3-Filing-chromium/trace.zip",
+        "hash": "7576922337015030096"
+      },
+      {
+        "file": "tests/adt1.spec.ts",
+        "hash": "6348355978623396936"
+      },
+      {
+        "file": "tests/forms-phase2.spec.ts",
+        "hash": "14568563953766198556"
+      },
+      {
+        "file": "tests/forms-phase3.spec.ts",
+        "hash": "6363896137052649030"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "11227494062919091813"
+      }
+    ]
   }
 }

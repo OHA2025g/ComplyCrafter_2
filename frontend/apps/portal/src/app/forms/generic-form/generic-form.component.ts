@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { getFormConfig, FormConfig, FieldConfig } from './all-forms.config';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-generic-form',
@@ -164,7 +165,7 @@ export class GenericFormComponent implements OnInit {
   submissionId?: number;
 
   // Base API URL - adjust based on environment
-  private readonly API_BASE_URL = 'http://localhost:8100';
+  private readonly API_BASE_URL = environment.apiUrl;
 
   ngOnInit(): void {
     // Get form code from route - try both 'code' param and URL segment

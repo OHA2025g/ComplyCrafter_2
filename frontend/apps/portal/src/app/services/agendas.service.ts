@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Agenda {
   id?: number;
@@ -16,7 +17,7 @@ export interface Agenda {
   providedIn: 'root'
 })
 export class AgendasService {
-  private apiUrl = 'http://localhost:8100/agendas';
+  private apiUrl = `${environment.apiUrl}/agendas`;
 
   constructor(private http: HttpClient) {}
 

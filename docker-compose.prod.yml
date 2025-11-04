@@ -1,0 +1,182 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # Database Service
+  # ============================================
+  db:
+    image: postgres:15
+    container_name: complycrafter-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-comply}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-comply}
+      POSTGRES_DB: ${POSTGRES_DB:-comply}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-comply}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: complycrafter-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # Backend Service (Forms API + Gateway)
+  # ============================================
+  # Forms Service (Main Backend API)
+  forms:
+    build:
+      context: .
+      dockerfile: services/forms/Dockerfile
+    container_name: complycrafter-forms
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8100 --workers 4
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-comply}:${POSTGRES_PASSWORD:-comply}@db:5432/${POSTGRES_DB:-comply}
+      - PYTHONPATH=/app:/app/libs
+      - ENVIRONMENT=production
+      - REDIS_URL=redis://redis:6379
+      - CORS_ORIGINS=${CORS_ORIGINS:-https://menindata.org,https://www.menindata.org,http://localhost:4200}
+    ports:
+      - "${FORMS_PORT:-8100}:8100"
+    volumes:
+      - ./services/forms:/app
+      - ./libs:/app/libs
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8100/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # API Gateway
+  gateway:
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
+    container_name: complycrafter-gateway
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-comply}:${POSTGRES_PASSWORD:-comply}@db:5432/${POSTGRES_DB:-comply}
+      - AUTH_ISSUER=${AUTH_ISSUER:-http://keycloak:8080/realms/comply}
+      - FORMS_BASE_URL=http://forms:8100
+      - PYTHONPATH=/app:/app/libs
+      - ENVIRONMENT=production
+      - CORS_ORIGINS=${CORS_ORIGINS:-https://menindata.org,https://www.menindata.org,http://localhost:4200}
+    ports:
+      - "${GATEWAY_PORT:-8000}:8000"
+    volumes:
+      - ./services/gateway:/app
+      - ./libs:/app/libs
+    depends_on:
+      - db
+      - forms
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================
+  # Frontend Service
+  # ============================================
+  # Frontend (Angular)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    container_name: complycrafter-frontend
+    ports:
+      - "${FRONTEND_PORT:-4200}:80"
+    depends_on:
+      - gateway
+      - forms
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Keycloak (Authentication)
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    container_name: complycrafter-keycloak
+    command: start --optimized --http-port=8080
+    environment:
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN:-admin}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD:-admin}
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://db:5432/${POSTGRES_DB:-comply}
+      - KC_DB_USERNAME=${POSTGRES_USER:-comply}
+      - KC_DB_PASSWORD=${POSTGRES_PASSWORD:-comply}
+    ports:
+      - "${KEYCLOAK_PORT:-8080}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # MCA Cache Updater (Background Job)
+  mca-cache-updater:
+    image: python:3.11-slim
+    container_name: complycrafter-mca-updater
+    working_dir: /app
+    command: >
+      bash -c "
+        apt-get update && apt-get install -y postgresql-client curl &&
+        pip install --no-cache-dir httpx sqlalchemy asyncpg schedule aiofiles &&
+        python mca_cache_updater.py
+      "
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://${POSTGRES_USER:-comply}:${POSTGRES_PASSWORD:-comply}@db:5432/${POSTGRES_DB:-comply}
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+    volumes:
+      - ./services/forms/app/jobs:/app
+      - ./services/forms/app/services:/app/services
+      - mca-cache-logs:/app/logs
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+
+volumes:
+  db-data:
+    driver: local
+  redis-data:
+    driver: local
+  mca-cache-logs:
+    driver: local
+
+networks:
+  default:
+    name: complycrafter-network
+

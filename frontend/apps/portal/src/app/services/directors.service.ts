@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable} from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface Director {
   srNo: number;
@@ -21,7 +22,7 @@ export interface Director {
 })
 export class DirectorsService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8100/directors';
+  private apiUrl = `${environment.apiUrl}/directors`;
 
   getAll(companyId?: number, companyCin?: string, status?: string): Observable<Director[]> {
     let url = this.apiUrl;

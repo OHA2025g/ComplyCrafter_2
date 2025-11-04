@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     debug: bool = False
     
     # CORS Settings
-    cors_origins: list[str] = ["http://localhost:4200", "http://localhost:3000"]
+    cors_origins: str = "https://menindata.org,https://www.menindata.org,http://localhost:4200,http://localhost:3000"
     
     model_config = SettingsConfigDict(
         env_file=".env", 

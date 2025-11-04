@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-signup',
@@ -175,7 +176,7 @@ export class SignupComponent {
   success = false;
   error?: string;
 
-  private readonly API_BASE_URL = 'http://localhost:8100';
+  private readonly API_BASE_URL = environment.apiUrl;
 
   get f() { return this.form.controls; }
 

@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ShareCertificate {
   srNo: number;
@@ -22,7 +23,7 @@ export interface ShareCertificate {
 })
 export class ShareCertificatesService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8100/share-certificates';
+  private apiUrl = `${environment.apiUrl}/share-certificates`;
 
   getAll(companyId?: number, companyCin?: string, certificateType?: string): Observable<ShareCertificate[]> {
     let url = this.apiUrl;

@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface DebentureHolder {
   srNo: number;
@@ -22,7 +23,7 @@ export interface DebentureHolder {
 })
 export class DebentureHoldersService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8100/debenture-holders';
+  private apiUrl = `${environment.apiUrl}/debenture-holders`;
 
   getAll(companyId?: number, companyCin?: string): Observable<DebentureHolder[]> {
     let url = this.apiUrl;

@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 export interface User {
   id?: string;
@@ -16,7 +17,7 @@ export interface User {
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
-  private readonly API_BASE_URL = 'http://localhost:8100';
+  private readonly API_BASE_URL = environment.apiUrl;
 
   /**
    * Check if user is authenticated

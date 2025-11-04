@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface BoardMeeting {
   srNo: number;
@@ -43,7 +44,7 @@ export interface CommitteeMeeting {
   providedIn: 'root'
 })
 export class MeetingsService {
-  private baseUrl = 'http://localhost:8100/meetings';
+  private baseUrl = `${environment.apiUrl}/meetings`;
 
   constructor(private http: HttpClient) {}
 
