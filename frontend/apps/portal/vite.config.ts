@@ -16,7 +16,7 @@ export default defineConfig({
     target: 'esnext',
     emptyOutDir: true
   },
-  plugins: [],
+  plugins: [nxViteTsPaths()],
   server: {
     port: 4200,
     host: '0.0.0.0',

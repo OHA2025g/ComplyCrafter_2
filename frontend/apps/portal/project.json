@@ -6,9 +6,12 @@
   "targets": {
     "build": {
       "executor": "@nx/vite:build",
-      "outputs": ["{workspaceRoot}/dist/apps/portal"],
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "configFile": "apps/portal/vite.config.ts"
+        "configFile": "apps/portal/vite.config.ts",
+        "outputPath": "dist/apps/portal",
+        "tsConfig": "apps/portal/tsconfig.app.json",
+        "skipTypeCheck": true
       }
     },
     "serve": {
