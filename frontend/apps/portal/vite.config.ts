@@ -8,12 +8,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default defineConfig({
-  cacheDir: '../../node_modules/.vite/portal',
+  cacheDir: join(__dirname, '../../node_modules/.vite/portal'),
   root: join(__dirname, 'src'),
   publicDir: join(__dirname, 'src/assets'),
   build: {
     outDir: join(__dirname, 'dist'),
-    target: 'esnext'
+    target: 'esnext',
+    emptyOutDir: true
   },
   plugins: [nxViteTsPaths()],
   server: {
