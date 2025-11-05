@@ -59,72 +59,72 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": "angular.json",
-        "hash": "15358258221982020575"
-      },
-      {
-        "file": "playwright.config.ts",
-        "hash": "7585391373052903145"
-      },
-      {
         "file": ".gitignore",
         "hash": "2435288524742606092"
-      },
-      {
-        "file": "Dockerfile",
-        "hash": "12464672101259610841"
-      },
-      {
-        "file": "tailwind.config.js",
-        "hash": "13441098802472140305"
-      },
-      {
-        "file": ".eslintrc.json",
-        "hash": "16412181249753735853"
       },
       {
         "file": "tsconfig.base.json",
         "hash": "11227494062919091813"
       },
       {
-        "file": "README.md",
-        "hash": "17745774963331913929"
+        "file": "Dockerfile",
+        "hash": "12464672101259610841"
       },
       {
-        "file": "nx.json",
-        "hash": "12392162808938226120"
-      },
-      {
-        "file": "Dockerfile.prod",
-        "hash": "12191402193455204813"
-      },
-      {
-        "file": "tests/forms-phase3.spec.ts",
-        "hash": "6363896137052649030"
-      },
-      {
-        "file": "tests/forms-phase2.spec.ts",
-        "hash": "14568563953766198556"
+        "file": "angular.json",
+        "hash": "15358258221982020575"
       },
       {
         "file": "postcss.config.js",
         "hash": "17789872283383255573"
       },
       {
-        "file": "jest.preset.js",
-        "hash": "6310892213805146435"
+        "file": "tests/adt1.spec.ts",
+        "hash": "6348355978623396936"
+      },
+      {
+        "file": "tailwind.config.js",
+        "hash": "13441098802472140305"
       },
       {
         "file": "package.json",
         "hash": "6242939907413005334"
       },
       {
-        "file": "tests/adt1.spec.ts",
-        "hash": "6348355978623396936"
+        "file": "Dockerfile.prod",
+        "hash": "15588430703049993480"
+      },
+      {
+        "file": "nx.json",
+        "hash": "12392162808938226120"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "16412181249753735853"
       },
       {
         "file": "nginx.conf",
         "hash": "10568870799297853797"
+      },
+      {
+        "file": "playwright.config.ts",
+        "hash": "7585391373052903145"
+      },
+      {
+        "file": "tests/forms-phase2.spec.ts",
+        "hash": "14568563953766198556"
+      },
+      {
+        "file": "tests/forms-phase3.spec.ts",
+        "hash": "6363896137052649030"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "6310892213805146435"
+      },
+      {
+        "file": "README.md",
+        "hash": "17745774963331913929"
       }
     ],
     "projectFileMap": {
