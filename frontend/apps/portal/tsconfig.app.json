@@ -3,7 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "declaration": true,
-    "types": ["vite/client"],
+    "types": [],
     "useDefineForClassFields": false
   },
   "files": [],
