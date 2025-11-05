@@ -6,7 +6,8 @@ export default defineConfig({
   root: __dirname + '/src',
   publicDir: __dirname + '/src/assets',
   build: {
-    outDir: __dirname + '/dist',
+    outDir: '../../dist/apps/portal',  // ✅ FIXED
+    emptyOutDir: true,                 // ✅ Ensures clean builds
     target: 'esnext'
   },
   plugins: [nxViteTsPaths()],
