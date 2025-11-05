@@ -17,7 +17,7 @@ interface MenuItem {
   template: `
     <div class="sidebar">
       <div class="sidebar-header">
-        <img src="/assets/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="sidebar-logo" />
+        <img src="/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="sidebar-logo" />
         <h3>Comply Crafter</h3>
       </div>
 
