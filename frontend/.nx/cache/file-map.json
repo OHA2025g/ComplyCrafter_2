@@ -59,20 +59,12 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": ".gitignore",
-        "hash": "2435288524742606092"
+        "file": "nx.json",
+        "hash": "12392162808938226120"
       },
       {
-        "file": "tsconfig.base.json",
-        "hash": "11227494062919091813"
-      },
-      {
-        "file": "Dockerfile",
-        "hash": "12464672101259610841"
-      },
-      {
-        "file": "angular.json",
-        "hash": "15358258221982020575"
+        "file": "package.json",
+        "hash": "6242939907413005334"
       },
       {
         "file": "postcss.config.js",
@@ -83,48 +75,56 @@
         "hash": "6348355978623396936"
       },
       {
-        "file": "tailwind.config.js",
-        "hash": "13441098802472140305"
+        "file": "tests/forms-phase2.spec.ts",
+        "hash": "14568563953766198556"
       },
       {
-        "file": "package.json",
-        "hash": "6242939907413005334"
+        "file": "angular.json",
+        "hash": "15358258221982020575"
       },
       {
-        "file": "Dockerfile.prod",
-        "hash": "15588430703049993480"
+        "file": "README.md",
+        "hash": "17745774963331913929"
       },
       {
-        "file": "nx.json",
-        "hash": "12392162808938226120"
+        "file": "tsconfig.base.json",
+        "hash": "11227494062919091813"
       },
       {
         "file": ".eslintrc.json",
         "hash": "16412181249753735853"
       },
       {
-        "file": "nginx.conf",
-        "hash": "10568870799297853797"
-      },
-      {
-        "file": "playwright.config.ts",
-        "hash": "7585391373052903145"
-      },
-      {
-        "file": "tests/forms-phase2.spec.ts",
-        "hash": "14568563953766198556"
-      },
-      {
-        "file": "tests/forms-phase3.spec.ts",
-        "hash": "6363896137052649030"
+        "file": "Dockerfile.prod",
+        "hash": "15588430703049993480"
       },
       {
         "file": "jest.preset.js",
         "hash": "6310892213805146435"
       },
       {
-        "file": "README.md",
-        "hash": "17745774963331913929"
+        "file": "tests/forms-phase3.spec.ts",
+        "hash": "6363896137052649030"
+      },
+      {
+        "file": "playwright.config.ts",
+        "hash": "7585391373052903145"
+      },
+      {
+        "file": "nginx.conf",
+        "hash": "10568870799297853797"
+      },
+      {
+        "file": "Dockerfile",
+        "hash": "12464672101259610841"
+      },
+      {
+        "file": "tailwind.config.js",
+        "hash": "13441098802472140305"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "2435288524742606092"
       }
     ],
     "projectFileMap": {
@@ -2486,7 +2486,7 @@
         },
         {
           "file": "apps/portal/vite.config.ts",
-          "hash": "8620069082319909690",
+          "hash": "764893824875078238",
           "deps": [
             "npm:vite",
             "npm:@nx/vite/plugins/nx-tsconfig-paths.plugin",

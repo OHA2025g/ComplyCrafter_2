@@ -12,7 +12,7 @@ export default defineConfig({
   root: join(__dirname, 'src'),
   publicDir: join(__dirname, 'src/assets'),
   build: {
-    outDir: join(__dirname, 'dist'),
+    outDir: join(__dirname, '../../dist/apps/portal'),
     target: 'esnext',
     emptyOutDir: true
   },
