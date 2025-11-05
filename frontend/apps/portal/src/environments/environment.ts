@@ -2,7 +2,7 @@
 export const environment = {
   production: false,
   apiUrl: 'https://api.menindata.org',
-  gatewayUrl: 'api.menindata.org',
-  frontendUrl: 'menindata.org'
+  gatewayUrl: 'https://api.menindata.org',
+  frontendUrl: 'https://menindata.org'
 };
 
