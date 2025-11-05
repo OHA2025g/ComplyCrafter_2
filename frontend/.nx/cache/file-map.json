@@ -59,36 +59,12 @@
   "fileMap": {
     "nonProjectFiles": [
       {
-        "file": "nginx.conf",
-        "hash": "10568870799297853797"
-      },
-      {
-        "file": ".gitignore",
-        "hash": "2435288524742606092"
+        "file": "angular.json",
+        "hash": "15358258221982020575"
       },
       {
         "file": "Dockerfile",
         "hash": "12464672101259610841"
-      },
-      {
-        "file": "tests/adt1.spec.ts",
-        "hash": "6348355978623396936"
-      },
-      {
-        "file": "jest.preset.js",
-        "hash": "6310892213805146435"
-      },
-      {
-        "file": "tests/forms-phase3.spec.ts",
-        "hash": "6363896137052649030"
-      },
-      {
-        "file": "tests/forms-phase2.spec.ts",
-        "hash": "14568563953766198556"
-      },
-      {
-        "file": ".eslintrc.json",
-        "hash": "16412181249753735853"
       },
       {
         "file": "tailwind.config.js",
@@ -99,32 +75,56 @@
         "hash": "11227494062919091813"
       },
       {
-        "file": "playwright.config.ts",
-        "hash": "7585391373052903145"
-      },
-      {
-        "file": "README.md",
-        "hash": "17745774963331913929"
-      },
-      {
         "file": "Dockerfile.prod",
         "hash": "17943472690658333200"
       },
       {
-        "file": "nx.json",
-        "hash": "12392162808938226120"
+        "file": ".gitignore",
+        "hash": "2435288524742606092"
       },
       {
         "file": "package.json",
         "hash": "6242939907413005334"
       },
       {
+        "file": "nginx.conf",
+        "hash": "10568870799297853797"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "16412181249753735853"
+      },
+      {
+        "file": "tests/forms-phase3.spec.ts",
+        "hash": "6363896137052649030"
+      },
+      {
         "file": "postcss.config.js",
         "hash": "17789872283383255573"
       },
       {
-        "file": "angular.json",
-        "hash": "15358258221982020575"
+        "file": "README.md",
+        "hash": "17745774963331913929"
+      },
+      {
+        "file": "playwright.config.ts",
+        "hash": "7585391373052903145"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "6310892213805146435"
+      },
+      {
+        "file": "tests/forms-phase2.spec.ts",
+        "hash": "14568563953766198556"
+      },
+      {
+        "file": "tests/adt1.spec.ts",
+        "hash": "6348355978623396936"
+      },
+      {
+        "file": "nx.json",
+        "hash": "12392162808938226120"
       }
     ],
     "projectFileMap": {
@@ -172,7 +172,7 @@
         },
         {
           "file": "apps/portal/src/app/app.component.ts",
-          "hash": "1699719174678870789",
+          "hash": "17684416174642246717",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router",
@@ -206,7 +206,7 @@
         },
         {
           "file": "apps/portal/src/app/auth/login/login.component.ts",
-          "hash": "9669443363208870597",
+          "hash": "4400501448574348499",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common",
@@ -225,7 +225,7 @@
         },
         {
           "file": "apps/portal/src/app/auth/signup/signup.component.ts",
-          "hash": "4561835201012963695",
+          "hash": "13425427007722797497",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common",
@@ -2410,7 +2410,7 @@
         },
         {
           "file": "apps/portal/src/app/shared/sidebar/sidebar.component.ts",
-          "hash": "13029946926528016577",
+          "hash": "8949215583450733833",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common",
@@ -2427,11 +2427,11 @@
         },
         {
           "file": "apps/portal/src/environments/environment.prod.ts",
-          "hash": "11266959988556988360"
+          "hash": "9093902400991606351"
         },
         {
           "file": "apps/portal/src/environments/environment.ts",
-          "hash": "18005451162144529503"
+          "hash": "1470930198227424649"
         },
         {
           "file": "apps/portal/src/favicon.png",
@@ -2474,7 +2474,7 @@
         },
         {
           "file": "apps/portal/tsconfig.app.json",
-          "hash": "7326504135040700072"
+          "hash": "2593113463420643255"
         },
         {
           "file": "apps/portal/tsconfig.json",
