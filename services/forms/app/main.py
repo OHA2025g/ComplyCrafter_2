@@ -92,7 +92,12 @@ for route_name in _optional_routes:
         mod = importlib.import_module(f"app.api.routes.{route_name}")
         router = getattr(mod, "router", None)
         if router is not None:
-            app.include_router(router)
+            # Add /forms/ prefix if the router doesn't already have it
+            if hasattr(router, 'prefix') and not router.prefix.startswith('/forms/'):
+                app.include_router(router, prefix="/forms")
+            else:
+                app.include_router(router)
+            logger.info(f"✓ Registered route: {route_name}")
         else:
             logger.warning("Route module '%s' has no 'router' attribute", route_name)
     except Exception as exc:
