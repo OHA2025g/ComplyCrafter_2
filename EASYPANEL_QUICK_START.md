@@ -45,7 +45,7 @@ git clone YOUR_REPO_URL complycrafter
   - Domain: `api.menindata.org`
   - **Environment Variables**:
     ```
-    DATABASE_URL=postgresql+asyncpg://comply:PASSWORD@complycrafter-database-db:5432/comply
+    DATABASE_URL=postgres://comply:be4ebcb019c46ead1a83@complycrafter2_complycrafter-database:5432/comply?sslmode=disable
     CORS_ORIGINS=https://menindata.org,https://www.menindata.org
     ENVIRONMENT=production
     ```
