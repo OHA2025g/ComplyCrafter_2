@@ -22,7 +22,7 @@ export class CompaniesService {
   private apiUrl = `${environment.apiUrl}/companies`;
 
   getAll(userId?: number, isActive?: boolean): Observable<Company[]> {
-    let url = this.apiUrl;
+    let url = this.apiUrl + '/';  // Add trailing slash for base route
     const params: string[] = [];
     
     if (userId) {
@@ -44,7 +44,7 @@ export class CompaniesService {
   }
 
   add(company: Company): Observable<any> {
-    return this.http.post(this.apiUrl, company);
+    return this.http.post(this.apiUrl + '/', company);  // Add trailing slash for base route
   }
 
   update(id: number, company: Partial<Company>): Observable<any> {

@@ -254,7 +254,7 @@ export class CompanySearchComponent {
 
     try {
       // Add company to user's companies list
-      await this.http.post(`${this.API_BASE_URL}/companies`, {
+      await this.http.post(`${this.API_BASE_URL}/companies/`, {
         cin: company.cin,
         company_name: company.company_name,
         company_status: company.company_status,
