@@ -15,7 +15,7 @@ import { AuthService } from './services/auth.service';
         <header class="app-header">
           <div class="header-content">
             <div class="header-left">
-              <img src="/assets/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="logo" />
+              <img src="/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="logo" />
               <h1>ComplyCrafter Portal</h1>
             </div>
             <div class="header-right">
