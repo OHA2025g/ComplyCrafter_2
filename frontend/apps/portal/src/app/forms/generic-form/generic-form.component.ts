@@ -324,8 +324,11 @@ export class GenericFormComponent implements OnInit {
         is_active: true
       };
 
-      // Submit to backend API
-      const endpoint = `${this.API_BASE_URL}${this.formConfig.apiEndpoint}`;
+      // Submit to backend API - ensure trailing slash for FastAPI
+      let endpoint = `${this.API_BASE_URL}${this.formConfig.apiEndpoint}`;
+      if (!endpoint.endsWith('/')) {
+        endpoint += '/';
+      }
       
       const response = await this.http.post<any>(endpoint, submissionData).toPromise();
       
