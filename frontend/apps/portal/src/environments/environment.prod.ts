@@ -31,3 +31,4 @@ export const environment = {
   frontendUrl: ensureHttps((window as any).__ENV__?.FRONTEND_URL, 'https://menindata.org')
 };
 
+
