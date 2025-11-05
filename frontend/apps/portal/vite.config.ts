@@ -1,12 +1,18 @@
 import { defineConfig } from 'vite';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Define __dirname for ES modules compatibility
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default defineConfig({
   cacheDir: '../../node_modules/.vite/portal',
-  root: __dirname + '/src',
-  publicDir: __dirname + '/src/assets',
+  root: join(__dirname, 'src'),
+  publicDir: join(__dirname, 'src/assets'),
   build: {
-    outDir: __dirname + '/dist',
+    outDir: join(__dirname, 'dist'),
     target: 'esnext'
   },
   plugins: [nxViteTsPaths()],
@@ -15,7 +21,7 @@ export default defineConfig({
     host: '0.0.0.0',
     strictPort: true,
     fs: {
-      allow: [__dirname, __dirname + '/../..']
+      allow: [__dirname, join(__dirname, '../..')]
     }
   },
   preview: {
