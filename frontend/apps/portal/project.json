@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nx/vite:build",
-      "outputs": ["{projectRoot}/dist"],
+      "outputs": ["{workspaceRoot}/dist/apps/portal"],
       "options": {
         "configFile": "apps/portal/vite.config.ts"
       }
