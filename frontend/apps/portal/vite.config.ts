@@ -1,14 +1,19 @@
 import { defineConfig } from 'vite';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import path from 'path';
+
+const projectRoot = __dirname; // /usr/src/app/apps/portal
+const srcRoot = path.resolve(projectRoot, 'src');
+const distRoot = path.resolve(projectRoot, 'dist');
 
 export default defineConfig({
-  cacheDir: '../../node_modules/.vite/portal',
-  root: __dirname + '/src',
-  publicDir: __dirname + '/src/assets',
+  cacheDir: path.resolve(projectRoot, '../../node_modules/.vite/portal'),
+  root: srcRoot,
+  publicDir: path.resolve(srcRoot, 'assets'),
   build: {
-    outDir: '../../dist/apps/portal',  // ✅ FIXED
-    emptyOutDir: true,                 // ✅ Ensures clean builds
-    target: 'esnext'
+    outDir: distRoot,
+    target: 'esnext',
+    emptyOutDir: true
   },
   plugins: [nxViteTsPaths()],
   server: {
@@ -16,7 +21,7 @@ export default defineConfig({
     host: '0.0.0.0',
     strictPort: true,
     fs: {
-      allow: [__dirname, __dirname + '/../..']
+      allow: [projectRoot, path.resolve(projectRoot, '../..')]
     }
   },
   preview: {
