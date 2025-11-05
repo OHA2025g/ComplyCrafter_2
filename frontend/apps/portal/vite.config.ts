@@ -33,7 +33,6 @@ export default defineConfig({
     tsconfigRaw: {
       compilerOptions: {
         experimentalDecorators: true,
-        emitDecoratorMetadata: true,
         useDefineForClassFields: false,
         target: 'ES2020'
       }
@@ -44,7 +43,7 @@ export default defineConfig({
       tsconfigRaw: {
         compilerOptions: {
           experimentalDecorators: true,
-          emitDecoratorMetadata: true
+          
         }
       }
     }
