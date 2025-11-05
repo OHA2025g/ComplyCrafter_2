@@ -20,7 +20,7 @@ import { environment } from '../../../environments/environment';
       <div class="signup-card">
         <div class="signup-header">
           <div class="logo-container">
-            <img src="/assets/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="logo" />
+            <img src="/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="logo" />
           </div>
           <h1>Join ComplyCrafter!</h1>
           <p>Create your account and start managing compliance</p>
