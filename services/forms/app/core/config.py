@@ -16,7 +16,14 @@ class Settings(BaseSettings):
     debug: bool = False
     
     # CORS Settings
-    cors_origins: str = "https://menindata.org,https://www.menindata.org,http://localhost:4200,http://localhost:3000"
+    # Allow common local dev variants (http/https on ports 4200, 3000, 8000, 8001)
+    cors_origins: str = (
+        "https://menindata.org,https://www.menindata.org," \
+        "http://localhost:4200,https://localhost:4200," \
+        "http://localhost:3000,https://localhost:3000," \
+        "http://localhost:8000,https://localhost:8000," \
+        "http://localhost:8001,https://localhost:8001"
+    )
     
     model_config = SettingsConfigDict(
         env_file=".env", 
