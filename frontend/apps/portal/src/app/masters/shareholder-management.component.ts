@@ -20,10 +20,6 @@ interface ShareholderTransaction {
   template: `
     <div class="shareholder-management-container">
       <div class="page-header">
-        <div class="header-content">
-          <h1>📊 Shareholder Management</h1>
-          <p class="subtitle">Manage shareholder transactions and transfers</p>
-        </div>
         <div class="header-actions">
           <button class="btn-outline">✕ Clear Company</button>
           <button class="btn-outline">🔍 Switch Company</button>
@@ -105,18 +101,18 @@ interface ShareholderTransaction {
   `,
   styles: [`
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .shareholder-management-container { padding: 2rem; max-width: 1600px; margin: 0 auto; animation: fadeInUp 0.5s ease-out; }
-    .page-header { background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05)); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
-    .header-content h1 { font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0; }
+    .shareholder-management-container { padding: 0; max-width: 100%; margin: 0; animation: fadeInUp 0.5s ease-out; }
+    .page-header { background: transparent; border-radius: 0; padding: 0 1rem; margin-bottom: 0.75rem; box-shadow: none; display: flex; justify-content: space-between; align-items: center; }
+    .header-content h1 { font-size: 1.75rem; font-weight: 700; color: #333; margin: 0; }
     .subtitle { color: #6c757d; margin: 0.5rem 0 0 0; font-size: 1rem; }
     .header-actions { display: flex; gap: 1rem; }
-    .btn-outline { background: transparent; border: 2px solid #667eea; color: #667eea; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
+    .btn-outline { background: transparent; border: none; color: #667eea; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
     .btn-outline:hover { background: linear-gradient(135deg, #667eea, #764ba2); color: white; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
-    .content-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-    .table-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap; }
+    .content-card { background: transparent; border-radius: 0; padding: 0 1rem; box-shadow: none; }
+    .table-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; gap: 0.75rem; flex-wrap: wrap; }
     .left-controls { display: flex; align-items: center; gap: 0.75rem; }
-    .entries-select { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1rem; background: #f8f9fa; transition: all 0.3s; cursor: pointer; }
-    .entries-select:focus { outline: none; border-color: #667eea; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
+    .entries-select { padding: 0.75rem 1rem; border: none; border-radius: 10px; font-size: 1rem; background: #f8f9fa; transition: all 0.3s; cursor: pointer; }
+    .entries-select:focus { outline: none; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
     .entries-label { color: #6c757d; font-weight: 600; }
     .right-controls { display: flex; align-items: center; gap: 1rem; }
     .btn-add { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 1.75rem; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
@@ -124,15 +120,15 @@ interface ShareholderTransaction {
     .add-icon { font-size: 1.3rem; font-weight: 700; }
     .search-box { display: flex; align-items: center; gap: 0.5rem; }
     .search-box label { font-weight: 600; color: #2c3e50; white-space: nowrap; }
-    .search-input { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1rem; background: #f8f9fa; transition: all 0.3s; min-width: 200px; }
-    .search-input:focus { outline: none; border-color: #667eea; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
+    .search-input { padding: 0.75rem 1rem; border: none; border-radius: 10px; font-size: 1rem; background: #f8f9fa; transition: all 0.3s; min-width: 200px; }
+    .search-input:focus { outline: none; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
     .table-wrapper { overflow-x: auto; margin-bottom: 1.5rem; border-radius: 12px; border: 2px solid #f0f0f0; }
     .data-table { width: 100%; border-collapse: collapse; }
     .data-table thead { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
     .data-table th { padding: 1rem; text-align: left; font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
-    .data-table tbody tr { transition: all 0.2s; background: white; }
-    .data-table tbody tr:nth-child(even) { background: #f8f9fa; }
-    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)); transform: scale(1.01); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .data-table tbody tr { transition: all 0.2s; background: #ffe5e5; /* Light pink */ }
+    .data-table tbody tr:nth-child(even) { background: #e5f0ff; /* Light blue */ }
+    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12)); transform: scale(1.01); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     .data-table td { padding: 1rem; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem; color: #2c3e50; }
     .type-badge { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
     .status-badge { padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
@@ -145,7 +141,7 @@ interface ShareholderTransaction {
     .table-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 2px solid #f0f0f0; flex-wrap: wrap; gap: 1rem; }
     .entries-info { color: #6c757d; font-size: 0.95rem; font-weight: 600; }
     .pagination { display: flex; gap: 0.5rem; }
-    .page-btn { padding: 0.5rem 0.85rem; border: 2px solid #e0e0e0; background: white; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #667eea; transition: all 0.2s; min-width: 38px; text-align: center; }
+    .page-btn { padding: 0.5rem 0.85rem; border: none; background: white; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #667eea; transition: all 0.2s; min-width: 38px; text-align: center; }
     .page-btn:hover:not(:disabled) { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-color: transparent; transform: translateY(-1px); }
     .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .page-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-color: transparent; }

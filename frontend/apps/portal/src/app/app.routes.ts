@@ -33,7 +33,14 @@ export const APP_ROUTES: Routes = [
     title: 'Company Search - ComplyCrafter',
     canActivate: [authGuard]
   },
-  // Masters Routes (Protected)
+  // Masters Routes (Protected) - Tabbed Interface
+  {
+    path: 'masters',
+    loadComponent: () => import('./masters/masters-container.component').then(m => m.MastersContainerComponent),
+    title: 'Masters - ComplyCrafter',
+    canActivate: [authGuard]
+  },
+  // Keep individual routes for direct navigation (optional - can be removed if not needed)
   {
     path: 'masters/company',
     loadComponent: () => import('./masters/company.component').then(m => m.CompanyMasterComponent),
@@ -100,12 +107,6 @@ export const APP_ROUTES: Routes = [
     title: 'Share Capital - ComplyCrafter',
     canActivate: [authGuard]
   },
-  {
-    path: 'masters/:type',
-    loadComponent: () => import('./shared/placeholder.component').then(m => m.PlaceholderComponent),
-    title: 'Masters - ComplyCrafter',
-    canActivate: [authGuard]
-  },
   // Meeting Routes (Protected)
   {
     path: 'meetings/board',
@@ -140,6 +141,12 @@ export const APP_ROUTES: Routes = [
   {
     path: 'forms',
     children: FORMS_ROUTES,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./profile/profile.component').then(m => m.ProfileComponent),
+    title: 'Profile - ComplyCrafter',
     canActivate: [authGuard]
   },
   {

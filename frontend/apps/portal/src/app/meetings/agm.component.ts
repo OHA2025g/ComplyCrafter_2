@@ -73,9 +73,9 @@ interface AGM {
     .data-table { width: 100%; border-collapse: collapse; }
     .data-table thead { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
     .data-table th { padding: 1rem; text-align: left; font-weight: 700; }
-    .data-table tbody tr { background: white; }
-    .data-table tbody tr:nth-child(even) { background: #f8f9fa; }
-    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)); }
+    .data-table tbody tr { background: #ffe5e5; /* Light pink */ }
+    .data-table tbody tr:nth-child(even) { background: #e5f0ff; /* Light blue */ }
+    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12)); transform: scale(1.01); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     .data-table td { padding: 1rem; border-bottom: 1px solid #e0e0e0; }
     .fy-badge { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
     .status-badge { padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; color: white; }

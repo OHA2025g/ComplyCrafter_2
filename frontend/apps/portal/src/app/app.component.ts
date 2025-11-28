@@ -1,13 +1,15 @@
-import { Component, inject } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { LogoutModalComponent } from './shared/logout-modal/logout-modal.component';
 import { AuthService } from './services/auth.service';
+import { filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, SidebarComponent],
+  imports: [RouterOutlet, CommonModule, SidebarComponent, LogoutModalComponent],
   template: `
     <div class="app-layout" *ngIf="!isAuthPage(); else authLayout">
       <app-sidebar></app-sidebar>
@@ -15,18 +17,26 @@ import { AuthService } from './services/auth.service';
         <header class="app-header">
           <div class="header-content">
             <div class="header-left">
-              <img src="/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="logo" />
-              <h1>ComplyCrafter Portal</h1>
+              <h1>{{ getPageTitle() }}</h1>
             </div>
             <div class="header-right">
-              <div class="user-info">
-                <span class="user-icon">👤</span>
-                <span class="user-name">{{ getUserName() }}</span>
+              <div class="user-menu-container">
+                <button class="btn-user" (click)="toggleUserMenu()" title="User Menu">
+                  <span class="user-icon">👤</span>
+                  <span class="user-name">{{ getUserName() }}</span>
+                  <span class="dropdown-arrow">{{ isUserMenuOpen ? '▲' : '▼' }}</span>
+                </button>
+                <div class="user-dropdown" *ngIf="isUserMenuOpen" (click)="$event.stopPropagation()">
+                  <a class="dropdown-item" (click)="handleProfile()">
+                    <span class="dropdown-icon">👤</span>
+                    <span class="dropdown-text">Profile</span>
+                  </a>
+                  <a class="dropdown-item" (click)="showLogoutModal()">
+                    <span class="dropdown-icon">🚪</span>
+                    <span class="dropdown-text">Logout</span>
+                  </a>
+                </div>
               </div>
-              <button class="btn-logout" (click)="handleLogout()" title="Logout">
-                <span class="logout-icon">🚪</span>
-                <span class="logout-text">Logout</span>
-              </button>
             </div>
           </div>
         </header>
@@ -39,6 +49,13 @@ import { AuthService } from './services/auth.service';
     <ng-template #authLayout>
       <router-outlet></router-outlet>
     </ng-template>
+
+    <app-logout-modal 
+      *ngIf="showModal" 
+      [isLoading]="isLoggingOut"
+      (confirm)="handleLogout()" 
+      (cancel)="hideLogoutModal()">
+    </app-logout-modal>
   `,
   styles: [`
     @keyframes slideIn {
@@ -61,29 +78,46 @@ import { AuthService } from './services/auth.service';
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
     }
     .app-header {
-      background: linear-gradient(135deg, #1f3c88 0%, #2a5298 100%);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
-      padding: 1rem 2rem;
+      padding: 0.5rem 1.5rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      height: 60px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
     }
     .header-content {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 2rem;
+      width: 100%;
     }
     .header-left {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    .header-left h1 {
+      color: white;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
     }
     .header-right {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       gap: 1rem;
       animation: slideIn 0.4s ease-out;
+      margin-left: auto;
+      flex-shrink: 0;
     }
     .logo {
       width: 48px;
@@ -94,24 +128,10 @@ import { AuthService } from './services/auth.service';
     .logo:hover {
       transform: rotate(5deg) scale(1.05);
     }
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      backdrop-filter: blur(10px);
-      font-size: 0.95rem;
-      font-weight: 500;
+    .user-menu-container {
+      position: relative;
     }
-    .user-icon {
-      font-size: 1.2rem;
-    }
-    .user-name {
-      color: white;
-    }
-    .btn-logout {
+    .btn-user {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -126,24 +146,74 @@ import { AuthService } from './services/auth.service';
       transition: all 0.3s ease;
       backdrop-filter: blur(10px);
     }
-    .btn-logout:hover {
+    .btn-user:hover {
       background: rgba(255, 255, 255, 0.25);
       border-color: rgba(255, 255, 255, 0.5);
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
-    .btn-logout:active {
+    .btn-user:active {
       transform: translateY(0);
     }
-    .logout-icon {
-      font-size: 1.1rem;
+    .user-icon {
+      font-size: 1.2rem;
+    }
+    .user-name {
+      color: white;
+    }
+    .dropdown-arrow {
+      font-size: 0.75rem;
       transition: transform 0.3s ease;
+      margin-left: 0.25rem;
     }
-    .btn-logout:hover .logout-icon {
-      transform: translateX(3px);
+    .user-dropdown {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      min-width: 180px;
+      overflow: hidden;
+      z-index: 1000;
+      animation: slideDown 0.2s ease-out;
     }
-    .logout-text {
-      font-weight: 600;
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.25rem;
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+    .dropdown-item:hover {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+      color: #667eea;
+    }
+    .dropdown-icon {
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+    .dropdown-text {
+      font-weight: 500;
+      flex: 1;
     }
     .main-content {
       flex: 1;
@@ -162,27 +232,174 @@ import { AuthService } from './services/auth.service';
       .user-name {
         display: none;
       }
-      .logout-text {
-        display: none;
-      }
     }
   `]
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private authService = inject(AuthService);
+  
+  isUserMenuOpen = false;
+  showModal = false;
+  isLoggingOut = false;
+  currentPageTitle = 'Dashboard';
+  private routerSubscription?: Subscription;
+
+  constructor() {
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (event: Event) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest('.user-menu-container')) {
+        this.isUserMenuOpen = false;
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    // Set initial page title
+    this.updatePageTitle();
+    
+    // Subscribe to route changes
+    this.routerSubscription = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.updatePageTitle();
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
+  }
+
+  updatePageTitle(): void {
+    const url = this.router.url;
+    this.currentPageTitle = this.getPageTitle();
+  }
+
+  getPageTitle(): string {
+    const url = this.router.url;
+    
+    // Remove query params and hash
+    const path = url.split('?')[0].split('#')[0];
+    
+    // Route to title mapping
+    const routeMap: { [key: string]: string } = {
+      '/dashboard': 'Dashboard',
+      '/profile': 'Profile',
+      '/company-search': 'Company Search',
+      '/masters/company': 'Company Master',
+      '/masters/directors': 'Directors / KMP',
+      '/masters/shareholder': 'Shareholder Master',
+      '/masters/share-certificate': 'Share Certificate',
+      '/masters/debenture-holder': 'Debenture Holder',
+      '/masters/auditor': 'Auditor',
+      '/masters/agendas': 'Agendas',
+      '/masters/shareholder-management': 'Shareholder Management',
+      '/masters/capital/authorized': 'Authorized Capital',
+      '/masters/capital/paid-up': 'Paid-up Capital',
+      '/masters/capital/share': 'Share Capital',
+      '/meetings/board': 'Board Meeting',
+      '/meetings/agm': 'Annual General Meeting',
+      '/meetings/egm': 'Extra Ordinary General Meeting',
+      '/meetings/committee': 'Committee Meeting',
+      '/forms': 'Forms'
+    };
+
+    // Check exact match first
+    if (routeMap[path]) {
+      return routeMap[path];
+    }
+
+    // Check for forms routes
+    if (path.startsWith('/forms/')) {
+      const formPath = path.replace('/forms/', '');
+      if (formPath === '') {
+        return 'Forms';
+      }
+      // Extract form code (e.g., 'adt1', 'ben2')
+      const formCode = formPath.split('/')[0].toUpperCase();
+      // Convert to readable format (e.g., 'ADT-1', 'BEN-2')
+      const formattedCode = formCode.replace(/([A-Z]+)(\d+)/, '$1-$2');
+      return `${formattedCode} Form`;
+    }
+
+    // Check for masters routes
+    if (path.startsWith('/masters/')) {
+      const masterPath = path.replace('/masters/', '');
+      const parts = masterPath.split('/');
+      if (parts.length > 0) {
+        return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1).replace(/-/g, ' ')).join(' / ');
+      }
+      return 'Masters';
+    }
+
+    // Check for meetings routes
+    if (path.startsWith('/meetings/')) {
+      const meetingPath = path.replace('/meetings/', '');
+      const parts = meetingPath.split('/');
+      if (parts.length > 0) {
+        return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1).replace(/-/g, ' ')).join(' / ');
+      }
+      return 'Meetings';
+    }
+
+    // Default fallback
+    return 'Dashboard';
+  }
 
   isAuthPage(): boolean {
     const url = this.router.url;
     return url.includes('/login') || url.includes('/signup');
   }
 
+  isProfilePage(): boolean {
+    return this.router.url.includes('/profile');
+  }
+
   getUserName(): string {
     return this.authService.getUserDisplayName();
   }
 
+  toggleUserMenu(): void {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  handleProfile(): void {
+    this.isUserMenuOpen = false;
+    this.router.navigate(['/profile']);
+  }
+
+  showLogoutModal(): void {
+    this.isUserMenuOpen = false;
+    this.showModal = true;
+  }
+
+  hideLogoutModal(): void {
+    this.showModal = false;
+  }
+
   async handleLogout(): Promise<void> {
-    if (confirm('Are you sure you want to logout?')) {
+    this.isLoggingOut = true;
+    try {
+      // Show loader for at least 500ms for better UX
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Close modal and reset state before navigation
+      this.showModal = false;
+      this.isLoggingOut = false;
+      
+      // Small delay to ensure modal closes smoothly
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Perform logout (clears data and navigates)
+      await this.authService.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Even if there's an error, clear state and redirect
+      this.isLoggingOut = false;
+      this.showModal = false;
       await this.authService.logout();
     }
   }

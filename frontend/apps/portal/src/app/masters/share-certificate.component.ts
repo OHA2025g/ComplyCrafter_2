@@ -33,10 +33,6 @@ interface DematCertificate {
     <div class="share-certificate-container">
       <!-- Header -->
       <div class="page-header">
-        <div class="header-content">
-          <h1>📜 Share Certificate</h1>
-          <p class="subtitle">Manage Physical and Demat share certificates</p>
-        </div>
         <div class="header-actions">
           <button class="btn-outline">✕ Clear Company</button>
           <button class="btn-outline">🔍 Switch Company</button>
@@ -309,14 +305,14 @@ interface DematCertificate {
   styles: [`
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     
-    .share-certificate-container { padding: 2rem; max-width: 1600px; margin: 0 auto; animation: fadeInUp 0.5s ease-out; }
+    .share-certificate-container { padding: 0; max-width: 100%; margin: 0; animation: fadeInUp 0.5s ease-out; }
     
-    .page-header { background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05)); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
-    .header-content h1 { font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0; }
+    .page-header { background: transparent; border-radius: 0; padding: 0 1rem; margin-bottom: 0.75rem; box-shadow: none; display: flex; justify-content: space-between; align-items: center; }
+    .header-content h1 { font-size: 1.75rem; font-weight: 700; color: #333; margin: 0; }
     .subtitle { color: #6c757d; margin: 0.5rem 0 0 0; font-size: 1rem; }
     .header-actions { display: flex; gap: 1rem; }
     
-    .btn-outline { background: transparent; border: 2px solid #667eea; color: #667eea; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
+    .btn-outline { background: transparent; border: none; color: #667eea; padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
     .btn-outline:hover { background: linear-gradient(135deg, #667eea, #764ba2); color: white; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
     
     .tabs-container { margin-bottom: 2rem; }
@@ -326,19 +322,19 @@ interface DematCertificate {
     .tab-button.active { color: #667eea; border-bottom-color: #667eea; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05)); }
     
     .tab-content { animation: fadeInUp 0.4s ease-out; }
-    .content-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .content-card { background: transparent; border-radius: 0; padding: 0 1rem; box-shadow: none; }
     .section-title { font-size: 1.4rem; font-weight: 700; color: #2c3e50; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 2px solid #f0f0f0; }
     
     .filters-row { display: flex; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
     .filter-group { display: flex; align-items: center; gap: 0.75rem; }
     .filter-group label { font-weight: 600; color: #2c3e50; white-space: nowrap; }
-    .filter-select { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1rem; background: #f8f9fa; transition: all 0.3s; min-width: 200px; }
-    .filter-select:focus { outline: none; border-color: #667eea; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
+    .filter-select { padding: 0.75rem 1rem; border: none; border-radius: 10px; font-size: 1rem; background: #f8f9fa; transition: all 0.3s; min-width: 200px; }
+    .filter-select:focus { outline: none; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
     
     .table-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem; flex-wrap: wrap; }
     .left-controls, .right-controls { display: flex; align-items: center; gap: 1rem; }
-    .entries-select { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 0.95rem; background: #f8f9fa; transition: all 0.3s; }
-    .entries-select:focus { outline: none; border-color: #667eea; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
+    .entries-select { padding: 0.75rem 1rem; border: none; border-radius: 10px; font-size: 0.95rem; background: #f8f9fa; transition: all 0.3s; }
+    .entries-select:focus { outline: none; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
     
     .btn-action { padding: 0.75rem 1.5rem; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; white-space: nowrap; }
     .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
@@ -346,17 +342,17 @@ interface DematCertificate {
     
     .search-box { display: flex; align-items: center; gap: 0.5rem; }
     .search-box label { font-weight: 600; color: #2c3e50; }
-    .search-input { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 1rem; background: #f8f9fa; transition: all 0.3s; min-width: 200px; }
-    .search-input:focus { outline: none; border-color: #667eea; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
+    .search-input { padding: 0.75rem 1rem; border: none; border-radius: 10px; font-size: 1rem; background: #f8f9fa; transition: all 0.3s; min-width: 200px; }
+    .search-input:focus { outline: none; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
     
-    .table-wrapper { overflow-x: auto; margin-bottom: 1.5rem; border-radius: 12px; border: 2px solid #f0f0f0; }
-    .data-table { width: 100%; border-collapse: collapse; }
-    .data-table thead { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
-    .data-table th { padding: 1rem; text-align: left; font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
-    .data-table tbody tr { transition: all 0.2s; background: white; }
-    .data-table tbody tr:nth-child(even) { background: #f8f9fa; }
-    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)); transform: scale(1.01); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-    .data-table td { padding: 1rem; border-bottom: 1px solid #e0e0e0; font-size: 0.95rem; }
+    .table-wrapper { overflow-x: auto; margin-bottom: 1.5rem; border-radius: 8px; border: 1px solid #e0e0e0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+    .data-table { width: 100%; border-collapse: collapse; border-radius: 8px; overflow: hidden; }
+    .data-table thead { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+    .data-table th { padding: 1rem; text-align: left; font-weight: 700; font-size: 0.95rem; white-space: nowrap; border-bottom: 2px solid rgba(255, 255, 255, 0.2); }
+    .data-table tbody tr { transition: all 0.2s; background: #ffe5e5; /* Light pink */ }
+    .data-table tbody tr:nth-child(even) { background: #e5f0ff; /* Light blue */ }
+    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12)); transform: scale(1.01); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .data-table td { padding: 1rem; border-bottom: 1px solid rgba(0, 0, 0, 0.05); font-size: 0.95rem; color: #333; }
     
     /* Certificate Type Colors */
     .cert-type-split { background: rgba(255, 82, 82, 0.15) !important; }
@@ -391,7 +387,7 @@ interface DematCertificate {
     .entries-info { color: #6c757d; font-size: 0.95rem; font-weight: 600; }
     
     .pagination { display: flex; gap: 0.5rem; }
-    .page-btn { padding: 0.5rem 0.85rem; border: 2px solid #e0e0e0; background: white; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #667eea; transition: all 0.2s; }
+    .page-btn { padding: 0.5rem 0.85rem; border: none; background: white; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; color: #667eea; transition: all 0.2s; }
     .page-btn:hover:not(:disabled) { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-color: transparent; transform: translateY(-1px); }
     .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .page-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-color: transparent; }

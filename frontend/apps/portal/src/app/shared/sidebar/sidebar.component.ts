@@ -15,10 +15,9 @@ interface MenuItem {
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   template: `
-    <div class="sidebar">
+    <div class="sidebar" [class.collapsed]="isCollapsed">
       <div class="sidebar-header">
         <img src="/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="sidebar-logo" />
-        <h3>Comply Crafter</h3>
       </div>
 
       <nav class="sidebar-nav">
@@ -28,17 +27,17 @@ interface MenuItem {
              routerLinkActive="active"
              class="nav-link">
             <span class="nav-icon">{{ item.icon || '📄' }}</span>
-            <span class="nav-text">{{ item.title }}</span>
+            <span class="nav-text" *ngIf="!isCollapsed">{{ item.title }}</span>
           </a>
 
           <div *ngIf="item.children" class="nav-expandable">
             <div class="nav-link" (click)="toggleItem(item)">
-              <span class="nav-icon">{{ item.icon || '📄' }}</span>
-              <span class="nav-text">{{ item.title }}</span>
-              <span class="nav-arrow">{{ item.expanded ? '▼' : '▶' }}</span>
+            <span class="nav-icon">{{ item.icon || '📄' }}</span>
+            <span class="nav-text" *ngIf="!isCollapsed">{{ item.title }}</span>
+              <span class="nav-arrow" *ngIf="!isCollapsed">{{ item.expanded ? '▼' : '▶' }}</span>
             </div>
 
-            <div class="nav-submenu" [class.expanded]="item.expanded">
+            <div class="nav-submenu" [class.expanded]="item.expanded && !isCollapsed" *ngIf="!isCollapsed">
               <div *ngFor="let child of item.children" class="nav-subitem">
                 <a *ngIf="!child.children && child.route" 
                    [routerLink]="[child.route]"
@@ -86,33 +85,47 @@ interface MenuItem {
           </div>
         </div>
       </nav>
+
+      <button class="toggle-btn" (click)="toggleSidebar()" title="{{ isCollapsed ? 'Expand' : 'Collapse' }}">
+        <span>{{ isCollapsed ? '>>' : '<<' }}</span>
+      </button>
     </div>
   `,
   styles: [`
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .sidebar { width: 260px; height: 100vh; background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%); border-right: 2px solid #e9ecef; overflow-y: auto; box-shadow: 2px 0 12px rgba(0,0,0,0.05); animation: fadeIn 0.3s ease-out; }
+    .sidebar { width: 260px; height: 100vh; background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%); border-right: 2px solid #e9ecef; overflow-y: auto; box-shadow: 2px 0 12px rgba(0,0,0,0.05); animation: fadeIn 0.3s ease-out; transition: width 0.3s ease; position: relative; }
+    .sidebar.collapsed { width: 70px; }
     .sidebar::-webkit-scrollbar { width: 8px; }
     .sidebar::-webkit-scrollbar-track { background: #f8f9fa; }
     .sidebar::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #667eea, #764ba2); border-radius: 4px; }
-    .sidebar-header { padding: 0.9rem 1.5rem; display: flex; align-items: center; gap: 0.85rem; background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)); border-bottom: 2px solid #e9ecef; }
-    .sidebar-logo { width: 44px; height: 44px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1)); transition: transform 0.3s; }
+    .sidebar-header { padding: 0.5rem; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)); border-bottom: 2px solid #e9ecef; height: 60px; min-height: 60px; box-sizing: border-box; }
+    .sidebar.collapsed .sidebar-header { padding: 0.5rem; height: 60px; min-height: 60px; }
+    .sidebar-logo { width: 32px; height: 32px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1)); transition: transform 0.3s; flex-shrink: 0; }
     .sidebar-logo:hover { transform: rotate(5deg) scale(1.05); }
-    .sidebar-header h3 { margin: 0; font-size: 1.3rem; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 800; }
+    .sidebar-header h3 { margin: 0; font-size: 1.3rem; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 800; white-space: nowrap; }
+    .toggle-btn { position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); width: 40px; height: 40px; background: white; border: 2px solid #e9ecef; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; transition: all 0.3s ease; }
+    .sidebar.collapsed .toggle-btn { left: 50%; transform: translateX(-50%); }
+    .toggle-btn:hover { background: #f8f9fa; transform: translateX(-50%) scale(1.1); }
+    .sidebar.collapsed .toggle-btn:hover { transform: translateX(-50%) scale(1.1); }
+    .toggle-btn span { font-size: 1rem; color: #667eea; font-weight: bold; }
     .sidebar-nav { padding: 1rem 0; }
     .nav-item { margin-bottom: 0.35rem; }
     .nav-link { display: flex; align-items: center; padding: 0.85rem 1.5rem; color: #495057; text-decoration: none; cursor: pointer; transition: all 0.25s; font-weight: 600; border-radius: 0 20px 20px 0; margin-right: 0.5rem; position: relative; }
+    .sidebar.collapsed .nav-link { padding: 0.85rem 0.5rem; justify-content: center; }
     .nav-link::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 0; height: 60%; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 0 4px 4px 0; transition: width 0.3s; }
     .nav-link:hover { background: linear-gradient(90deg, rgba(102, 126, 234, 0.08), transparent); color: #667eea; }
     .nav-link:hover::before { width: 4px; }
     .nav-link.active { background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12)); color: #667eea; font-weight: 700; }
     .nav-link.active::before { width: 4px; background: linear-gradient(135deg, #667eea, #764ba2); }
-    .nav-icon { margin-right: 0.85rem; font-size: 1.3rem; transition: transform 0.2s; }
+    .nav-icon { margin-right: 0.85rem; font-size: 1.3rem; transition: transform 0.2s; flex-shrink: 0; }
+    .sidebar.collapsed .nav-icon { margin-right: 0; }
     .nav-link:hover .nav-icon { transform: scale(1.1); }
-    .nav-text { flex: 1; font-weight: 600; }
+    .nav-text { flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; }
     .nav-arrow { font-size: 0.75rem; color: #adb5bd; transition: transform 0.3s, color 0.2s; }
     .nav-link:hover .nav-arrow { color: #667eea; }
     .nav-submenu { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; background: rgba(255,255,255,0.5); border-radius: 0 12px 12px 0; margin-right: 0.5rem; }
     .nav-submenu.expanded { max-height: 2000px; transition: max-height 0.5s ease-in; padding: 0.5rem 0; }
+    .sidebar.collapsed .nav-submenu { display: none !important; }
     .nav-subitem { margin-left: 0.75rem; }
     .nav-sublink { display: block; padding: 0.65rem 1.5rem; color: #495057; text-decoration: none; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; border-radius: 8px; margin: 0.25rem 0.5rem; font-weight: 600; }
     .nav-sublink:hover { background: rgba(102, 126, 234, 0.08); color: #667eea; }
@@ -133,6 +146,20 @@ interface MenuItem {
   `]
 })
 export class SidebarComponent {
+  isCollapsed = true;
+
+  toggleSidebar(): void {
+    this.isCollapsed = !this.isCollapsed;
+    // Collapse all submenus when sidebar is collapsed
+    if (this.isCollapsed) {
+      this.menuItems.forEach(item => {
+        if (item.children) {
+          item.expanded = false;
+        }
+      });
+    }
+  }
+
   menuItems: MenuItem[] = [
     {
       title: 'Dashboard',
@@ -142,26 +169,7 @@ export class SidebarComponent {
     {
       title: 'Masters',
       icon: '👥',
-      expanded: false,
-      children: [
-        { title: 'Company', route: '/masters/company' },
-        { title: 'Directors / KMP', route: '/masters/directors' },
-        { title: 'Shareholder', route: '/masters/shareholder' },
-        { title: 'Share Certificate', route: '/masters/share-certificate' },
-        { title: 'Debenture Holder', route: '/masters/debenture-holder' },
-        { title: 'Auditor', route: '/masters/auditor' },
-        { title: 'Agenda(s)', route: '/masters/agendas' },
-        { title: 'Shareholder Management', route: '/masters/shareholder-management' },
-        {
-          title: 'Capital Structure',
-          expanded: false,
-          children: [
-            { title: 'Authorized Capital', route: '/masters/capital/authorized' },
-            { title: 'Paid-up Capital', route: '/masters/capital/paid-up' },
-            { title: 'Share Capital', route: '/masters/capital/share' }
-          ]
-        }
-      ]
+      route: '/masters'
     },
     {
       title: 'Meeting',

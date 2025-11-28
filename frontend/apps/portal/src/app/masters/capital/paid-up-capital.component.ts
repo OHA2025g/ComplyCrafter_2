@@ -17,10 +17,6 @@ interface PaidUpCapital {
   imports: [CommonModule, FormsModule],
   template: `
     <div class="capital-container">
-      <div class="page-header">
-        <h1>💵 Paid-up Capital</h1>
-        <p class="subtitle">Manage paid-up capital details</p>
-      </div>
       <div class="content-card">
         <div class="table-controls">
           <div class="left-controls">
@@ -58,24 +54,24 @@ interface PaidUpCapital {
   `,
   styles: [`
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .capital-container { padding: 2rem; max-width: 1600px; margin: 0 auto; animation: fadeInUp 0.5s ease-out; }
-    .page-header { background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05)); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
-    .page-header h1 { font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0; }
-    .subtitle { color: #6c757d; margin: 0.5rem 0 0 0; }
-    .content-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-    .table-controls { display: flex; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .capital-container { padding: 0; max-width: 100%; margin: 0; animation: fadeInUp 0.5s ease-out; }
+    .page-header { background: transparent; border-radius: 0; padding: 0 1rem; margin-bottom: 0.75rem; box-shadow: none; }
+    .page-header h1 { font-size: 1.75rem; font-weight: 700; color: #333; margin: 0; }
+    .subtitle { color: #6c757d; margin: 0.25rem 0 0 0; font-size: 0.9rem; }
+    .content-card { background: transparent; border-radius: 0; padding: 0 1rem; box-shadow: none; }
+    .table-controls { display: flex; justify-content: space-between; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.75rem; }
     .left-controls, .right-controls { display: flex; align-items: center; gap: 0.75rem; }
-    .entries-select { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; background: #f8f9fa; }
+    .entries-select { padding: 0.75rem 1rem; border: none; border-radius: 10px; background: #f8f9fa; }
     .entries-label { color: #6c757d; font-weight: 600; }
     .btn-add { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 1.75rem; border-radius: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
-    .search-input { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; background: #f8f9fa; min-width: 200px; }
+    .search-input { padding: 0.75rem 1rem; border: none; border-radius: 10px; background: #f8f9fa; min-width: 200px; }
     .table-wrapper { overflow-x: auto; border-radius: 12px; border: 2px solid #f0f0f0; }
     .data-table { width: 100%; border-collapse: collapse; }
     .data-table thead { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
     .data-table th { padding: 1rem; text-align: left; font-weight: 700; }
-    .data-table tbody tr { background: white; }
-    .data-table tbody tr:nth-child(even) { background: #f8f9fa; }
-    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)); }
+    .data-table tbody tr { background: #ffe5e5; /* Light pink */ }
+    .data-table tbody tr:nth-child(even) { background: #e5f0ff; /* Light blue */ }
+    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12)); transform: scale(1.01); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     .data-table td { padding: 1rem; border-bottom: 1px solid #e0e0e0; }
     .class-badge { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
     .action-cell { text-align: center; }

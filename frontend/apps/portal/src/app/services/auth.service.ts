@@ -73,31 +73,14 @@ export class AuthService {
    * Logout user - clear tokens and redirect to login
    */
   async logout(): Promise<void> {
-    try {
-      // Optionally call backend logout endpoint
-      const token = this.getToken();
-      if (token) {
-        await this.http.post(
-          `${this.API_BASE_URL}/auth/logout`,
-          {},
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          }
-        ).toPromise().catch(() => {
-          // Ignore logout API errors - we'll clear local state anyway
-        });
-      }
-    } catch (e) {
-      console.error('Logout API call failed:', e);
-    } finally {
-      // Always clear local storage/session storage
-      this.clearAuthData();
-      
-      // Redirect to login page
-      this.router.navigate(['/login']);
-    }
+    // Clear local storage/session storage immediately
+    this.clearAuthData();
+    
+    // Small delay to ensure UI updates before navigation
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // Redirect to login page
+    this.router.navigate(['/login']);
   }
 
   /**

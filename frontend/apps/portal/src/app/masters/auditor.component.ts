@@ -21,10 +21,6 @@ interface Auditor {
     <div class="auditor-container">
       <!-- Header -->
       <div class="page-header">
-        <div class="header-content">
-          <h1>👨‍💼 Auditor</h1>
-          <p class="subtitle">Manage auditor information and records</p>
-        </div>
         <div class="header-actions">
           <button class="btn-outline">✕ Clear Company</button>
           <button class="btn-outline">🔍 Switch Company</button>
@@ -191,31 +187,28 @@ interface Auditor {
     }
 
     .auditor-container {
-      padding: 2rem;
-      max-width: 1600px;
-      margin: 0 auto;
+      padding: 0;
+      max-width: 100%;
+      margin: 0;
       animation: fadeInUp 0.5s ease-out;
     }
 
     /* Header Styles */
     .page-header {
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
-      border-radius: 16px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      background: transparent;
+      border-radius: 0;
+      padding: 0 1rem;
+      margin-bottom: 0.75rem;
+      box-shadow: none;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .header-content h1 {
-      font-size: 2.3rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #333;
       margin: 0;
     }
 
@@ -232,7 +225,7 @@ interface Auditor {
 
     .btn-outline {
       background: transparent;
-      border: 2px solid #667eea;
+      border: none;
       color: #667eea;
       padding: 0.75rem 1.5rem;
       border-radius: 12px;
@@ -251,10 +244,10 @@ interface Auditor {
 
     /* Content Card */
     .content-card {
-      background: white;
-      border-radius: 16px;
-      padding: 2rem;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      background: transparent;
+      border-radius: 0;
+      padding: 0 1rem;
+      box-shadow: none;
     }
 
     /* Tabs Container */
@@ -343,7 +336,7 @@ interface Auditor {
 
     .entries-select {
       padding: 0.75rem 1rem;
-      border: 2px solid #e0e0e0;
+      border: none;
       border-radius: 10px;
       font-size: 1rem;
       background: #f8f9fa;
@@ -353,7 +346,6 @@ interface Auditor {
 
     .entries-select:focus {
       outline: none;
-      border-color: #667eea;
       background: white;
       box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
     }
@@ -383,7 +375,7 @@ interface Auditor {
 
     .search-input {
       padding: 0.75rem 1rem;
-      border: 2px solid #e0e0e0;
+      border: none;
       border-radius: 10px;
       font-size: 1rem;
       background: #f8f9fa;
@@ -393,7 +385,6 @@ interface Auditor {
 
     .search-input:focus {
       outline: none;
-      border-color: #667eea;
       background: white;
       box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
     }
@@ -426,17 +417,17 @@ interface Auditor {
 
     .data-table tbody tr {
       transition: all 0.2s;
-      background: white;
+      background: #ffe5e5; /* Light pink */
     }
 
     .data-table tbody tr:nth-child(even) {
-      background: #f8f9fa;
+      background: #e5f0ff; /* Light blue */
     }
 
     .data-table tbody tr:hover {
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12));
       transform: scale(1.01);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .data-table td {
