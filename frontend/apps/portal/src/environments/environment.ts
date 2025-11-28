@@ -1,8 +1,8 @@
-// Development environment
+// Development environment - Local
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:3000/api',
-  gatewayUrl: 'https://localhost:3001',
-  frontendUrl: 'https://localhost:4200',
+  apiUrl: 'http://localhost:8100',
+  gatewayUrl: 'http://localhost:8000',
+  frontendUrl: 'http://localhost:4200'
 };
 
