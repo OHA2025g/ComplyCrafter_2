@@ -135,7 +135,15 @@ interface ShareholderTransaction {
     .status-completed { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; }
     .status-pending { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
     .action-cell { text-align: center; white-space: nowrap; }
-    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 1.3rem; padding: 0.5rem; border-radius: 8px; transition: all 0.2s; margin: 0 0.15rem; }
+    .action-column {
+      text-align: center;
+      white-space: nowrap;
+    }
+    .action-column .action-btn {
+      display: inline-flex;
+      margin: 0 0.25rem;
+    }
+    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 1.3rem; padding: 0.5rem; border-radius: 8px; transition: all 0.2s; margin: 0 0.25rem; display: inline-flex; align-items: center; justify-content: center; }
     .action-btn:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); transform: scale(1.15); }
     .no-data { text-align: center; padding: 3rem !important; color: #6c757d; font-style: italic; font-size: 1.1rem; }
     .table-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 2px solid #f0f0f0; flex-wrap: wrap; gap: 1rem; }

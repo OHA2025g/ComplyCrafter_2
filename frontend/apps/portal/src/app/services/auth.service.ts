@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface User {
@@ -70,17 +71,58 @@ export class AuthService {
   }
 
   /**
+   * Call logout API endpoint
+   * Returns the logout API response with success status
+   */
+  async callLogoutAPI(): Promise<{ message: string; success: boolean }> {
+    const token = this.getToken();
+    let logoutResponse: { message: string; success: boolean } = {
+      message: 'Logged out successfully',
+      success: true
+    };
+    
+    // Try to call backend logout endpoint
+    if (token) {
+      try {
+        const response = await firstValueFrom(
+          this.http.post<{ message: string; success: boolean }>(
+            `${this.API_BASE_URL}/auth/logout`,
+            {},
+            {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            }
+          )
+        );
+        logoutResponse = response;
+      } catch (error) {
+        // Log error but continue with logout process
+        // Logout should work even if backend call fails
+        console.warn('Logout API call failed, continuing with local logout:', error);
+        logoutResponse = {
+          message: 'Logout completed (API call failed)',
+          success: false
+        };
+      }
+    }
+    
+    return logoutResponse;
+  }
+
+  /**
    * Logout user - clear tokens and redirect to login
    */
   async logout(): Promise<void> {
-    // Clear local storage/session storage immediately
+    // Clear local storage/session storage FIRST
     this.clearAuthData();
     
-    // Small delay to ensure UI updates before navigation
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    // Redirect to login page
-    this.router.navigate(['/login']);
+    // Redirect to login page with replaceUrl to replace current route in history
+    // This ensures the dashboard/previous page is completely removed
+    await this.router.navigate(['/login'], {
+      replaceUrl: true,
+      skipLocationChange: false
+    });
   }
 
   /**

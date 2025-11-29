@@ -11550,6 +11550,11 @@
       },
       {
         "source": "portal",
+        "target": "npm:rxjs",
+        "type": "static"
+      },
+      {
+        "source": "portal",
         "target": "npm:@angular/platform-browser",
         "type": "static"
       },
@@ -11566,11 +11571,6 @@
       {
         "source": "portal",
         "target": "ui",
-        "type": "static"
-      },
-      {
-        "source": "portal",
-        "target": "npm:rxjs",
         "type": "static"
       },
       {

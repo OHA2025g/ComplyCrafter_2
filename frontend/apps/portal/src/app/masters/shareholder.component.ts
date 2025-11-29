@@ -177,7 +177,22 @@ interface Shareholder {
     
     .name-cell { font-weight: 600; color: #2c3e50; }
     
-    .action-cell { display: flex; gap: 0.5rem; justify-content: center; }
+    .action-cell { 
+      display: flex; 
+      gap: 0.5rem; 
+      justify-content: center; 
+      white-space: nowrap;
+    }
+    
+    .action-column {
+      text-align: center;
+      white-space: nowrap;
+    }
+    
+    .action-column .action-btn {
+      display: inline-flex;
+      margin: 0 0.25rem;
+    }
     
     .action-btn { background: transparent; border: none; cursor: pointer; padding: 0.5rem; border-radius: 8px; transition: all 0.2s; font-size: 1.2rem; }
     

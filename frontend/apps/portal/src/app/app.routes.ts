@@ -107,7 +107,14 @@ export const APP_ROUTES: Routes = [
     title: 'Share Capital - ComplyCrafter',
     canActivate: [authGuard]
   },
-  // Meeting Routes (Protected)
+  // Meeting Routes (Protected) - Tabbed Interface
+  {
+    path: 'meetings',
+    loadComponent: () => import('./meetings/meetings-container.component').then(m => m.MeetingsContainerComponent),
+    title: 'Meetings - ComplyCrafter',
+    canActivate: [authGuard]
+  },
+  // Keep individual routes for direct navigation (optional - can be removed if not needed)
   {
     path: 'meetings/board',
     loadComponent: () => import('./meetings/board-meeting.component').then(m => m.BoardMeetingComponent),
@@ -138,9 +145,24 @@ export const APP_ROUTES: Routes = [
     title: 'Meetings - ComplyCrafter',
     canActivate: [authGuard]
   },
+  // Forms Routes (Protected) - Tabbed Interface
+  {
+    path: 'forms',
+    loadComponent: () => import('./forms/forms-container.component').then(m => m.FormsContainerComponent),
+    title: 'Forms - ComplyCrafter',
+    canActivate: [authGuard]
+  },
+  // Keep individual form routes for direct navigation
   {
     path: 'forms',
     children: FORMS_ROUTES,
+    canActivate: [authGuard]
+  },
+  // DMS Route (Protected)
+  {
+    path: 'dms',
+    loadComponent: () => import('./dms/dms.component').then(m => m.DMSComponent),
+    title: 'Document Management System - ComplyCrafter',
     canActivate: [authGuard]
   },
   {

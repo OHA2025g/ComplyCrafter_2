@@ -25,6 +25,12 @@ class LoginResponse(BaseModel):
     user: UserPublic
 
 
+# Logout Response Schema
+class LogoutResponse(BaseModel):
+    message: str
+    success: bool = True
+
+
 @router.post("/signup", response_model=UserPublic, status_code=status.HTTP_201_CREATED)
 async def signup(payload: SignupRequest, db: AsyncSession = Depends(get_async_session)) -> UserPublic:
     """
@@ -62,6 +68,20 @@ async def login(payload: LoginRequest, db: AsyncSession = Depends(get_async_sess
         access_token=access_token,
         token_type="bearer",
         user=UserPublic(id=user.id, username=user.username, email=user.email, is_active=user.is_active)
+    )
+
+
+@router.post("/logout", response_model=LogoutResponse)
+async def logout() -> LogoutResponse:
+    """
+    Logout user - invalidate session/token
+    Returns success message
+    """
+    # TODO: When JWT is implemented, add token to blacklist or invalidate session
+    # For now, just return success as token invalidation is handled client-side
+    return LogoutResponse(
+        message="Logged out successfully",
+        success=True
     )
 
 

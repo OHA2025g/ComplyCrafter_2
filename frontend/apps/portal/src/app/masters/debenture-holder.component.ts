@@ -368,6 +368,16 @@ interface DebentureHolder {
       text-align: center;
       white-space: nowrap;
     }
+    
+    .action-column {
+      text-align: center;
+      white-space: nowrap;
+    }
+    
+    .action-column .action-btn {
+      display: inline-flex;
+      margin: 0 0.25rem;
+    }
 
     .action-btn {
       background: transparent;
@@ -512,23 +522,55 @@ interface DebentureHolder {
   `]
 })
 export class DebentureHolderComponent implements OnInit {
-  // Sample Data matching the image
+  // Sample Data
   debentureHolders: DebentureHolder[] = [
     {
       srNo: 1,
-      holderName: 'Shareholder string string',
-      type: 'Shareholder',
-      category: 'Foreign',
-      subCategory: 'Non Institutions',
-      underSubCategory: 'Minor'
+      holderName: 'ABC Financial Services Ltd.',
+      type: 'Institutional',
+      category: 'Indian',
+      subCategory: 'Institutions',
+      underSubCategory: 'Bank'
     },
     {
       srNo: 2,
-      holderName: 'Shareholder string string',
-      type: 'None',
-      category: 'Indian',
+      holderName: 'XYZ Investment Trust',
+      type: 'Institutional',
+      category: 'Foreign',
       subCategory: 'Institutions',
-      underSubCategory: 'Government Company'
+      underSubCategory: 'Foreign Institutional Investor'
+    },
+    {
+      srNo: 3,
+      holderName: 'Rajesh Kumar',
+      type: 'Individual',
+      category: 'Indian',
+      subCategory: 'Non Institutions',
+      underSubCategory: 'Individual'
+    },
+    {
+      srNo: 4,
+      holderName: 'Priya Sharma HUF',
+      type: 'HUF',
+      category: 'Indian',
+      subCategory: 'Non Institutions',
+      underSubCategory: 'HUF'
+    },
+    {
+      srNo: 5,
+      holderName: 'Global Debenture Fund',
+      type: 'Fund',
+      category: 'Foreign',
+      subCategory: 'Institutions',
+      underSubCategory: 'Mutual Fund'
+    },
+    {
+      srNo: 6,
+      holderName: 'Amit Patel',
+      type: 'Individual',
+      category: 'Indian',
+      subCategory: 'Non Institutions',
+      underSubCategory: 'Individual'
     }
   ];
 

@@ -3,13 +3,14 @@ import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { LogoutModalComponent } from './shared/logout-modal/logout-modal.component';
+import { AlertComponent } from './shared/alert/alert.component';
 import { AuthService } from './services/auth.service';
 import { filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, SidebarComponent, LogoutModalComponent],
+  imports: [RouterOutlet, CommonModule, SidebarComponent, LogoutModalComponent, AlertComponent],
   template: `
     <div class="app-layout" *ngIf="!isAuthPage(); else authLayout">
       <app-sidebar></app-sidebar>
@@ -44,10 +45,12 @@ import { filter, Subscription } from 'rxjs';
           <router-outlet></router-outlet>
         </main>
       </div>
+      <app-alert></app-alert>
     </div>
 
     <ng-template #authLayout>
       <router-outlet></router-outlet>
+      <app-alert></app-alert>
     </ng-template>
 
     <app-logout-modal 
@@ -243,6 +246,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showModal = false;
   isLoggingOut = false;
   currentPageTitle = 'Dashboard';
+  isAuthPageRoute = false;
   private routerSubscription?: Subscription;
 
   constructor() {
@@ -256,14 +260,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Set initial page title
+    // Set initial page title and auth page status
     this.updatePageTitle();
+    this.updateAuthPageStatus();
     
     // Subscribe to route changes
     this.routerSubscription = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         this.updatePageTitle();
+        this.updateAuthPageStatus();
       });
   }
 
@@ -300,6 +306,7 @@ export class AppComponent implements OnInit, OnDestroy {
       '/masters/capital/authorized': 'Authorized Capital',
       '/masters/capital/paid-up': 'Paid-up Capital',
       '/masters/capital/share': 'Share Capital',
+      '/meetings': 'Meetings',
       '/meetings/board': 'Board Meeting',
       '/meetings/agm': 'Annual General Meeting',
       '/meetings/egm': 'Extra Ordinary General Meeting',
@@ -336,7 +343,23 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     // Check for meetings routes
-    if (path.startsWith('/meetings/')) {
+    if (path.startsWith('/meetings')) {
+      if (path === '/meetings') {
+        // Get tab from query params if available
+        const url = this.router.url;
+        const urlObj = new URL(url, window.location.origin);
+        const tabParam = urlObj.searchParams.get('tab');
+        if (tabParam) {
+          switch (tabParam) {
+            case 'board': return 'Board Meeting';
+            case 'agm': return 'Annual General Meeting';
+            case 'egm': return 'Extra Ordinary General Meeting';
+            case 'committee': return 'Committee Meeting';
+            default: return 'Meetings';
+          }
+        }
+        return 'Meetings';
+      }
       const meetingPath = path.replace('/meetings/', '');
       const parts = meetingPath.split('/');
       if (parts.length > 0) {
@@ -349,9 +372,13 @@ export class AppComponent implements OnInit, OnDestroy {
     return 'Dashboard';
   }
 
-  isAuthPage(): boolean {
+  updateAuthPageStatus(): void {
     const url = this.router.url;
-    return url.includes('/login') || url.includes('/signup');
+    this.isAuthPageRoute = url.includes('/login') || url.includes('/signup');
+  }
+
+  isAuthPage(): boolean {
+    return this.isAuthPageRoute;
   }
 
   isProfilePage(): boolean {
@@ -383,23 +410,42 @@ export class AppComponent implements OnInit, OnDestroy {
   async handleLogout(): Promise<void> {
     this.isLoggingOut = true;
     try {
-      // Show loader for at least 500ms for better UX
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Call logout API and wait for response
+      const response = await this.authService.callLogoutAPI();
       
-      // Close modal and reset state before navigation
-      this.showModal = false;
-      this.isLoggingOut = false;
-      
-      // Small delay to ensure modal closes smoothly
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      // Perform logout (clears data and navigates)
-      await this.authService.logout();
+      // Check if logout was successful
+      if (response && response.success === true) {
+        // Close loader and modal immediately
+        this.isLoggingOut = false;
+        this.showModal = false;
+        
+        // Update auth page status immediately (before navigation)
+        this.isAuthPageRoute = true;
+        
+        // Perform logout (clears data and navigates) - no delay needed
+        await this.authService.logout();
+      } else {
+        // Even if API says unsuccessful, still close and redirect
+        console.warn('Logout API returned unsuccessful, but continuing with logout');
+        this.isLoggingOut = false;
+        this.showModal = false;
+        
+        // Update auth page status immediately (before navigation)
+        this.isAuthPageRoute = true;
+        
+        // Perform logout (clears data and navigates) - no delay needed
+        await this.authService.logout();
+      }
     } catch (error) {
       console.error('Logout error:', error);
       // Even if there's an error, clear state and redirect
       this.isLoggingOut = false;
       this.showModal = false;
+      
+      // Update auth page status immediately (before navigation)
+      this.isAuthPageRoute = true;
+      
+      // Perform logout (clears data and navigates) - no delay needed
       await this.authService.logout();
     }
   }

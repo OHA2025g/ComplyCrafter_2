@@ -228,7 +228,22 @@ interface Director {
     .status-expired { background: linear-gradient(135deg, #f093fb, #f5576c); }
     .status-inactive { background: linear-gradient(135deg, #ff6b6b, #feca57); }
     
-    .action-cell { display: flex; gap: 0.5rem; justify-content: center; }
+    .action-cell { 
+      display: flex; 
+      gap: 0.5rem; 
+      justify-content: center; 
+      white-space: nowrap;
+    }
+    
+    .action-column {
+      text-align: center;
+      white-space: nowrap;
+    }
+    
+    .action-column .action-btn {
+      display: inline-flex;
+      margin: 0 0.25rem;
+    }
     
     .action-btn { background: transparent; border: none; cursor: pointer; padding: 0.5rem; border-radius: 8px; transition: all 0.2s; font-size: 1.2rem; }
     
@@ -266,17 +281,48 @@ interface Director {
   `]
 })
 export class DirectorsMasterComponent implements OnInit {
-  // Sample data (empty initially like in screenshot)
+  // Sample data
   allData: Director[] = [
-    // Uncomment to add sample data:
-    // {
-    //   id: 1,
-    //   name: 'John Doe',
-    //   contact: '+91 98765 43210',
-    //   dscExpiry: '31-Dec-2025',
-    //   dscStatus: 'Active',
-    //   dinStatus: 'Active'
-    // }
+    {
+      id: 1,
+      name: 'Rajesh Kumar',
+      contact: '+91 98765 43210',
+      dscExpiry: '31-Dec-2025',
+      dscStatus: 'Active',
+      dinStatus: 'Active'
+    },
+    {
+      id: 2,
+      name: 'Priya Sharma',
+      contact: '+91 98765 43211',
+      dscExpiry: '15-Mar-2025',
+      dscStatus: 'Active',
+      dinStatus: 'Active'
+    },
+    {
+      id: 3,
+      name: 'Amit Patel',
+      contact: '+91 98765 43212',
+      dscExpiry: '20-Jan-2025',
+      dscStatus: 'Expired',
+      dinStatus: 'Active'
+    },
+    {
+      id: 4,
+      name: 'Sneha Reddy',
+      contact: '+91 98765 43213',
+      dscExpiry: '30-Jun-2025',
+      dscStatus: 'Active',
+      dinStatus: 'Inactive'
+    },
+    {
+      id: 5,
+      name: 'Vikram Singh',
+      contact: '+91 98765 43214',
+      dscExpiry: '10-Sep-2025',
+      dscStatus: 'Active',
+      dinStatus: 'Active'
+    }
   ];
 
   filteredData: Director[] = [];

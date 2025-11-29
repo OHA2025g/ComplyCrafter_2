@@ -15,7 +15,8 @@ export const TABLE_STYLES = `
   /* Data Table */
   .data-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     font-size: 0.95rem;
     background: white;
     border-radius: 8px;
@@ -28,23 +29,31 @@ export const TABLE_STYLES = `
     color: white;
   }
 
+  .data-table thead tr:first-child th:first-child {
+    border-top-left-radius: 8px;
+  }
+
+  .data-table thead tr:first-child th:last-child {
+    border-top-right-radius: 8px;
+  }
+
   .data-table th {
-    padding: 1rem;
+    padding: 0.65rem 1rem;
     text-align: left;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     white-space: nowrap;
     border-bottom: 2px solid rgba(255, 255, 255, 0.2);
   }
 
-  /* Table Body - Alternating Row Colors */
+  /* Table Body - Alternating Row Colors (Theme Matching) */
   .data-table tbody tr {
     transition: all 0.2s ease;
-    background: #ffe5e5; /* Light pink */
+    background: rgba(102, 126, 234, 0.05); /* Light purple tint */
   }
 
   .data-table tbody tr:nth-child(even) {
-    background: #e5f0ff; /* Light blue */
+    background: rgba(118, 75, 162, 0.05); /* Light purple-blue tint */
   }
 
   .data-table tbody tr:hover {
@@ -54,16 +63,34 @@ export const TABLE_STYLES = `
   }
 
   .data-table td {
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     font-size: 0.95rem;
     color: #333;
+  }
+
+  .data-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 8px;
+  }
+
+  .data-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 8px;
   }
 
   /* Action Buttons */
   .action-cell {
     text-align: center;
     white-space: nowrap;
+  }
+
+  .action-column {
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .action-column .action-btn {
+    display: inline-flex;
+    margin: 0 0.25rem;
   }
 
   .action-btn {

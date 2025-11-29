@@ -486,8 +486,18 @@ import { CompaniesService, Company } from '../services/companies.service';
     }
     
     .action-cell { 
-      text-align: left; 
+      text-align: center; 
       white-space: nowrap; 
+    }
+    
+    .action-column {
+      text-align: center;
+      white-space: nowrap;
+    }
+    
+    .action-column .action-btn {
+      display: inline-flex;
+      margin: 0 0.25rem;
     }
     
     .action-btn { 

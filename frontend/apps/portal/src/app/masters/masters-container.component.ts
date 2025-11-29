@@ -1,6 +1,8 @@
-import { Component, OnInit, AfterViewInit, inject, ViewContainerRef, ComponentRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, ViewContainerRef, ComponentRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 interface MasterTab {
   id: string;
@@ -133,7 +135,7 @@ interface MasterTab {
     }
   `]
 })
-export class MastersContainerComponent implements OnInit, AfterViewInit {
+export class MastersContainerComponent implements OnInit, AfterViewInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -141,6 +143,7 @@ export class MastersContainerComponent implements OnInit, AfterViewInit {
 
   activeTab = 'company';
   private currentComponentRef: ComponentRef<any> | null = null;
+  private routeSubscription?: Subscription;
 
   masterTabs: MasterTab[] = [
     {
@@ -198,12 +201,40 @@ export class MastersContainerComponent implements OnInit, AfterViewInit {
       if (tab) {
         this.activeTab = tab.id;
       }
+    } else {
+      // Default to company tab if no tab parameter is provided
+      this.activeTab = 'company';
     }
+
+    // Subscribe to route query parameter changes
+    this.routeSubscription = this.route.queryParams
+      .pipe(filter(params => params['tab']))
+      .subscribe(params => {
+        const tabParam = params['tab'];
+        const tab = this.masterTabs.find(t => t.id === tabParam);
+        if (tab && this.activeTab !== tab.id) {
+          this.activeTab = tab.id;
+          this.loadComponent(tab.id);
+        }
+      });
   }
 
   ngAfterViewInit() {
     // Load the initial component after view is initialized
     this.loadComponent(this.activeTab);
+  }
+
+  ngOnDestroy() {
+    // Clean up subscription
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+    
+    // Clean up component reference
+    if (this.currentComponentRef) {
+      this.currentComponentRef.destroy();
+      this.currentComponentRef = null;
+    }
   }
 
   getActiveTabTitle(): string {

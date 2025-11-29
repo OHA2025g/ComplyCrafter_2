@@ -367,7 +367,15 @@ interface DematCertificate {
     .cert-type-duplicate:hover { background: rgba(155, 89, 182, 0.25) !important; }
     
     .action-cell { text-align: center; white-space: nowrap; }
-    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 1.3rem; padding: 0.5rem; border-radius: 8px; transition: all 0.2s; }
+    .action-column {
+      text-align: center;
+      white-space: nowrap;
+    }
+    .action-column .action-btn {
+      display: inline-flex;
+      margin: 0 0.25rem;
+    }
+    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 1.3rem; padding: 0.5rem; border-radius: 8px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; }
     .action-btn:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); transform: scale(1.15); }
     
     .status-badge { padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }

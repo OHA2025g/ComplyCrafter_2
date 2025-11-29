@@ -441,6 +441,16 @@ interface Auditor {
       text-align: center;
       white-space: nowrap;
     }
+    
+    .action-column {
+      text-align: center;
+      white-space: nowrap;
+    }
+    
+    .action-column .action-btn {
+      display: inline-flex;
+      margin: 0 0.25rem;
+    }
 
     .action-btn {
       background: transparent;
@@ -645,34 +655,61 @@ export class AuditorComponent implements OnInit {
       phoneNo: 'fk proprieto number',
       type: 'auditor'
     },
-    // Secretarial Auditors Tab (sample data)
+    // Secretarial Auditors Tab
     {
       srNo: 1,
-      firmName: 'Secretarial Firm A',
-      auditorName: 'Secretarial Partner A',
-      address: 'Secretarial Address A',
-      email: 'secretarial.a@example.com',
-      phoneNo: '9876543210',
+      firmName: 'ABC Secretarial Services',
+      auditorName: 'Rajesh Kumar',
+      address: '123 Corporate Tower, Mumbai - 400001',
+      email: 'abc.secretarial@example.com',
+      phoneNo: '+91 98765 43210',
       type: 'secretarial'
     },
-    // Cost Auditors Tab (sample data)
+    {
+      srNo: 2,
+      firmName: 'XYZ Compliance Advisors',
+      auditorName: 'Priya Sharma',
+      address: '456 Business Park, Delhi - 110001',
+      email: 'xyz.compliance@example.com',
+      phoneNo: '+91 98765 43211',
+      type: 'secretarial'
+    },
+    // Cost Auditors Tab
     {
       srNo: 1,
-      firmName: 'Cost Audit Firm B',
-      auditorName: 'Cost Auditor B',
-      address: 'Cost Address B',
-      email: 'cost.b@example.com',
-      phoneNo: '8765432109',
+      firmName: 'Cost Audit Associates',
+      auditorName: 'Amit Patel',
+      address: '789 Financial District, Bangalore - 560001',
+      email: 'cost.audit@example.com',
+      phoneNo: '+91 98765 43212',
       type: 'cost'
     },
-    // Internal Auditors Tab (sample data)
+    {
+      srNo: 2,
+      firmName: 'Strategic Cost Consultants',
+      auditorName: 'Sneha Reddy',
+      address: '321 Commerce Street, Hyderabad - 500001',
+      email: 'strategic.cost@example.com',
+      phoneNo: '+91 98765 43213',
+      type: 'cost'
+    },
+    // Internal Auditors Tab
     {
       srNo: 1,
-      firmName: 'Internal Audit Firm C',
-      auditorName: 'Internal Auditor C',
-      address: 'Internal Address C',
-      email: 'internal.c@example.com',
-      phoneNo: '7654321098',
+      firmName: 'Internal Audit Solutions',
+      auditorName: 'Vikram Singh',
+      address: '654 Audit Plaza, Pune - 411001',
+      email: 'internal.audit@example.com',
+      phoneNo: '+91 98765 43214',
+      type: 'internal'
+    },
+    {
+      srNo: 2,
+      firmName: 'Risk & Compliance Partners',
+      auditorName: 'Anjali Mehta',
+      address: '987 Governance Center, Chennai - 600001',
+      email: 'risk.compliance@example.com',
+      phoneNo: '+91 98765 43215',
       type: 'internal'
     }
   ];

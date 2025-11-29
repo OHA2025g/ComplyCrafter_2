@@ -1,40 +1,18 @@
 {
   "run": {
-    "command": "nx build portal",
-    "startTime": "2025-11-05T16:37:58.501Z",
-    "endTime": "2025-11-05T16:38:10.578Z",
+    "command": "nx serve portal",
+    "startTime": "2025-11-28T16:54:09.586Z",
+    "endTime": "2025-11-29T11:10:49.989Z",
     "inner": false
   },
   "tasks": [
     {
-      "taskId": "ui:build",
-      "target": "build",
-      "projectName": "ui",
-      "hash": "13806139830542738438",
-      "startTime": "2025-11-05T16:37:58.508Z",
-      "endTime": "2025-11-05T16:37:59.855Z",
-      "params": "",
-      "cacheStatus": "cache-miss",
-      "status": 0
-    },
-    {
-      "taskId": "data-access:build",
-      "target": "build",
-      "projectName": "data-access",
-      "hash": "17623931180845521639",
-      "startTime": "2025-11-05T16:37:58.508Z",
-      "endTime": "2025-11-05T16:37:59.914Z",
-      "params": "",
-      "cacheStatus": "cache-miss",
-      "status": 0
-    },
-    {
-      "taskId": "portal:build",
-      "target": "build",
+      "taskId": "portal:serve",
+      "target": "serve",
       "projectName": "portal",
-      "hash": "17182026819302894303",
-      "startTime": "2025-11-05T16:37:59.915Z",
-      "endTime": "2025-11-05T16:38:10.578Z",
+      "hash": "7630988057002122529",
+      "startTime": "2025-11-28T16:54:09.665Z",
+      "endTime": "2025-11-29T11:10:49.947Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0

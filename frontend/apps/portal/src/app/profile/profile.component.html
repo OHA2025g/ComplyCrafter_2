@@ -1,0 +1,703 @@
+<div class="profile-container">
+  <!-- User Information Card with Navigation -->
+  <div class="user-info-card">
+    <div class="user-info-top">
+      <div class="user-avatar">
+        <div class="avatar-circle">
+          <span class="avatar-logo">CC</span>
+        </div>
+      </div>
+      <div class="user-contact">
+        <div class="contact-item">
+          <span class="contact-icon">✉</span>
+          <span class="contact-text">{{ user?.email || 'user@example.com' }}</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📞</span>
+          <span class="contact-text">{{ phoneNumber || '9000001111' }}</span>
+        </div>
+      </div>
+    </div>
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'general'"
+        (click)="activeTab = 'general'">
+        General Info
+      </button>
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'Account'"
+        (click)="setActiveTab('Account')">
+        Account Settings
+      </button>
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'Preferences'"
+        (click)="setActiveTab('Preferences')">
+        My Preferences
+      </button>
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'Files'"
+        (click)="setActiveTab('Files')">
+        Files
+      </button>
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'Subscription'"
+        (click)="setActiveTab('Subscription')">
+        Subscription
+      </button>
+    </div>
+  </div>
+
+  <!-- General Info Section -->
+  <div *ngIf="activeTab === 'general'">
+    <h2 class="card-title">General Info</h2>
+    <div class="content-section">
+      <div class="section-header-with-action">
+        <div class="action-buttons">
+          <div class="menu-container" *ngIf="!isEditingGeneralInfo">
+            <button class="btn-menu" (click)="toggleMenu('general'); $event.stopPropagation()" title="Menu">
+              <span class="menu-icon">⋯</span>
+            </button>
+            <div class="menu-dropdown" *ngIf="openMenu === 'general'" (click)="$event.stopPropagation()">
+              <button class="menu-item" (click)="enableEditMode(); closeMenu()">
+                <span class="menu-item-icon">✏️</span>
+                <span>Edit Details</span>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="isEditingGeneralInfo" class="edit-mode-buttons">
+            <button class="btn-back" (click)="cancelEdit()" title="Back to View">
+              <span>Back</span>
+            </button>
+            <button class="btn-cancel" (click)="cancelEdit()" title="Cancel">
+              <span>Cancel</span>
+            </button>
+            <button class="btn-save" (click)="saveProfile()" [disabled]="isSaving">
+              <span>{{ isSaving ? 'Saving...' : 'Save' }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    
+    <!-- Informative View (Read-only display with inline edit) -->
+    <div class="info-display" *ngIf="!isEditingGeneralInfo">
+      <div class="info-row" (mouseenter)="hoveredField = 'firstName'" (mouseleave)="hoveredField = null">
+        <span class="info-label">First Name :</span>
+        <span class="info-value" *ngIf="editingField !== 'firstName'">
+          {{ firstName || '—' }}
+          <button class="inline-edit-btn" *ngIf="hoveredField === 'firstName'" (click)="startInlineEdit('firstName')" title="Edit">
+            <span class="edit-icon-small">✏️</span>
+          </button>
+        </span>
+        <div class="inline-edit-container" *ngIf="editingField === 'firstName'">
+          <input type="text" [(ngModel)]="firstName" class="inline-input" (blur)="saveInlineField('firstName')" (keyup.enter)="saveInlineField('firstName')" (keyup.escape)="cancelInlineEdit('firstName')" #firstNameInput />
+          <div class="inline-edit-actions">
+            <button class="inline-save-btn" (click)="saveInlineField('firstName')" title="Save">✓</button>
+            <button class="inline-cancel-btn" (click)="cancelInlineEdit('firstName')" title="Cancel">✕</button>
+          </div>
+        </div>
+      </div>
+      <div class="info-row" (mouseenter)="hoveredField = 'lastName'" (mouseleave)="hoveredField = null">
+        <span class="info-label">Last Name :</span>
+        <span class="info-value" *ngIf="editingField !== 'lastName'">
+          {{ lastName || '—' }}
+          <button class="inline-edit-btn" *ngIf="hoveredField === 'lastName'" (click)="startInlineEdit('lastName')" title="Edit">
+            <span class="edit-icon-small">✏️</span>
+          </button>
+        </span>
+        <div class="inline-edit-container" *ngIf="editingField === 'lastName'">
+          <input type="text" [(ngModel)]="lastName" class="inline-input" (blur)="saveInlineField('lastName')" (keyup.enter)="saveInlineField('lastName')" (keyup.escape)="cancelInlineEdit('lastName')" #lastNameInput />
+          <div class="inline-edit-actions">
+            <button class="inline-save-btn" (click)="saveInlineField('lastName')" title="Save">✓</button>
+            <button class="inline-cancel-btn" (click)="cancelInlineEdit('lastName')" title="Cancel">✕</button>
+          </div>
+        </div>
+      </div>
+      <div class="info-row" (mouseenter)="hoveredField = 'mailingAddress'" (mouseleave)="hoveredField = null">
+        <span class="info-label">Mailing Address :</span>
+        <span class="info-value" *ngIf="editingField !== 'mailingAddress'">
+          {{ mailingAddress || '—' }}
+          <button class="inline-edit-btn" *ngIf="hoveredField === 'mailingAddress'" (click)="startInlineEdit('mailingAddress')" title="Edit">
+            <span class="edit-icon-small">✏️</span>
+          </button>
+        </span>
+        <div class="inline-edit-container" *ngIf="editingField === 'mailingAddress'">
+          <input type="text" [(ngModel)]="mailingAddress" class="inline-input" (blur)="saveInlineField('mailingAddress')" (keyup.enter)="saveInlineField('mailingAddress')" (keyup.escape)="cancelInlineEdit('mailingAddress')" #mailingAddressInput />
+          <div class="inline-edit-actions">
+            <button class="inline-save-btn" (click)="saveInlineField('mailingAddress')" title="Save">✓</button>
+            <button class="inline-cancel-btn" (click)="cancelInlineEdit('mailingAddress')" title="Cancel">✕</button>
+          </div>
+        </div>
+      </div>
+      <div class="info-row" (mouseenter)="hoveredField = 'alternativeAddress'" (mouseleave)="hoveredField = null">
+        <span class="info-label">Alternative Address :</span>
+        <span class="info-value" *ngIf="editingField !== 'alternativeAddress'">
+          {{ alternativeAddress || '—' }}
+          <button class="inline-edit-btn" *ngIf="hoveredField === 'alternativeAddress'" (click)="startInlineEdit('alternativeAddress')" title="Edit">
+            <span class="edit-icon-small">✏️</span>
+          </button>
+        </span>
+        <div class="inline-edit-container" *ngIf="editingField === 'alternativeAddress'">
+          <input type="text" [(ngModel)]="alternativeAddress" class="inline-input" (blur)="saveInlineField('alternativeAddress')" (keyup.enter)="saveInlineField('alternativeAddress')" (keyup.escape)="cancelInlineEdit('alternativeAddress')" #alternativeAddressInput />
+          <div class="inline-edit-actions">
+            <button class="inline-save-btn" (click)="saveInlineField('alternativeAddress')" title="Save">✓</button>
+            <button class="inline-cancel-btn" (click)="cancelInlineEdit('alternativeAddress')" title="Cancel">✕</button>
+          </div>
+        </div>
+      </div>
+      <div class="info-row" (mouseenter)="hoveredField = 'phoneNumber'" (mouseleave)="hoveredField = null">
+        <span class="info-label">Phone :</span>
+        <span class="info-value" *ngIf="editingField !== 'phoneNumber'">
+          {{ phoneNumber || '—' }}
+          <button class="inline-edit-btn" *ngIf="hoveredField === 'phoneNumber'" (click)="startInlineEdit('phoneNumber')" title="Edit">
+            <span class="edit-icon-small">✏️</span>
+          </button>
+        </span>
+        <div class="inline-edit-container" *ngIf="editingField === 'phoneNumber'">
+          <input type="text" [(ngModel)]="phoneNumber" class="inline-input" (blur)="saveInlineField('phoneNumber')" (keyup.enter)="saveInlineField('phoneNumber')" (keyup.escape)="cancelInlineEdit('phoneNumber')" #phoneNumberInput />
+          <div class="inline-edit-actions">
+            <button class="inline-save-btn" (click)="saveInlineField('phoneNumber')" title="Save">✓</button>
+            <button class="inline-cancel-btn" (click)="cancelInlineEdit('phoneNumber')" title="Cancel">✕</button>
+          </div>
+        </div>
+      </div>
+      <div class="info-row" (mouseenter)="hoveredField = 'alternativePhone'" (mouseleave)="hoveredField = null">
+        <span class="info-label">Alternative Phone :</span>
+        <span class="info-value" *ngIf="editingField !== 'alternativePhone'">
+          {{ alternativePhone || '—' }}
+          <button class="inline-edit-btn" *ngIf="hoveredField === 'alternativePhone'" (click)="startInlineEdit('alternativePhone')" title="Edit">
+            <span class="edit-icon-small">✏️</span>
+          </button>
+        </span>
+        <div class="inline-edit-container" *ngIf="editingField === 'alternativePhone'">
+          <input type="text" [(ngModel)]="alternativePhone" class="inline-input" (blur)="saveInlineField('alternativePhone')" (keyup.enter)="saveInlineField('alternativePhone')" (keyup.escape)="cancelInlineEdit('alternativePhone')" #alternativePhoneInput />
+          <div class="inline-edit-actions">
+            <button class="inline-save-btn" (click)="saveInlineField('alternativePhone')" title="Save">✓</button>
+            <button class="inline-cancel-btn" (click)="cancelInlineEdit('alternativePhone')" title="Cancel">✕</button>
+          </div>
+        </div>
+      </div>
+      <div class="info-row" (mouseenter)="hoveredField = 'dateOfBirth'" (mouseleave)="hoveredField = null">
+        <span class="info-label">Date of Birth :</span>
+        <span class="info-value" *ngIf="editingField !== 'dateOfBirth'">
+          {{ formatDate(dateOfBirth) || '—' }}
+          <button class="inline-edit-btn" *ngIf="hoveredField === 'dateOfBirth'" (click)="startInlineEdit('dateOfBirth')" title="Edit">
+            <span class="edit-icon-small">✏️</span>
+          </button>
+        </span>
+        <div class="inline-edit-container" *ngIf="editingField === 'dateOfBirth'">
+          <input type="date" [(ngModel)]="dateOfBirth" class="inline-input" (blur)="saveInlineField('dateOfBirth')" (keyup.enter)="saveInlineField('dateOfBirth')" (keyup.escape)="cancelInlineEdit('dateOfBirth')" #dateOfBirthInput />
+          <div class="inline-edit-actions">
+            <button class="inline-save-btn" (click)="saveInlineField('dateOfBirth')" title="Save">✓</button>
+            <button class="inline-cancel-btn" (click)="cancelInlineEdit('dateOfBirth')" title="Cancel">✕</button>
+          </div>
+        </div>
+      </div>
+      <div class="info-row" (mouseenter)="hoveredField = 'gstNumber'" (mouseleave)="hoveredField = null">
+        <span class="info-label">GST Number :</span>
+        <span class="info-value" *ngIf="editingField !== 'gstNumber'">
+          {{ gstNumber || '—' }}
+          <button class="inline-edit-btn" *ngIf="hoveredField === 'gstNumber'" (click)="startInlineEdit('gstNumber')" title="Edit">
+            <span class="edit-icon-small">✏️</span>
+          </button>
+        </span>
+        <div class="inline-edit-container" *ngIf="editingField === 'gstNumber'">
+          <input type="text" [(ngModel)]="gstNumber" class="inline-input" (blur)="saveInlineField('gstNumber')" (keyup.enter)="saveInlineField('gstNumber')" (keyup.escape)="cancelInlineEdit('gstNumber')" #gstNumberInput />
+          <div class="inline-edit-actions">
+            <button class="inline-save-btn" (click)="saveInlineField('gstNumber')" title="Save">✓</button>
+            <button class="inline-cancel-btn" (click)="cancelInlineEdit('gstNumber')" title="Cancel">✕</button>
+          </div>
+        </div>
+      </div>
+      <div class="info-row" (mouseenter)="hoveredField = 'gender'" (mouseleave)="hoveredField = null">
+        <span class="info-label">Gender :</span>
+        <span class="info-value" *ngIf="editingField !== 'gender'">
+          {{ gender || '—' }}
+          <button class="inline-edit-btn" *ngIf="hoveredField === 'gender'" (click)="startInlineEdit('gender')" title="Edit">
+            <span class="edit-icon-small">✏️</span>
+          </button>
+        </span>
+        <div class="inline-edit-container" *ngIf="editingField === 'gender'">
+          <select [(ngModel)]="gender" class="inline-input" (blur)="saveInlineField('gender')" (keyup.escape)="cancelInlineEdit('gender')" #genderInput>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <div class="inline-edit-actions">
+            <button class="inline-save-btn" (click)="saveInlineField('gender')" title="Save">✓</button>
+            <button class="inline-cancel-btn" (click)="cancelInlineEdit('gender')" title="Cancel">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Edit Mode (Form inputs) -->
+    <div class="form-fields" *ngIf="isEditingGeneralInfo">
+      <div class="form-field">
+        <label>First name</label>
+        <input 
+          type="text" 
+          [(ngModel)]="firstName" 
+          placeholder="Enter first name" />
+      </div>
+      <div class="form-field">
+        <label>Last name</label>
+        <input 
+          type="text" 
+          [(ngModel)]="lastName" 
+          placeholder="Enter last name" />
+      </div>
+      <div class="form-field">
+        <label>Mailing address</label>
+        <input 
+          type="text" 
+          [(ngModel)]="mailingAddress" 
+          placeholder="Enter mailing address" />
+      </div>
+      <div class="form-field">
+        <label>Alternative address</label>
+        <input 
+          type="text" 
+          [(ngModel)]="alternativeAddress" 
+          placeholder="Enter alternative address" />
+      </div>
+      <div class="form-field">
+        <label>Phone</label>
+        <input 
+          type="text" 
+          [(ngModel)]="phoneNumber" 
+          placeholder="Enter phone number" />
+      </div>
+      <div class="form-field">
+        <label>Alternative phone</label>
+        <input 
+          type="text" 
+          [(ngModel)]="alternativePhone" 
+          placeholder="Enter alternative phone" />
+      </div>
+      <div class="form-field">
+        <label>Date of birth</label>
+        <input 
+          type="date" 
+          [(ngModel)]="dateOfBirth" />
+      </div>
+      <div class="form-field">
+        <label>GST Number</label>
+        <input 
+          type="text" 
+          [(ngModel)]="gstNumber" 
+          placeholder="Enter GST number" />
+      </div>
+      <div class="form-field form-field-gender">
+        <label>Gender</label>
+        <div class="radio-group">
+          <label class="radio-label">
+            <input 
+              type="radio" 
+              name="gender" 
+              value="Male" 
+              [(ngModel)]="gender" />
+            <span>Male</span>
+          </label>
+          <label class="radio-label">
+            <input 
+              type="radio" 
+              name="gender" 
+              value="Female" 
+              [(ngModel)]="gender" />
+            <span>Female</span>
+          </label>
+          <label class="radio-label">
+            <input 
+              type="radio" 
+              name="gender" 
+              value="Other" 
+              [(ngModel)]="gender" />
+            <span>Other</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Account Settings Section -->
+<div *ngIf="activeTab === 'Account'">
+  <h2 class="card-title">Account Settings</h2>
+  <div class="content-section">
+    <div class="section-header-with-action">
+      <div class="action-buttons">
+        <div class="menu-container" *ngIf="!isEditingAccountSettings">
+          <button class="btn-menu" (click)="toggleMenu('account'); $event.stopPropagation()" title="Menu">
+            <span class="menu-icon">⋯</span>
+          </button>
+          <div class="menu-dropdown" *ngIf="openMenu === 'account'" (click)="$event.stopPropagation()">
+            <button class="menu-item" (click)="enableAccountEditMode(); closeMenu()">
+              <span class="menu-item-icon">✏️</span>
+              <span>Edit Details</span>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="isEditingAccountSettings" class="edit-mode-buttons">
+          <button class="btn-back" (click)="cancelAccountEdit()" title="Back to View">
+            <span>Back</span>
+          </button>
+          <button class="btn-cancel" (click)="cancelAccountEdit()" title="Cancel">
+            <span>Cancel</span>
+          </button>
+          <button class="btn-save" (click)="saveAccountSettings()" [disabled]="isSaving">
+            <span>{{ isSaving ? 'Saving...' : 'Save' }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+  <!-- Informative View (Read-only display) -->
+  <div class="info-display" *ngIf="!isEditingAccountSettings">
+    <div class="info-row" (mouseenter)="hoveredField = 'email'" (mouseleave)="hoveredField = null">
+      <span class="info-label">Email :</span>
+      <span class="info-value" *ngIf="editingField !== 'email'">
+        {{ user?.email || '—' }}
+        <button class="inline-edit-btn" *ngIf="hoveredField === 'email' && false" (click)="startInlineEdit('email')" title="Edit" disabled>
+          <span class="edit-icon-small">✏️</span>
+        </button>
+      </span>
+    </div>
+    <div class="info-row" (mouseenter)="hoveredField = 'password'" (mouseleave)="hoveredField = null">
+      <span class="info-label">Password :</span>
+      <span class="info-value" *ngIf="editingField !== 'password'">
+        {{ password ? '••••••••' : '—' }}
+        <button class="inline-edit-btn" *ngIf="hoveredField === 'password'" (click)="startInlineEdit('password')" title="Edit">
+          <span class="edit-icon-small">✏️</span>
+        </button>
+      </span>
+      <div class="inline-edit-container" *ngIf="editingField === 'password'">
+        <input type="password" [(ngModel)]="password" class="inline-input" (blur)="saveInlineField('password')" (keyup.enter)="saveInlineField('password')" (keyup.escape)="cancelInlineEdit('password')" placeholder="Enter password" />
+        <div class="inline-edit-actions">
+          <button class="inline-save-btn" (click)="saveInlineField('password')" title="Save">✓</button>
+          <button class="inline-cancel-btn" (click)="cancelInlineEdit('password')" title="Cancel">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Role :</span>
+      <span class="info-value">CompanyAdmin</span>
+    </div>
+  </div>
+  
+  <!-- Edit Mode (Form inputs) -->
+  <div class="form-fields" *ngIf="isEditingAccountSettings">
+    <div class="form-field">
+      <label>Email</label>
+      <input type="text" [value]="user?.email || ''" readonly class="readonly-field" />
+    </div>
+    <div class="form-field">
+      <label>Password</label>
+      <input type="password" [(ngModel)]="password" placeholder="Password" />
+    </div>
+    <div class="form-field">
+      <label>Retype password</label>
+      <input type="password" [(ngModel)]="retypePassword" placeholder="Retype password" />
+    </div>
+    <div class="form-field">
+      <label>Role</label>
+      <input type="text" value="CompanyAdmin" readonly class="readonly-field" />
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- My Preferences Section -->
+<div *ngIf="activeTab === 'Preferences'">
+  <h2 class="card-title">My Preferences</h2>
+  <div class="content-section">
+    <div class="section-header-with-action">
+      <div class="action-buttons">
+        <div class="menu-container" *ngIf="!isEditingPreferences">
+          <button class="btn-menu" (click)="toggleMenu('preferences'); $event.stopPropagation()" title="Menu">
+            <span class="menu-icon">⋯</span>
+          </button>
+          <div class="menu-dropdown" *ngIf="openMenu === 'preferences'" (click)="$event.stopPropagation()">
+            <button class="menu-item" (click)="enablePreferencesEditMode(); closeMenu()">
+              <span class="menu-item-icon">✏️</span>
+              <span>Edit Details</span>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="isEditingPreferences" class="edit-mode-buttons">
+          <button class="btn-back" (click)="cancelPreferencesEdit()" title="Back to View">
+            <span>Back</span>
+          </button>
+          <button class="btn-cancel" (click)="cancelPreferencesEdit()" title="Cancel">
+            <span>Cancel</span>
+          </button>
+          <button class="btn-save" (click)="savePreferences()" [disabled]="isSaving">
+            <span>{{ isSaving ? 'Saving...' : 'Save' }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+  <!-- Informative View (Read-only display) -->
+  <div class="info-display" *ngIf="!isEditingPreferences">
+    <div class="info-row" (mouseenter)="hoveredField = 'enableWebNotification'" (mouseleave)="hoveredField = null">
+      <span class="info-label">Enable Web Notification :</span>
+      <span class="info-value" *ngIf="editingField !== 'enableWebNotification'">
+        {{ enableWebNotification === 'yes' ? 'Yes' : 'No' }}
+        <button class="inline-edit-btn" *ngIf="hoveredField === 'enableWebNotification'" (click)="startInlineEdit('enableWebNotification')" title="Edit">
+          <span class="edit-icon-small">✏️</span>
+        </button>
+      </span>
+      <div class="inline-edit-container" *ngIf="editingField === 'enableWebNotification'">
+        <select [(ngModel)]="enableWebNotification" class="inline-input" (blur)="saveInlineField('enableWebNotification')" (keyup.escape)="cancelInlineEdit('enableWebNotification')">
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        <div class="inline-edit-actions">
+          <button class="inline-save-btn" (click)="saveInlineField('enableWebNotification')" title="Save">✓</button>
+          <button class="inline-cancel-btn" (click)="cancelInlineEdit('enableWebNotification')" title="Cancel">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="info-row" (mouseenter)="hoveredField = 'enableEmailNotification'" (mouseleave)="hoveredField = null">
+      <span class="info-label">Enable Email Notification :</span>
+      <span class="info-value" *ngIf="editingField !== 'enableEmailNotification'">
+        {{ enableEmailNotification === 'yes' ? 'Yes' : 'No' }}
+        <button class="inline-edit-btn" *ngIf="hoveredField === 'enableEmailNotification'" (click)="startInlineEdit('enableEmailNotification')" title="Edit">
+          <span class="edit-icon-small">✏️</span>
+        </button>
+      </span>
+      <div class="inline-edit-container" *ngIf="editingField === 'enableEmailNotification'">
+        <select [(ngModel)]="enableEmailNotification" class="inline-input" (blur)="saveInlineField('enableEmailNotification')" (keyup.escape)="cancelInlineEdit('enableEmailNotification')">
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+        <div class="inline-edit-actions">
+          <button class="inline-save-btn" (click)="saveInlineField('enableEmailNotification')" title="Save">✓</button>
+          <button class="inline-cancel-btn" (click)="cancelInlineEdit('enableEmailNotification')" title="Cancel">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="info-row" (mouseenter)="hoveredField = 'language'" (mouseleave)="hoveredField = null">
+      <span class="info-label">Language :</span>
+      <span class="info-value" *ngIf="editingField !== 'language'">
+        {{ language === 'english' ? 'English' : 'Hindi' }}
+        <button class="inline-edit-btn" *ngIf="hoveredField === 'language'" (click)="startInlineEdit('language')" title="Edit">
+          <span class="edit-icon-small">✏️</span>
+        </button>
+      </span>
+      <div class="inline-edit-container" *ngIf="editingField === 'language'">
+        <select [(ngModel)]="language" class="inline-input" (blur)="saveInlineField('language')" (keyup.escape)="cancelInlineEdit('language')">
+          <option value="english">English</option>
+          <option value="hindi">Hindi</option>
+        </select>
+        <div class="inline-edit-actions">
+          <button class="inline-save-btn" (click)="saveInlineField('language')" title="Save">✓</button>
+          <button class="inline-cancel-btn" (click)="cancelInlineEdit('language')" title="Cancel">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="info-row" (mouseenter)="hoveredField = 'hiddenTopbarMenus'" (mouseleave)="hoveredField = null">
+      <span class="info-label">Hide Menus From Topbar :</span>
+      <span class="info-value" *ngIf="editingField !== 'hiddenTopbarMenus'">
+        {{ hiddenTopbarMenus || '—' }}
+        <button class="inline-edit-btn" *ngIf="hoveredField === 'hiddenTopbarMenus'" (click)="startInlineEdit('hiddenTopbarMenus')" title="Edit">
+          <span class="edit-icon-small">✏️</span>
+        </button>
+      </span>
+      <div class="inline-edit-container" *ngIf="editingField === 'hiddenTopbarMenus'">
+        <input type="text" [(ngModel)]="hiddenTopbarMenus" class="inline-input" (blur)="saveInlineField('hiddenTopbarMenus')" (keyup.enter)="saveInlineField('hiddenTopbarMenus')" (keyup.escape)="cancelInlineEdit('hiddenTopbarMenus')" placeholder="Hidden topbar menus" />
+        <div class="inline-edit-actions">
+          <button class="inline-save-btn" (click)="saveInlineField('hiddenTopbarMenus')" title="Save">✓</button>
+          <button class="inline-cancel-btn" (click)="cancelInlineEdit('hiddenTopbarMenus')" title="Cancel">✕</button>
+        </div>
+      </div>
+    </div>
+    <div class="info-row" (mouseenter)="hoveredField = 'disableKeyboardShortcuts'" (mouseleave)="hoveredField = null">
+      <span class="info-label">Disable Keyboard Shortcuts :</span>
+      <span class="info-value" *ngIf="editingField !== 'disableKeyboardShortcuts'">
+        {{ disableKeyboardShortcuts === 'yes' ? 'Yes' : 'No' }}
+        <button class="inline-edit-btn" *ngIf="hoveredField === 'disableKeyboardShortcuts'" (click)="startInlineEdit('disableKeyboardShortcuts')" title="Edit">
+          <span class="edit-icon-small">✏️</span>
+        </button>
+      </span>
+      <div class="inline-edit-container" *ngIf="editingField === 'disableKeyboardShortcuts'">
+        <select [(ngModel)]="disableKeyboardShortcuts" class="inline-input" (blur)="saveInlineField('disableKeyboardShortcuts')" (keyup.escape)="cancelInlineEdit('disableKeyboardShortcuts')">
+          <option value="no">No</option>
+          <option value="yes">Yes</option>
+        </select>
+        <div class="inline-edit-actions">
+          <button class="inline-save-btn" (click)="saveInlineField('disableKeyboardShortcuts')" title="Save">✓</button>
+          <button class="inline-cancel-btn" (click)="cancelInlineEdit('disableKeyboardShortcuts')" title="Cancel">✕</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Edit Mode (Form inputs) -->
+  <div class="form-fields" *ngIf="isEditingPreferences">
+    <div class="form-field">
+      <label>Enable web notification</label>
+      <select [(ngModel)]="enableWebNotification">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>Enable email notification</label>
+      <select [(ngModel)]="enableEmailNotification">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>Language</label>
+      <select [(ngModel)]="language">
+        <option value="english">English</option>
+        <option value="hindi">Hindi</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label>Hide menus from topbar</label>
+      <input type="text" [(ngModel)]="hiddenTopbarMenus" placeholder="Hidden topbar menus" />
+    </div>
+    <div class="form-field form-field-with-info">
+      <div class="label-with-info">
+        <label>Disable keyboard shortcuts</label>
+        <button class="info-icon" title="Information about keyboard shortcuts">ℹ</button>
+      </div>
+      <select [(ngModel)]="disableKeyboardShortcuts">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+      </select>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Files Section -->
+<div *ngIf="activeTab === 'Files'">
+  <h2 class="card-title">Files</h2>
+  <div class="content-section">
+    <div class="section-header">
+      <button class="btn-add" (click)="addFiles()">
+        <span>+ Add files</span>
+      </button>
+    </div>
+    <div class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>File</th>
+          <th>Size</th>
+          <th>Uploaded by</th>
+          <th>Created date</th>
+          <th class="action-column">
+            <span class="menu-icon">☰</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="6" class="no-data">No record found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+<!-- Subscription Section -->
+<div *ngIf="activeTab === 'Subscription'">
+  <h2 class="card-title">Subscription</h2>
+  <div class="content-section">
+    <!-- Subscription History -->
+    <div class="subscription-section">
+    <button class="btn-purchase" (click)="purchasePlan()">
+      <span>+ Purchase Plan?</span>
+    </button>
+    <h3 class="subsection-title">Subscription History</h3>
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Plan Name</th>
+            <th>Expires in Days</th>
+            <th>Total Entities</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Amount Paid</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="8" class="no-data">No record found.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+
+    <!-- Subscription Users -->
+    <div class="subscription-section">
+    <h3 class="subsection-title">
+      <span class="icon">👥</span>
+      Subscription Users
+    </h3>
+    
+    <!-- Admin Section -->
+    <div class="user-section">
+      <h4 class="user-section-title">
+        <span class="icon">👤</span>
+        Admin
+      </h4>
+      <div class="admin-field">
+        <input type="text" [value]="user?.email || 'dt34@gmail.com'" readonly class="readonly-field" />
+        <span class="badge-admin">Admin</span>
+      </div>
+    </div>
+
+    <!-- Sub-Users Section -->
+    <div class="user-section">
+      <div class="user-section-header">
+        <h4 class="user-section-title">
+          <span class="icon">👤</span>
+          Sub-Users
+        </h4>
+        <button class="btn-add-subuser" (click)="addSubUser()">
+          <span>Add Sub User?</span>
+        </button>
+      </div>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>User Name</th>
+              <th>Email</th>
+              <th>Mobile</th>
+              <th>Created Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="6" class="no-data">No record found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+</div>
+
