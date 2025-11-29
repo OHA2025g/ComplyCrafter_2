@@ -1,15 +1,17 @@
-import { Component, inject } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { AuthService } from './services/auth.service';
+import { filter, startWith } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, CommonModule, SidebarComponent],
   template: `
-    <div class="app-layout" *ngIf="!isAuthPage(); else authLayout">
+    <div class="app-layout" *ngIf="!isAuthView; else authLayout">
       <app-sidebar></app-sidebar>
       <div class="main-container">
         <header class="app-header">
@@ -171,10 +173,22 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
+  private destroyRef = inject(DestroyRef);
 
-  isAuthPage(): boolean {
-    const url = this.router.url;
-    return url.includes('/login') || url.includes('/signup');
+  authRoutes = ['/login', '/signup', '/forgot-password', '/reset-password'];
+  isAuthView = false;
+
+  constructor() {
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        startWith(new NavigationEnd(0, this.router.url, this.router.url)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(event => {
+        const currentUrl = event.urlAfterRedirects || this.router.url || '';
+        this.isAuthView = this.authRoutes.some(route => currentUrl.startsWith(route));
+      });
   }
 
   getUserName(): string {

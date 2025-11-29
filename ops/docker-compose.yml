@@ -1,3 +1,102 @@
+# services:
+#   frontend:
+#     build: ../frontend
+#     command: npm run start
+#     ports:
+#       - "4200:4200"
+#     volumes:
+#       - ../frontend:/usr/src/app
+#       - /usr/src/app/node_modules
+#     environment:
+#       - NX_DEVDATA=1
+#     depends_on:
+#       - gateway
+
+#   gateway:
+#     build:
+#       context: ..
+#       dockerfile: services/gateway/Dockerfile
+#     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+#     ports:
+#       - "8000:8000"
+#     volumes:
+#       - ../services/gateway:/app
+#       - ../libs:/app/libs
+#     environment:
+#       - DATABASE_URL=postgresql+asyncpg://comply:comply@db:5432/comply
+#       - AUTH_ISSUER=http://keycloak:8080/realms/comply
+#       - FORMS_BASE_URL=http://forms:8100
+#       - PYTHONPATH=/app:/app/libs
+#     depends_on:
+#       - db
+#       - forms
+
+#   forms:
+#     build:
+#       context: ..
+#       dockerfile: services/forms/Dockerfile
+#     command: uvicorn app.main:app --host 0.0.0.0 --port 8100 --reload
+#     volumes:
+#       - ../services/forms:/app
+#       - ../libs:/app/libs
+#     environment:
+#       - DATABASE_URL=postgresql+asyncpg://comply:comply@db:5432/comply
+#       - PYTHONPATH=/app:/app/libs
+#       - FRONTEND_BASE_URL=http://localhost:4200
+#     ports:
+#       - "8100:8100"
+#     depends_on:
+#       - db
+
+#   db:
+#     image: postgres:15
+#     environment:
+#       - POSTGRES_USER=comply
+#       - POSTGRES_PASSWORD=comply
+#       - POSTGRES_DB=comply
+#     ports:
+#       - "5433:5432"
+#     volumes:
+#       - db-data:/var/lib/postgresql/data
+
+#   redis:
+#     image: redis:7
+#     ports:
+#       - "6379:6379"
+
+#   keycloak:
+#     image: quay.io/keycloak/keycloak:23.0
+#     command: start-dev --http-port=8080
+#     environment:
+#       - KEYCLOAK_ADMIN=admin
+#       - KEYCLOAK_ADMIN_PASSWORD=admin
+#     ports:
+#       - "8080:8080"
+
+#   mca-cache-updater:
+#     image: python:3.11-slim
+#     working_dir: /app
+#     command: >
+#       bash -c "
+#         apt-get update && apt-get install -y postgresql-client &&
+#         pip install httpx sqlalchemy asyncpg schedule aiofiles &&
+#         python mca_cache_updater.py
+#       "
+#     environment:
+#       - DATABASE_URL=postgresql+asyncpg://comply:comply@db:5432/comply
+#       - PYTHONUNBUFFERED=1
+#       - PYTHONPATH=/app
+#     volumes:
+#       - ../services/forms/app/jobs:/app
+#       - ../services/forms/app/services:/app/services
+#       - mca-cache-logs:/app/logs
+#     depends_on:
+#       - db
+#     restart: always
+
+# volumes:
+#   db-data:
+#   mca-cache-logs:
 services:
   frontend:
     build: ../frontend
@@ -27,6 +126,18 @@ services:
       - AUTH_ISSUER=http://keycloak:8080/realms/comply
       - FORMS_BASE_URL=http://forms:8100
       - PYTHONPATH=/app:/app/libs
+      # --------------------------
+      # Gmail SMTP Configuration
+      # --------------------------
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USER=anshulgeed18@gmail.com
+      - SMTP_USERNAME=anshulgeed18@gmail.com
+      - SMTP_PASS=muqqbfmapcsprjjc
+      - SMTP_PASSWORD=muqqbfmapcsprjjc
+      - FROM_EMAIL=anshulgeed18@gmail.com
+      - SMTP_SECURE=false
+      - SMTP_USE_TLS=true
     depends_on:
       - db
       - forms
@@ -42,6 +153,19 @@ services:
     environment:
       - DATABASE_URL=postgresql+asyncpg://comply:comply@db:5432/comply
       - PYTHONPATH=/app:/app/libs
+      - FRONTEND_BASE_URL=http://localhost:4200
+      # --------------------------
+      # Gmail SMTP Configuration
+      # --------------------------
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USER=anshulgeed18@gmail.com
+      - SMTP_USERNAME=anshulgeed18@gmail.com
+      - SMTP_PASS=muqqbfmapcsprjjc
+      - SMTP_PASSWORD=muqqbfmapcsprjjc
+      - FROM_EMAIL=anshulgeed18@gmail.com
+      - SMTP_SECURE=false
+      - SMTP_USE_TLS=true
     ports:
       - "8100:8100"
     depends_on:
@@ -54,7 +178,7 @@ services:
       - POSTGRES_PASSWORD=comply
       - POSTGRES_DB=comply
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
 
