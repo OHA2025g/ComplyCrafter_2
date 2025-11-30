@@ -172,6 +172,12 @@ export const APP_ROUTES: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'access-control',
+    loadComponent: () => import('./access-control/access-control.component').then(m => m.AccessControlComponent),
+    title: 'Access Control - ComplyCrafter',
+    canActivate: [authGuard]
+  },
+  {
     path: '**',
     redirectTo: 'login'
   }

@@ -206,6 +206,11 @@ export class SidebarComponent {
       title: 'DMS',
       route: '/dms',
       icon: '🗂️'
+    },
+    {
+      title: 'Access Control',
+      route: '/access-control',
+      icon: '🔐'
     }
   ];
 
