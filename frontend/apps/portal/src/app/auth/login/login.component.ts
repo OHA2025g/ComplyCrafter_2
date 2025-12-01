@@ -28,18 +28,22 @@ import { environment } from '../../../environments/environment';
         </div>
 
         <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
-          <div class="form-group" [class.has-error]="f['username'].invalid && f['username'].touched">
-            <label for="username">
-              <span class="icon">👤</span>
-              Username or Email
+          <div class="form-group" [class.has-error]="f['email'].invalid && f['email'].touched">
+            <label for="email">
+              <span class="icon">📧</span>
+              Email
             </label>
             <input 
-              type="text" 
-              id="username" 
-              formControlName="username"
-              placeholder="Enter your username or email"
+              type="email" 
+              id="email" 
+              formControlName="email"
+              placeholder="Enter your email"
             />
             <div class="input-underline"></div>
+            <div *ngIf="f['email'].invalid && f['email'].touched" class="error-message">
+              <span class="error-icon">⚠️</span>
+              Please enter a valid email address
+            </div>
           </div>
 
           <div class="form-group" [class.has-error]="f['password'].invalid && f['password'].touched">
@@ -52,8 +56,37 @@ import { environment } from '../../../environments/environment';
               id="password" 
               formControlName="password"
               placeholder="Enter your password"
+              (input)="onPasswordInput()"
             />
             <div class="input-underline"></div>
+            <div *ngIf="f['password'].invalid && f['password'].touched && !useCcpin" class="error-message">
+              <span class="error-icon">⚠️</span>
+              Password is required
+            </div>
+          </div>
+
+          <div class="divider-small">
+            <span>OR</span>
+          </div>
+
+          <div class="form-group" [class.has-error]="f['ccpin'].invalid && f['ccpin'].touched">
+            <label for="ccpin">
+              <span class="icon">🔑</span>
+              CC PIN
+            </label>
+            <input 
+              type="password" 
+              id="ccpin" 
+              formControlName="ccpin"
+              placeholder="Enter 4-digit CC PIN"
+              maxlength="4"
+              (input)="onCcpinInput()"
+            />
+            <div class="input-underline"></div>
+            <div *ngIf="f['ccpin'].invalid && f['ccpin'].touched && useCcpin" class="error-message">
+              <span class="error-icon">⚠️</span>
+              CC PIN must be exactly 4 digits
+            </div>
           </div>
 
           <div class="form-options">
@@ -62,7 +95,7 @@ import { environment } from '../../../environments/environment';
               <span class="checkmark"></span>
               <span>Remember me</span>
             </label>
-            <a href="#" class="forgot-password">Forgot password?</a>
+            <a [routerLink]="['/forgot-password']" class="forgot-password">Forgot password?</a>
           </div>
 
           <button 
@@ -238,6 +271,9 @@ import { environment } from '../../../environments/environment';
     .alert-error { padding: 1rem; background: #fff5f5; border: 1px solid #ffdddd; border-left: 4px solid #ff4444; border-radius: 8px; color: #cc0000; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; animation: fadeInUp 0.3s ease-out; }
     .error-icon { font-size: 1.2rem; }
     .divider { position: relative; text-align: center; margin: 1.5rem 0; }
+    .divider-small { position: relative; text-align: center; margin: 0.5rem 0; }
+    .divider-small::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #e0e0e0; }
+    .divider-small span { position: relative; background: rgba(255, 255, 255, 0.95); padding: 0 1rem; color: #999; font-size: 0.75rem; font-weight: 500; }
     .divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #e0e0e0; }
     .divider span { position: relative; background: rgba(255, 255, 255, 0.95); padding: 0 1rem; color: #999; font-size: 0.85rem; font-weight: 500; }
     .signup-link { text-align: center; color: #666; font-size: 0.95rem; }
@@ -253,20 +289,56 @@ export class LoginComponent {
   private readonly authService = inject(AuthService);
 
   form: FormGroup = this.fb.group({
-    username: [null, [Validators.required]],
-    password: [null, [Validators.required, Validators.minLength(8)]],
+    email: [null, [Validators.required, Validators.email]],
+    password: [null],
+    ccpin: [null],
     rememberMe: [false]
   });
 
   submitting = false;
   error?: string;
+  useCcpin = false;
 
   private readonly API_BASE_URL = environment.apiUrl;
 
   get f() { return this.form.controls; }
 
+  onPasswordInput(): void {
+    if (this.form.value.password) {
+      this.useCcpin = false;
+      this.form.patchValue({ ccpin: null });
+      this.f['ccpin'].clearValidators();
+      this.f['ccpin'].updateValueAndValidity();
+      this.f['password'].setValidators([Validators.required, Validators.minLength(8)]);
+      this.f['password'].updateValueAndValidity();
+    }
+  }
+
+  onCcpinInput(): void {
+    const value = this.form.value.ccpin?.replace(/\D/g, '') || '';
+    this.form.patchValue({ ccpin: value }, { emitEvent: false });
+    
+    if (value.length > 0) {
+      this.useCcpin = true;
+      this.form.patchValue({ password: null });
+      this.f['password'].clearValidators();
+      this.f['password'].updateValueAndValidity();
+      this.f['ccpin'].setValidators([Validators.required, Validators.pattern(/^\d{4}$/)]);
+      this.f['ccpin'].updateValueAndValidity();
+    }
+  }
+
   async submit(): Promise<void> {
-    if (this.form.invalid) {
+    const hasPassword = this.form.value.password && this.form.value.password.length > 0;
+    const hasCcpin = this.form.value.ccpin && this.form.value.ccpin.length === 4;
+
+    if (!hasPassword && !hasCcpin) {
+      this.error = 'Please enter either password or CC PIN';
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    if (this.f['email'].invalid) {
       this.form.markAllAsTouched();
       return;
     }
@@ -275,18 +347,25 @@ export class LoginComponent {
     this.error = undefined;
 
     try {
+      const loginData: any = {
+        email: this.form.value.email
+      };
+
+      if (hasPassword) {
+        loginData.password = this.form.value.password;
+      } else if (hasCcpin) {
+        loginData.ccpin = this.form.value.ccpin;
+      }
+
       const response: any = await this.http.post(
         `${this.API_BASE_URL}/auth/login`,
-        {
-          username: this.form.value.username,
-          password: this.form.value.password
-        }
+        loginData
       ).toPromise();
 
       // Store authentication data using AuthService
       if (response.access_token) {
         const user = response.user || {
-          username: this.form.value.username
+          username: this.form.value.email
         };
         
         this.authService.storeAuthData(

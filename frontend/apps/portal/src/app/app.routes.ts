@@ -22,6 +22,18 @@ export const APP_ROUTES: Routes = [
     canActivate: [guestGuard]  // Redirect to dashboard if already logged in
   },
   {
+    path: 'forgot-password',
+    loadComponent: () => import('./auth/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent),
+    title: 'Forgot Password - ComplyCrafter',
+    canActivate: [guestGuard]
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./auth/reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
+    title: 'Reset Password - ComplyCrafter',
+    canActivate: [guestGuard]
+  },
+  {
     path: 'signup',
     loadComponent: () => import('./auth/signup/signup.component').then(m => m.SignupComponent),
     title: 'Signup - ComplyCrafter',

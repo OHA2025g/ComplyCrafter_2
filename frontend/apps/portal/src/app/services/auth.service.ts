@@ -121,5 +121,25 @@ export class AuthService {
     }
     localStorage.setItem('user', JSON.stringify(user));
   }
+
+  /**
+   * Initiate forgot password flow.
+   */
+  requestPasswordReset(email: string) {
+    return this.http.post<{ message: string }>(
+      `${this.API_BASE_URL}/auth/forgot-password`,
+      { email }
+    ).toPromise();
+  }
+
+  /**
+   * Submit a new password using the reset token.
+   */
+  resetPassword(token: string, password: string) {
+    return this.http.post<{ message: string }>(
+      `${this.API_BASE_URL}/auth/reset-password`,
+      { token, password }
+    ).toPromise();
+  }
 }
 
