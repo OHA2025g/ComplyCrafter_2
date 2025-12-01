@@ -1,6 +1,8 @@
-import { Component, OnInit, AfterViewInit, inject, ViewContainerRef, ComponentRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterViewChecked, OnDestroy, inject, ViewContainerRef, ComponentRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 interface CapitalTab {
   id: string;
@@ -72,14 +74,17 @@ interface CapitalTab {
     }
   `]
 })
-export class CapitalStructureComponent implements OnInit, AfterViewInit {
+export class CapitalStructureComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private cdr = inject(ChangeDetectorRef);
 
   @ViewChild('contentContainer', { read: ViewContainerRef }) contentContainer!: ViewContainerRef;
+  private componentLoaded = false;
 
   activeTab = 'authorized';
   private currentComponentRef: ComponentRef<any> | null = null;
+  private routeSubscription?: Subscription;
 
   capitalTabs: CapitalTab[] = [
     {
@@ -100,42 +105,123 @@ export class CapitalStructureComponent implements OnInit, AfterViewInit {
   ];
 
   ngOnInit() {
-    const tabParam = this.route.snapshot.queryParams['capitalTab'];
-    if (tabParam) {
-      const tab = this.capitalTabs.find(t => t.id === tabParam);
+    console.log('CapitalStructureComponent ngOnInit - queryParams:', this.route.snapshot.queryParams);
+    
+    // Check for subTab query param (from sidebar navigation)
+    const subTabParam = this.route.snapshot.queryParams['subTab'];
+    if (subTabParam) {
+      const tab = this.capitalTabs.find(t => t.id === subTabParam);
       if (tab) {
         this.activeTab = tab.id;
+        console.log('Set activeTab from subTab param:', this.activeTab);
+      }
+    } else {
+      // Check for capitalTab (legacy support)
+      const tabParam = this.route.snapshot.queryParams['capitalTab'];
+      if (tabParam) {
+        const tab = this.capitalTabs.find(t => t.id === tabParam);
+        if (tab) {
+          this.activeTab = tab.id;
+          console.log('Set activeTab from capitalTab param:', this.activeTab);
+        }
+      } else {
+        // Default to authorized if no param
+        this.activeTab = 'authorized';
+        console.log('No subTab param found, defaulting to authorized');
       }
     }
+
+    // Subscribe to route query parameter changes
+    this.routeSubscription = this.route.queryParams.subscribe(params => {
+      console.log('Route query params changed:', params);
+      const subTabParam = params['subTab'];
+      if (subTabParam) {
+        const tab = this.capitalTabs.find(t => t.id === subTabParam);
+        if (tab) {
+          if (this.activeTab !== tab.id) {
+            this.activeTab = tab.id;
+            // Wait for contentContainer to be available
+            if (this.contentContainer) {
+              this.loadComponent(tab.id);
+            } else {
+              // Retry after a short delay
+              setTimeout(() => {
+                if (this.contentContainer) {
+                  this.loadComponent(tab.id);
+                }
+              }, 100);
+            }
+          }
+        }
+      }
+    });
   }
 
   ngAfterViewInit() {
-    this.loadComponent(this.activeTab);
+    // Use requestAnimationFrame to ensure ViewChild is fully initialized
+    requestAnimationFrame(() => {
+      if (this.contentContainer && !this.componentLoaded) {
+        this.loadComponent(this.activeTab);
+        this.componentLoaded = true;
+      }
+    });
+  }
+
+  ngAfterViewChecked() {
+    // Fallback: if component wasn't loaded in AfterViewInit, try again
+    if (this.contentContainer && !this.componentLoaded) {
+      this.loadComponent(this.activeTab);
+      this.componentLoaded = true;
+      this.cdr.detectChanges();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+    if (this.currentComponentRef) {
+      this.currentComponentRef.destroy();
+    }
   }
 
   async selectTab(tab: CapitalTab) {
+    if (this.activeTab === tab.id) return; // Prevent reloading if same tab
+    
     this.activeTab = tab.id;
     await this.loadComponent(tab.id);
     
+    // Update URL with subTab query param
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { capitalTab: tab.id },
-      queryParamsHandling: 'merge'
+      queryParams: { tab: 'capital-structure', subTab: tab.id },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
     });
   }
 
   async loadComponent(tabId: string) {
     const tab = this.capitalTabs.find(t => t.id === tabId);
-    if (!tab) return;
+    if (!tab) {
+      console.warn(`Capital tab not found: ${tabId}`);
+      return;
+    }
 
+    // Wait for contentContainer to be available
+    if (!this.contentContainer) {
+      console.warn('ContentContainer not available yet, retrying...');
+      setTimeout(() => this.loadComponent(tabId), 100);
+      return;
+    }
+
+    // Clean up existing component
     if (this.currentComponentRef) {
       this.currentComponentRef.destroy();
       this.currentComponentRef = null;
     }
 
-    if (this.contentContainer) {
-      this.contentContainer.clear();
-    }
+    // Clear the container
+    this.contentContainer.clear();
 
     try {
       let componentClass: any;
@@ -153,10 +239,16 @@ export class CapitalStructureComponent implements OnInit, AfterViewInit {
           const shareCapitalModule = await import('./share-capital.component');
           componentClass = shareCapitalModule.ShareCapitalComponent;
           break;
+        default:
+          console.warn(`Unknown tab ID: ${tabId}`);
+          return;
       }
 
       if (componentClass && this.contentContainer) {
         this.currentComponentRef = this.contentContainer.createComponent(componentClass);
+        console.log(`Successfully loaded capital component: ${tabId}`);
+      } else {
+        console.error(`Failed to load component class for tab: ${tabId}`);
       }
     } catch (error) {
       console.error(`Error loading capital component for tab ${tabId}:`, error);

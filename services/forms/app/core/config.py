@@ -15,6 +15,11 @@ class Settings(BaseSettings):
     api_prefix: str = "/api/v1"
     debug: bool = False
     
+    # JWT Settings
+    secret_key: str = "your-secret-key-change-in-production-use-env-var"
+    jwt_algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
+    
     # CORS Settings
     # Allow common local dev variants (http/https on ports 4200, 3000, 8000, 8001)
     cors_origins: str = (

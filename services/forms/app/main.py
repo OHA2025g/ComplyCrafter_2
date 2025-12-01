@@ -52,6 +52,10 @@ app.include_router(ndh2.router)
 # Auth routes (signup, login, etc.)
 app.include_router(auth_routes.router)
 
+# Role management routes
+from app.api.routes import roles as roles_routes
+app.include_router(roles_routes.router)
+
 # MCA company search routes
 app.include_router(mca.router)
 # Note: companies_router moved to separate companies.py module for better organization

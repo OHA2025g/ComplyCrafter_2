@@ -85,7 +85,10 @@ interface UserRolesResponse {
 
         <!-- Users -->
         <div class="card-wrapper">
-          <h3 class="subsection-title">Users & Role Assignment</h3>
+          <div class="section-header">
+            <h3 class="subsection-title">Users & Role Assignment</h3>
+            <button class="btn-create-role" (click)="openCreateRoleModal()">+ Create User</button>
+          </div>
           <section class="content-section users-section">
             <div class="pagination-header">
               <label class="pagination-label">Show:</label>

@@ -11540,12 +11540,12 @@
       },
       {
         "source": "portal",
-        "target": "npm:@angular/router",
+        "target": "npm:@angular/common",
         "type": "static"
       },
       {
         "source": "portal",
-        "target": "npm:@angular/common",
+        "target": "npm:@angular/forms",
         "type": "static"
       },
       {
@@ -11555,12 +11555,12 @@
       },
       {
         "source": "portal",
-        "target": "npm:@angular/platform-browser",
+        "target": "npm:@angular/router",
         "type": "static"
       },
       {
         "source": "portal",
-        "target": "npm:@angular/forms",
+        "target": "npm:@angular/platform-browser",
         "type": "static"
       },
       {

@@ -282,10 +282,12 @@ export class AppComponent implements OnInit, OnDestroy {
   updatePageTitle(): void {
     const url = this.router.url;
     this.currentPageTitle = this.getPageTitle();
+    console.log(this.currentPageTitle);
   }
 
   getPageTitle(): string {
     const url = this.router.url;
+    console.log('Current URL:', this.router.url);
     
     // Remove query params and hash
     const path = url.split('?')[0].split('#')[0];
@@ -296,12 +298,15 @@ export class AppComponent implements OnInit, OnDestroy {
       '/profile': 'Profile',
       '/company-search': 'Company Search',
       '/masters/company': 'Company Master',
+      '/company': 'Company Master',
+      '/masters': 'Master/Company',
       '/masters/directors': 'Directors / KMP',
       '/masters/shareholder': 'Shareholder Master',
       '/masters/share-certificate': 'Share Certificate',
       '/masters/debenture-holder': 'Debenture Holder',
       '/masters/auditor': 'Auditor',
       '/masters/agendas': 'Agendas',
+      '/masters/capital-structure': 'Capital Structure',
       '/masters/shareholder-management': 'Shareholder Management',
       '/masters/capital/authorized': 'Authorized Capital',
       '/masters/capital/paid-up': 'Paid-up Capital',
@@ -311,13 +316,15 @@ export class AppComponent implements OnInit, OnDestroy {
       '/meetings/agm': 'Annual General Meeting',
       '/meetings/egm': 'Extra Ordinary General Meeting',
       '/meetings/committee': 'Committee Meeting',
-      '/forms': 'Forms'
+      '/forms': 'Forms',
+      '/access-control': 'Access Control'
     };
 
     // Check exact match first
-    if (routeMap[path]) {
-      return routeMap[path];
-    }
+    // if (routeMap[path]) {
+    //   console.log('Exact route match found:', path);
+    //   return routeMap[path];
+    // }
 
     // Check for forms routes
     if (path.startsWith('/forms/')) {
@@ -331,13 +338,58 @@ export class AppComponent implements OnInit, OnDestroy {
       const formattedCode = formCode.replace(/([A-Z]+)(\d+)/, '$1-$2');
       return `${formattedCode} Form`;
     }
-
+console.log('Path after forms check:', path);
     // Check for masters routes
-    if (path.startsWith('/masters/')) {
-      const masterPath = path.replace('/masters/', '');
-      const parts = masterPath.split('/');
-      if (parts.length > 0) {
-        return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1).replace(/-/g, ' ')).join(' / ');
+    if (path.startsWith('/masters')) {
+      console.log('Masters path detected:', path);
+      // Check if it's /masters with query params (tab navigation)
+      if (path === '/masters') {
+        const url = this.router.url;
+        const urlObj = new URL(url, window.location.origin);
+        const tabParam = urlObj.searchParams.get('tab');
+        const subTabParam = urlObj.searchParams.get('subTab');
+        
+        if (tabParam) {
+          // Map tab names to display titles
+          const tabTitleMap: { [key: string]: string } = {
+            'company': 'Company',
+            'directors': 'Directors / KMP',
+            'shareholder': 'Shareholder',
+            'share-certificate': 'Share Certificate',
+            'debenture-holder': 'Debenture Holder',
+            'auditor': 'Auditor',
+            'agendas': 'Agenda(s)',
+            'shareholder-management': 'Shareholder Management',
+            'capital-structure': 'Capital Structure'
+          };
+          
+          const title = tabTitleMap[tabParam] || tabParam.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+          
+          // Handle nested tabs (e.g., Capital Structure sub-tabs)
+          if (tabParam === 'capital-structure' && subTabParam) {
+            const subTabTitleMap: { [key: string]: string } = {
+              'authorized': 'Authorized Capital',
+              'paid-up': 'Paid-up Capital',
+              'share': 'Share Capital'
+            };
+            const subTabTitle = subTabTitleMap[subTabParam] || subTabParam.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+            console.log('Masters nested tab title:', `Masters / ${title} / ${subTabTitle}`);
+            return `Masters / ${title} / ${subTabTitle}`;
+          }
+          
+          console.log('Masters tab title:', title);
+          return `Masters / ${title}`;
+        }
+        return 'Masters';
+      }
+      // Handle /masters/company style routes
+      if (path.startsWith('/masters/')) {
+        const masterPath = path.replace('/masters/', '');
+        const parts = masterPath.split('/');
+        if (parts.length > 0) {
+          return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1).replace(/-/g, ' ')).join(' / ');
+        }
+        return 'Masters';
       }
       return 'Masters';
     }
@@ -361,6 +413,7 @@ export class AppComponent implements OnInit, OnDestroy {
         return 'Meetings';
       }
       const meetingPath = path.replace('/meetings/', '');
+      console.log(path)
       const parts = meetingPath.split('/');
       if (parts.length > 0) {
         return parts.map(p => p.charAt(0).toUpperCase() + p.slice(1).replace(/-/g, ' ')).join(' / ');

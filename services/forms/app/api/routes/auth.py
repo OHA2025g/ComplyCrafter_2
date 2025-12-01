@@ -83,10 +83,10 @@ async def login(payload: LoginRequest, db: AsyncSession = Depends(get_async_sess
             )
         
         # Fetch user roles from database
-        from app.services.role_service import RoleService
         from sqlalchemy.orm import selectinload
         from sqlalchemy import select
         from app.models.user_account import UserAccount
+        from app.models.role import Role
         
         # Load user with roles
         user_result = await db.execute(
@@ -99,8 +99,10 @@ async def login(payload: LoginRequest, db: AsyncSession = Depends(get_async_sess
         # Extract role names from database
         user_roles = [role.name for role in user_with_roles.roles] if user_with_roles.roles else []
         
-        # Ensure at least "user" role is present
-        if "user" not in user_roles:
+        # Ensure at least "user" role is present (fallback for users without roles)
+        if not user_roles:
+            user_roles = ["user"]
+        elif "user" not in user_roles:
             user_roles.append("user")
         
         # Prepare token data

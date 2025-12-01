@@ -17,7 +17,7 @@ interface MasterTab {
   template: `
     <div class="masters-container">
       <!-- Tab Navigation Card -->
-      <div class="masters-tabs-card">
+      <!-- <div class="masters-tabs-card">
         <div class="nav-tabs-integrated">
           <button
             *ngFor="let tab of masterTabs"
@@ -27,7 +27,7 @@ interface MasterTab {
             {{ tab.title }}
           </button>
         </div>
-      </div>
+      </div> -->
 
       <!-- Card Title (outside the card, top left) -->
       <h1 class="card-title" *ngIf="getActiveTabTitle()">{{ getActiveTabTitle() }}</h1>
@@ -207,16 +207,20 @@ export class MastersContainerComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     // Subscribe to route query parameter changes
-    this.routeSubscription = this.route.queryParams
-      .pipe(filter(params => params['tab']))
-      .subscribe(params => {
-        const tabParam = params['tab'];
+    this.routeSubscription = this.route.queryParams.subscribe(params => {
+      const tabParam = params['tab'];
+      if (tabParam) {
         const tab = this.masterTabs.find(t => t.id === tabParam);
         if (tab && this.activeTab !== tab.id) {
           this.activeTab = tab.id;
           this.loadComponent(tab.id);
         }
-      });
+      } else if (!tabParam && this.activeTab !== 'company') {
+        // If no tab param, default to company
+        this.activeTab = 'company';
+        this.loadComponent('company');
+      }
+    });
   }
 
   ngAfterViewInit() {

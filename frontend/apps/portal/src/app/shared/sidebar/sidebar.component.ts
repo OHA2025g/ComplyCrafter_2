@@ -40,7 +40,7 @@ interface MenuItem {
             <div class="nav-submenu" [class.expanded]="item.expanded && !isCollapsed" *ngIf="!isCollapsed">
               <div *ngFor="let child of item.children" class="nav-subitem">
                 <a *ngIf="!child.children && child.route" 
-                   [routerLink]="[child.route]"
+                   (click)="handleChildNavigation(child, $event)"
                    class="nav-sublink">
                   {{ child.title }}
                 </a>
@@ -63,8 +63,7 @@ interface MenuItem {
                         <!-- Level 4: Actual forms under category -->
                         <div class="nav-forms-list" [class.expanded]="subchild.expanded">
                           <a *ngFor="let form of subchild.children"
-                             [routerLink]="[form.route]"
-                             routerLinkActive="active"
+                             (click)="handleChildNavigation(form, $event)"
                              class="nav-form-link">
                             {{ form.title }}
                           </a>
@@ -72,8 +71,7 @@ interface MenuItem {
                       </div>
                       <!-- If no children (direct form), show as link -->
                       <a *ngIf="!subchild.children && subchild.route" 
-                         [routerLink]="[subchild.route]"
-                         routerLinkActive="active"
+                         (click)="handleChildNavigation(subchild, $event)"
                          class="nav-nested-link">
                         {{ subchild.title }}
                       </a>
@@ -221,7 +219,7 @@ export class SidebarComponent {
   handleExpandableClick(item: MenuItem, event: Event): void {
     // If Masters, navigate to /masters (defaults to company tab)
     if (item.title === 'Masters' && item.route) {
-      this.router.navigate([item.route]);
+      this.router.navigate([item.route], { queryParams: { tab: 'company' } });
       // Expand the menu after navigation
       if (!this.isCollapsed) {
         item.expanded = true;
@@ -230,6 +228,33 @@ export class SidebarComponent {
       // For other expandable items, just toggle
       this.toggleItem(item);
     }
+  }
+
+  handleChildNavigation(child: MenuItem, event: Event): void {
+    event.preventDefault();
+    if (!child.route) return;
+    
+    // Extract base path and query params
+    const [basePath, queryString] = child.route.split('?');
+    const queryParams: { [key: string]: string } = {};
+    
+    if (queryString) {
+      queryString.split('&').forEach(param => {
+        const [key, value] = param.split('=');
+        if (key && value) {
+          queryParams[key] = decodeURIComponent(value);
+        }
+      });
+    }
+    
+    // Navigate to base path with query params
+    this.router.navigate([basePath], { queryParams }).then(() => {
+      // Expand parent if collapsed
+      const parent = this.menuItems.find(item => item.children?.includes(child));
+      if (parent && !this.isCollapsed) {
+        parent.expanded = true;
+      }
+    });
   }
 }
 
