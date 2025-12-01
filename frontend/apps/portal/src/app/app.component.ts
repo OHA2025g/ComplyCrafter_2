@@ -1,18 +1,27 @@
+<<<<<<< HEAD
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+=======
+import { Component, DestroyRef, inject } from '@angular/core';
+>>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { LogoutModalComponent } from './shared/logout-modal/logout-modal.component';
 import { AlertComponent } from './shared/alert/alert.component';
 import { AuthService } from './services/auth.service';
+<<<<<<< HEAD
 import { filter, Subscription } from 'rxjs';
+=======
+import { filter, startWith } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+>>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, CommonModule, SidebarComponent, LogoutModalComponent, AlertComponent],
   template: `
-    <div class="app-layout" *ngIf="!isAuthPage(); else authLayout">
+    <div class="app-layout" *ngIf="!isAuthView; else authLayout">
       <app-sidebar></app-sidebar>
       <div class="main-container">
         <header class="app-header">
@@ -241,6 +250,7 @@ import { filter, Subscription } from 'rxjs';
 export class AppComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private authService = inject(AuthService);
+<<<<<<< HEAD
   
   isUserMenuOpen = false;
   showModal = false;
@@ -436,6 +446,24 @@ console.log('Path after forms check:', path);
 
   isProfilePage(): boolean {
     return this.router.url.includes('/profile');
+=======
+  private destroyRef = inject(DestroyRef);
+
+  authRoutes = ['/login', '/signup', '/forgot-password', '/reset-password'];
+  isAuthView = false;
+
+  constructor() {
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        startWith(new NavigationEnd(0, this.router.url, this.router.url)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(event => {
+        const currentUrl = event.urlAfterRedirects || this.router.url || '';
+        this.isAuthView = this.authRoutes.some(route => currentUrl.startsWith(route));
+      });
+>>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
   }
 
   getUserName(): string {
