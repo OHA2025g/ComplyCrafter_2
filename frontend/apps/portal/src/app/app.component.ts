@@ -1,20 +1,12 @@
-<<<<<<< HEAD
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
-=======
 import { Component, DestroyRef, inject } from '@angular/core';
->>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { LogoutModalComponent } from './shared/logout-modal/logout-modal.component';
 import { AlertComponent } from './shared/alert/alert.component';
 import { AuthService } from './services/auth.service';
-<<<<<<< HEAD
-import { filter, Subscription } from 'rxjs';
-=======
 import { filter, startWith } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
->>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
 
 @Component({
   selector: 'app-root',
@@ -247,17 +239,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     }
   `]
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
-<<<<<<< HEAD
-  
+  private destroyRef = inject(DestroyRef);
+
   isUserMenuOpen = false;
   showModal = false;
   isLoggingOut = false;
   currentPageTitle = 'Dashboard';
-  isAuthPageRoute = false;
-  private routerSubscription?: Subscription;
+  authRoutes = ['/login', '/signup', '/forgot-password', '/reset-password'];
+  isAuthView = false;
 
   constructor() {
     // Close dropdown when clicking outside
@@ -267,26 +259,20 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isUserMenuOpen = false;
       }
     });
-  }
 
-  ngOnInit(): void {
-    // Set initial page title and auth page status
-    this.updatePageTitle();
-    this.updateAuthPageStatus();
-    
-    // Subscribe to route changes
-    this.routerSubscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
+    // Subscribe to route changes for auth view detection
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+        startWith(new NavigationEnd(0, this.router.url, this.router.url)),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(event => {
+        const currentUrl = event.urlAfterRedirects || this.router.url || '';
+        this.isAuthView = this.authRoutes.some(route => currentUrl.startsWith(route));
+        // Update page title on route change
         this.updatePageTitle();
-        this.updateAuthPageStatus();
       });
-  }
-
-  ngOnDestroy(): void {
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
-    }
   }
 
   updatePageTitle(): void {
@@ -330,12 +316,6 @@ export class AppComponent implements OnInit, OnDestroy {
       '/access-control': 'Access Control'
     };
 
-    // Check exact match first
-    // if (routeMap[path]) {
-    //   console.log('Exact route match found:', path);
-    //   return routeMap[path];
-    // }
-
     // Check for forms routes
     if (path.startsWith('/forms/')) {
       const formPath = path.replace('/forms/', '');
@@ -348,7 +328,7 @@ export class AppComponent implements OnInit, OnDestroy {
       const formattedCode = formCode.replace(/([A-Z]+)(\d+)/, '$1-$2');
       return `${formattedCode} Form`;
     }
-console.log('Path after forms check:', path);
+    console.log('Path after forms check:', path);
     // Check for masters routes
     if (path.startsWith('/masters')) {
       console.log('Masters path detected:', path);
@@ -435,35 +415,8 @@ console.log('Path after forms check:', path);
     return 'Dashboard';
   }
 
-  updateAuthPageStatus(): void {
-    const url = this.router.url;
-    this.isAuthPageRoute = url.includes('/login') || url.includes('/signup');
-  }
-
-  isAuthPage(): boolean {
-    return this.isAuthPageRoute;
-  }
-
   isProfilePage(): boolean {
     return this.router.url.includes('/profile');
-=======
-  private destroyRef = inject(DestroyRef);
-
-  authRoutes = ['/login', '/signup', '/forgot-password', '/reset-password'];
-  isAuthView = false;
-
-  constructor() {
-    this.router.events
-      .pipe(
-        filter((event): event is NavigationEnd => event instanceof NavigationEnd),
-        startWith(new NavigationEnd(0, this.router.url, this.router.url)),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(event => {
-        const currentUrl = event.urlAfterRedirects || this.router.url || '';
-        this.isAuthView = this.authRoutes.some(route => currentUrl.startsWith(route));
-      });
->>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
   }
 
   getUserName(): string {
@@ -500,9 +453,6 @@ console.log('Path after forms check:', path);
         this.isLoggingOut = false;
         this.showModal = false;
         
-        // Update auth page status immediately (before navigation)
-        this.isAuthPageRoute = true;
-        
         // Perform logout (clears data and navigates) - no delay needed
         await this.authService.logout();
       } else {
@@ -510,9 +460,6 @@ console.log('Path after forms check:', path);
         console.warn('Logout API returned unsuccessful, but continuing with logout');
         this.isLoggingOut = false;
         this.showModal = false;
-        
-        // Update auth page status immediately (before navigation)
-        this.isAuthPageRoute = true;
         
         // Perform logout (clears data and navigates) - no delay needed
         await this.authService.logout();
@@ -522,9 +469,6 @@ console.log('Path after forms check:', path);
       // Even if there's an error, clear state and redirect
       this.isLoggingOut = false;
       this.showModal = false;
-      
-      // Update auth page status immediately (before navigation)
-      this.isAuthPageRoute = true;
       
       // Perform logout (clears data and navigates) - no delay needed
       await this.authService.logout();
