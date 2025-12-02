@@ -17,10 +17,6 @@ interface AGM {
   imports: [CommonModule, FormsModule],
   template: `
     <div class="meeting-container">
-      <div class="page-header">
-        <h1>📊 Annual General Meeting (AGM)</h1>
-        <p class="subtitle">Manage annual general meetings</p>
-      </div>
       <div class="content-card">
         <div class="table-controls">
           <div class="left-controls">
@@ -59,37 +55,44 @@ interface AGM {
   `,
   styles: [`
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .meeting-container { padding: 2rem; max-width: 1600px; margin: 0 auto; animation: fadeInUp 0.5s ease-out; }
-    .page-header { background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05)); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
-    .page-header h1 { font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0; }
-    .subtitle { color: #6c757d; margin: 0.5rem 0 0 0; }
-    .content-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .meeting-container { padding: 0; max-width: 100%; margin: 0; animation: fadeInUp 0.5s ease-out; }
+    .content-card { background: transparent; border-radius: 0; padding: 1rem; box-shadow: none; }
     .table-controls { display: flex; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
     .left-controls, .right-controls { display: flex; align-items: center; gap: 0.75rem; }
-    .entries-select { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; background: #f8f9fa; }
+    .entries-select { padding: 0.75rem 1rem; border: none; border-radius: 10px; background: #f8f9fa; }
     .btn-add { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 1.75rem; border-radius: 12px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
-    .search-input { padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; background: #f8f9fa; min-width: 200px; }
+    .search-input { padding: 0.75rem 1rem; border: none; border-radius: 10px; background: #f8f9fa; min-width: 200px; }
     .table-wrapper { overflow-x: auto; border-radius: 12px; border: 2px solid #f0f0f0; }
     .data-table { width: 100%; border-collapse: collapse; }
     .data-table thead { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
     .data-table th { padding: 1rem; text-align: left; font-weight: 700; }
-    .data-table tbody tr { background: white; }
-    .data-table tbody tr:nth-child(even) { background: #f8f9fa; }
-    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)); }
+    .data-table tbody tr { background: #ffe5e5; /* Light pink */ }
+    .data-table tbody tr:nth-child(even) { background: #e5f0ff; /* Light blue */ }
+    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12)); transform: scale(1.01); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     .data-table td { padding: 1rem; border-bottom: 1px solid #e0e0e0; }
     .fy-badge { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
     .status-badge { padding: 0.35rem 0.85rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; color: white; }
     .status-completed { background: linear-gradient(135deg, #11998e, #38ef7d); }
     .status-scheduled { background: linear-gradient(135deg, #4facfe, #00f2fe); }
-    .action-cell { text-align: center; }
-    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 1.3rem; padding: 0.5rem; border-radius: 8px; transition: all 0.2s; }
+    .action-cell { text-align: center; white-space: nowrap; }
+    .action-column {
+      text-align: center;
+      white-space: nowrap;
+    }
+    .action-column .action-btn {
+      display: inline-flex;
+      margin: 0 0.25rem;
+    }
+    .action-btn { background: transparent; border: none; cursor: pointer; font-size: 1.3rem; padding: 0.5rem; border-radius: 8px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; }
     .action-btn:hover { background: rgba(102, 126, 234, 0.15); transform: scale(1.15); }
   `]
 })
 export class AGMComponent implements OnInit {
   meetings: AGM[] = [
     { srNo: 1, financialYear: '2023-24', meetingDate: '2024-09-30', venue: 'Corporate Office', shareholders: 150, status: 'Completed' },
-    { srNo: 2, financialYear: '2024-25', meetingDate: '2025-09-30', venue: 'Convention Center', shareholders: 175, status: 'Scheduled' }
+    { srNo: 2, financialYear: '2024-25', meetingDate: '2025-09-30', venue: 'Convention Center', shareholders: 175, status: 'Scheduled' },
+    { srNo: 3, financialYear: '2022-23', meetingDate: '2023-09-28', venue: 'Hotel Grand', shareholders: 120, status: 'Completed' },
+    { srNo: 4, financialYear: '2021-22', meetingDate: '2022-09-25', venue: 'Corporate Office', shareholders: 100, status: 'Completed' }
   ];
   filteredData: AGM[] = [];
   entriesPerPage: number = 10;

@@ -17,7 +17,6 @@ interface Shareholder {
   template: `
     <div class="shareholder-container">
       <div class="page-header">
-        <h1>📊 Shareholder</h1>
         <div class="header-actions">
           <button class="btn-secondary">
             <span>✕</span> Clear Company
@@ -125,25 +124,25 @@ interface Shareholder {
   styles: [`
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     
-    .shareholder-container { padding: 2rem; max-width: 1400px; margin: 0 auto; animation: fadeInUp 0.5s ease-out; }
+    .shareholder-container { padding: 0; max-width: 100%; margin: 0; animation: fadeInUp 0.5s ease-out; }
     
-    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05)); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.05); }
+    .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; background: transparent; border-radius: 0; padding: 0 1rem; box-shadow: none; }
     
-    h1 { font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0; }
+    h1 { font-size: 1.75rem; font-weight: 700; color: #333; margin: 0; }
     
     .header-actions { display: flex; gap: 1rem; }
     
-    .btn-secondary { background: white; border: 2px solid #e0e0e0; color: #6c757d; padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; }
-    .btn-secondary:hover { border-color: #667eea; color: #667eea; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15); }
+    .btn-secondary { background: white; border: none; color: #6c757d; padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-secondary:hover { color: #667eea; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15); }
     
-    .table-container { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .table-container { background: transparent; border-radius: 0; padding: 0 1rem; box-shadow: none; }
     
     .table-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
     
     .left-controls { display: flex; align-items: center; gap: 0.75rem; }
     
-    .entries-select { padding: 0.65rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-weight: 600; color: #495057; cursor: pointer; transition: all 0.3s; background: white; }
-    .entries-select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+    .entries-select { padding: 0.65rem 1rem; border: none; border-radius: 10px; font-weight: 600; color: #495057; cursor: pointer; transition: all 0.3s; background: white; }
+    .entries-select:focus { outline: none; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
     
     .entries-label { color: #6c757d; font-weight: 500; }
     
@@ -157,28 +156,43 @@ interface Shareholder {
     
     .search-label { color: #6c757d; font-weight: 600; }
     
-    .search-input { padding: 0.65rem 1rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 0.95rem; transition: all 0.3s; min-width: 250px; }
-    .search-input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+    .search-input { padding: 0.65rem 1rem; border: none; border-radius: 10px; font-size: 0.95rem; transition: all 0.3s; min-width: 250px; }
+    .search-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
     
-    .table-wrapper { overflow-x: auto; margin: 1.5rem 0; border-radius: 12px; border: 2px solid #f0f0f0; }
+    .table-wrapper { overflow-x: auto; margin: 1.5rem 0; border-radius: 8px; border: 1px solid #e0e0e0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
     
-    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table { width: 100%; border-collapse: collapse; border-radius: 8px; overflow: hidden; }
     
-    .data-table thead { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    .data-table thead { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
     
-    .data-table th { padding: 1rem 1.25rem; text-align: left; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.3px; border-bottom: 2px solid rgba(255,255,255,0.3); }
+    .data-table th { padding: 1rem; text-align: left; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.3px; border-bottom: 2px solid rgba(255,255,255,0.2); }
     
-    .data-table tbody tr { transition: all 0.2s; }
+    .data-table tbody tr { transition: all 0.2s; background: #ffe5e5; /* Light pink */ }
     
-    .data-table tbody tr:nth-child(even) { background: #f8f9fa; }
+    .data-table tbody tr:nth-child(even) { background: #e5f0ff; /* Light blue */ }
     
-    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)); transform: scale(1.01); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .data-table tbody tr:hover { background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12)); transform: scale(1.01); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     
-    .data-table td { padding: 1rem 1.25rem; color: #495057; font-size: 0.95rem; border-bottom: 1px solid #e9ecef; }
+    .data-table td { padding: 1rem; color: #333; font-size: 0.95rem; border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
     
     .name-cell { font-weight: 600; color: #2c3e50; }
     
-    .action-cell { display: flex; gap: 0.5rem; justify-content: center; }
+    .action-cell { 
+      display: flex; 
+      gap: 0.5rem; 
+      justify-content: center; 
+      white-space: nowrap;
+    }
+    
+    .action-column {
+      text-align: center;
+      white-space: nowrap;
+    }
+    
+    .action-column .action-btn {
+      display: inline-flex;
+      margin: 0 0.25rem;
+    }
     
     .action-btn { background: transparent; border: none; cursor: pointer; padding: 0.5rem; border-radius: 8px; transition: all 0.2s; font-size: 1.2rem; }
     
@@ -197,7 +211,7 @@ interface Shareholder {
     
     .pagination { display: flex; gap: 0.5rem; }
     
-    .page-btn { background: white; border: 2px solid #e0e0e0; color: #495057; padding: 0.5rem 0.75rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; min-width: 40px; display: flex; align-items: center; justify-content: center; }
+    .page-btn { background: white; border: none; color: #495057; padding: 0.5rem 0.75rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; min-width: 40px; display: flex; align-items: center; justify-content: center; }
     
     .page-btn:hover:not(:disabled) { border-color: #667eea; color: #667eea; background: rgba(102, 126, 234, 0.05); }
     

@@ -10,11 +10,6 @@ import { CompaniesService, Company } from '../services/companies.service';
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
     <div class="entities-container">
-      <!-- Header with Entity Count -->
-      <div class="page-header">
-        <h1 class="page-title">Name of Entities <span class="entity-count">(Entity Used: {{ getEntityCount() }})</span></h1>
-      </div>
-
       <!-- Main Content Card -->
       <div class="content-card">
         <!-- Table Controls -->
@@ -267,24 +262,12 @@ import { CompaniesService, Company } from '../services/companies.service';
     @keyframes spin { to { transform: rotate(360deg); } }
     
     .entities-container { 
-      padding: 1.5rem 2rem; 
+      padding: 0; 
       max-width: 100%; 
-      margin: 0 auto; 
+      margin: 0; 
       animation: fadeIn 0.3s ease-out;
-      background: #f5f5f5;
-      min-height: 100vh;
-    }
-    
-    .page-header { 
-      margin-bottom: 1.5rem; 
-    }
-    
-    .page-title { 
-      font-size: 1.75rem; 
-      font-weight: 600; 
-      color: #333; 
-      margin: 0;
-      font-family: Arial, sans-serif;
+      background: transparent;
+      min-height: auto;
     }
     
     .entity-count {
@@ -294,19 +277,22 @@ import { CompaniesService, Company } from '../services/companies.service';
     }
     
     .content-card { 
-      background: white; 
-      border-radius: 4px; 
-      padding: 1.5rem; 
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background: transparent; 
+      border-radius: 0; 
+      padding: 1rem; 
+      box-shadow: none;
     }
     
     .table-controls { 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      margin-bottom: 1.25rem; 
-      gap: 1rem; 
+      margin-bottom: 0.5rem; 
+      gap: 0.5rem; 
       flex-wrap: wrap; 
+      padding: 0.75rem 1rem;
+      background: #f8f9fa;
+      border-radius: 4px;
     }
     
     .left-controls { 
@@ -317,7 +303,7 @@ import { CompaniesService, Company } from '../services/companies.service';
     
     .entries-select { 
       padding: 0.4rem 0.6rem; 
-      border: 1px solid #ddd; 
+      border: none; 
       border-radius: 3px; 
       font-size: 0.9rem; 
       background: white; 
@@ -327,7 +313,6 @@ import { CompaniesService, Company } from '../services/companies.service';
     
     .entries-select:focus { 
       outline: none; 
-      border-color: #4A90E2; 
     }
     
     .entries-label { 
@@ -355,7 +340,7 @@ import { CompaniesService, Company } from '../services/companies.service';
     
     .search-input { 
       padding: 0.4rem 0.6rem; 
-      border: 1px solid #ddd; 
+      border: none; 
       border-radius: 3px; 
       font-size: 0.9rem; 
       width: 200px;
@@ -364,7 +349,6 @@ import { CompaniesService, Company } from '../services/companies.service';
     
     .search-input:focus { 
       outline: none; 
-      border-color: #4A90E2; 
     }
     
     .btn-add { 
@@ -414,51 +398,62 @@ import { CompaniesService, Company } from '../services/companies.service';
     
     .table-wrapper { 
       overflow-x: auto; 
-      margin-bottom: 1rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+      margin-bottom: 0.5rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
     
     .data-table { 
       width: 100%; 
       border-collapse: collapse; 
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       background: white;
+      border-radius: 8px;
+      overflow: hidden;
     }
     
     .data-table thead { 
-      background: #f8f9fa; 
-      border-bottom: 2px solid #dee2e6;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
     }
     
     .data-table th { 
-      padding: 0.75rem 1rem; 
+      padding: 1rem; 
       text-align: left; 
-      font-weight: 600; 
-      font-size: 0.9rem; 
-      color: #333;
+      font-weight: 700; 
+      font-size: 0.95rem; 
+      color: white;
       white-space: nowrap;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     }
     
     .sort-icon {
       font-size: 0.7rem;
-      color: #999;
+      color: rgba(255, 255, 255, 0.8);
       margin-right: 0.25rem;
     }
     
     .data-table tbody tr { 
-      border-bottom: 1px solid #dee2e6;
-      transition: background 0.15s;
+      transition: all 0.2s ease;
+      background: #ffe5e5; /* Light pink */
+    }
+    
+    .data-table tbody tr:nth-child(even) {
+      background: #e5f0ff; /* Light blue */
     }
     
     .data-table tbody tr:hover { 
-      background: #f8f9fa;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.12));
+      transform: scale(1.01);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     }
     
     .data-table td { 
-      padding: 0.75rem 1rem; 
-      font-size: 0.9rem; 
-      color: #333; 
+      padding: 1rem; 
+      font-size: 0.95rem; 
+      color: #333;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
     
     .cin-cell {
@@ -491,8 +486,18 @@ import { CompaniesService, Company } from '../services/companies.service';
     }
     
     .action-cell { 
-      text-align: left; 
+      text-align: center; 
       white-space: nowrap; 
+    }
+    
+    .action-column {
+      text-align: center;
+      white-space: nowrap;
+    }
+    
+    .action-column .action-btn {
+      display: inline-flex;
+      margin: 0 0.25rem;
     }
     
     .action-btn { 
@@ -533,10 +538,11 @@ import { CompaniesService, Company } from '../services/companies.service';
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      padding-top: 1rem; 
+      padding-top: 0.75rem; 
       border-top: 1px solid #dee2e6;
       flex-wrap: wrap; 
-      gap: 1rem; 
+      gap: 0.75rem; 
+      margin-top: 0.5rem;
     }
     
     .entries-info { 

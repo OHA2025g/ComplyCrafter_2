@@ -45,7 +45,14 @@ export const APP_ROUTES: Routes = [
     title: 'Company Search - ComplyCrafter',
     canActivate: [authGuard]
   },
-  // Masters Routes (Protected)
+  // Masters Routes (Protected) - Tabbed Interface
+  {
+    path: 'masters',
+    loadComponent: () => import('./masters/masters-container.component').then(m => m.MastersContainerComponent),
+    title: 'Masters - ComplyCrafter',
+    canActivate: [authGuard]
+  },
+  // Keep individual routes for direct navigation (optional - can be removed if not needed)
   {
     path: 'masters/company',
     loadComponent: () => import('./masters/company.component').then(m => m.CompanyMasterComponent),
@@ -112,13 +119,14 @@ export const APP_ROUTES: Routes = [
     title: 'Share Capital - ComplyCrafter',
     canActivate: [authGuard]
   },
+  // Meeting Routes (Protected) - Tabbed Interface
   {
-    path: 'masters/:type',
-    loadComponent: () => import('./shared/placeholder.component').then(m => m.PlaceholderComponent),
-    title: 'Masters - ComplyCrafter',
+    path: 'meetings',
+    loadComponent: () => import('./meetings/meetings-container.component').then(m => m.MeetingsContainerComponent),
+    title: 'Meetings - ComplyCrafter',
     canActivate: [authGuard]
   },
-  // Meeting Routes (Protected)
+  // Keep individual routes for direct navigation (optional - can be removed if not needed)
   {
     path: 'meetings/board',
     loadComponent: () => import('./meetings/board-meeting.component').then(m => m.BoardMeetingComponent),
@@ -149,9 +157,42 @@ export const APP_ROUTES: Routes = [
     title: 'Meetings - ComplyCrafter',
     canActivate: [authGuard]
   },
+  // Forms Routes (Protected) - Tabbed Interface
+  {
+    path: 'forms',
+    loadComponent: () => import('./forms/forms-container.component').then(m => m.FormsContainerComponent),
+    title: 'Forms - ComplyCrafter',
+    canActivate: [authGuard]
+  },
+  // Keep individual form routes for direct navigation
   {
     path: 'forms',
     children: FORMS_ROUTES,
+    canActivate: [authGuard]
+  },
+  // DMS Route (Protected)
+  {
+    path: 'dms',
+    loadComponent: () => import('./dms/dms.component').then(m => m.DMSComponent),
+    title: 'Document Management System - ComplyCrafter',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./profile/profile.component').then(m => m.ProfileComponent),
+    title: 'Profile - ComplyCrafter',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'subscription-plans',
+    loadComponent: () => import('./subscription/subscription-plans.component').then(m => m.SubscriptionPlansComponent),
+    title: 'Subscription Plans - ComplyCrafter',
+    canActivate: [authGuard]
+  },
+  {
+    path: 'access-control',
+    loadComponent: () => import('./access-control/access-control.component').then(m => m.AccessControlComponent),
+    title: 'Access Control - ComplyCrafter',
     canActivate: [authGuard]
   },
   {

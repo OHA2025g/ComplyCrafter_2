@@ -1,4 +1,4 @@
-// Development environment
+// Development environment - Local
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8100',

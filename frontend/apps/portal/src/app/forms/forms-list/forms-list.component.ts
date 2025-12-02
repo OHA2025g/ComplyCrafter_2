@@ -98,9 +98,9 @@ interface CategoryGroup {
   `,
   styles: [`
     .forms-container {
-      padding: 2rem;
-      max-width: 1400px;
-      margin: 0 auto;
+      padding: 0;
+      max-width: 100%;
+      margin: 0;
     }
     .forms-header {
       margin-bottom: 2rem;
@@ -143,13 +143,13 @@ interface CategoryGroup {
     .search-input {
       flex: 1;
       padding: 0.75rem;
-      border: 2px solid #ddd;
+      border: none;
       border-radius: 6px;
       font-size: 1rem;
     }
     .category-select {
       padding: 0.75rem;
-      border: 2px solid #ddd;
+      border: none;
       border-radius: 6px;
       font-size: 1rem;
       background: white;

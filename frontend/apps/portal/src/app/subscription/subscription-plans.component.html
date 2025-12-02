@@ -1,0 +1,71 @@
+<div class="subscription-container">
+  <div class="subscription-header">
+    <h1>Find the ComplyCrafter plan that fits your workflow</h1>
+    <p class="subtitle">Designed for CA, CS, CMA professionals to manage secretarial and compliance tasks with ease.</p>
+  </div>
+
+  <div class="plans-grid">
+    <!-- Starter Plan -->
+    <div class="plan-card">
+      <div class="plan-icon">🏢</div>
+      <h2 class="plan-name">Starter</h2>
+      <div class="plan-price">
+        <span class="currency">₹</span>
+        <span class="amount">15,000</span>
+        <span class="period">/year</span>
+      </div>
+      <ul class="features-list">
+        <li><span class="check">✓</span> Up to 5 Entities</li>
+        <li><span class="check">✓</span> 3 User Accounts</li>
+        <li><span class="check">✓</span> Basic MCA Forms Support</li>
+        <li><span class="check">✓</span> Email Support</li>
+        <li><span class="check">✓</span> Monthly Reports</li>
+      </ul>
+      <button class="btn-select" (click)="selectPlan('starter')">Get Started</button>
+    </div>
+
+    <!-- Professional Plan -->
+    <div class="plan-card featured">
+      <div class="badge">POPULAR</div>
+      <div class="plan-icon">🏗️</div>
+      <h2 class="plan-name">Professional</h2>
+      <div class="plan-price">
+        <span class="currency">₹</span>
+        <span class="amount">35,000</span>
+        <span class="period">/year</span>
+      </div>
+      <ul class="features-list">
+        <li><span class="check">✓</span> Up to 20 Entities</li>
+        <li><span class="check">✓</span> 10 User Accounts</li>
+        <li><span class="check">✓</span> All MCA Forms Support</li>
+        <li><span class="check">✓</span> Priority Support</li>
+        <li><span class="check">✓</span> Advanced Analytics</li>
+        <li><span class="check">✓</span> Document Management</li>
+      </ul>
+      <button class="btn-select" (click)="selectPlan('professional')">Get Started</button>
+    </div>
+
+    <!-- Enterprise Plan -->
+    <div class="plan-card">
+      <div class="plan-icon">🏭</div>
+      <h2 class="plan-name">Enterprise</h2>
+      <div class="plan-price">
+        <span class="amount">Custom</span>
+      </div>
+      <ul class="features-list">
+        <li><span class="check">✓</span> Unlimited Entities & Users</li>
+        <li><span class="check">✓</span> Dedicated Account Manager</li>
+        <li><span class="check">✓</span> Priority Onboarding & Support</li>
+        <li><span class="check">✓</span> Custom Integrations</li>
+        <li><span class="check">✓</span> API Access</li>
+        <li><span class="check">✓</span> White-label Options</li>
+      </ul>
+      <button class="btn-contact" (click)="contactSales()">Contact Sales</button>
+    </div>
+  </div>
+
+  <div class="back-link-container">
+    <button class="btn-back" (click)="goBack()">← Back to Profile</button>
+  </div>
+</div>
+

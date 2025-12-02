@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 from sqlalchemy import Boolean, DateTime, Integer, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from libs.python.data_access import Base
 
@@ -26,5 +26,12 @@ class UserAccount(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     updated_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    
+    # Many-to-many relationship with roles
+    roles: Mapped[List["Role"]] = relationship(
+        "Role",
+        secondary="user_roles",
+        back_populates="users"
+    )
 
 

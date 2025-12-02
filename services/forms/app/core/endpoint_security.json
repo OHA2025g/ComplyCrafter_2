@@ -1,0 +1,515 @@
+{
+  "version": "1.0.0",
+  "description": "API Endpoint Security Configuration - Maps endpoints to allowed roles",
+  "last_updated": "2025-01-27",
+  "roles": {
+    "public": "No authentication required",
+    "user": "Standard authenticated user",
+    "admin": "Administrator with full access",
+    "viewer": "Read-only access",
+    "manager": "Manager with write access to assigned resources"
+  },
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/healthz",
+      "roles": ["public"],
+      "description": "Health check endpoint"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/signup",
+      "roles": ["public"],
+      "description": "User registration - public access"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/login",
+      "roles": ["public"],
+      "description": "User login - public access"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/logout",
+      "roles": ["admin"],
+      "description": "User logout - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/me",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get current user information - authenticated users"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/users",
+      "roles": ["admin"],
+      "description": "Get all users - admin only"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/updateIndividual",
+      "roles": ["admin"],
+      "description": "Update individual user - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/mca/search",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "MCA company search - authenticated users"
+    },
+    {
+      "method": "GET",
+      "path": "/mca/company/{cin}",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get company details by CIN - authenticated users"
+    },
+    {
+      "method": "GET",
+      "path": "/dashboard/stats",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get dashboard statistics - authenticated users"
+    },
+    {
+      "method": "GET",
+      "path": "/companies",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get all companies - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/companies",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add new company - authenticated users with write access"
+    },
+    {
+      "method": "PUT",
+      "path": "/companies/{id}",
+      "roles": ["user", "admin", "manager"],
+      "description": "Update company - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/companies/{id}",
+      "roles": ["admin"],
+      "description": "Delete company - admin only"
+    },
+    {
+      "method": "PATCH",
+      "path": "/companies/{id}/activate",
+      "roles": ["admin"],
+      "description": "Activate company - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/directors",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get all directors - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/directors",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add director - authenticated users with write access"
+    },
+    {
+      "method": "PUT",
+      "path": "/directors/{id}",
+      "roles": ["user", "admin", "manager"],
+      "description": "Update director - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/directors/{id}",
+      "roles": ["admin"],
+      "description": "Delete director - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/shareholders",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get all shareholders - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/shareholders",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add shareholder - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/shareholders/{id}",
+      "roles": ["admin"],
+      "description": "Delete shareholder - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/share-certificates",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get all share certificates - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/share-certificates",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add share certificate - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/share-certificates/{id}",
+      "roles": ["admin"],
+      "description": "Delete share certificate - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/debenture-holders",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get all debenture holders - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/debenture-holders",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add debenture holder - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/debenture-holders/{id}",
+      "roles": ["admin"],
+      "description": "Delete debenture holder - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/agendas",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get all agendas - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/agendas",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add agenda - authenticated users with write access"
+    },
+    {
+      "method": "PUT",
+      "path": "/agendas/{id}",
+      "roles": ["user", "admin", "manager"],
+      "description": "Update agenda - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/agendas/{id}",
+      "roles": ["admin"],
+      "description": "Delete agenda - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/shareholder-management",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get shareholder management data - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/shareholder-management",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add shareholder management transaction - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/shareholder-management/{id}",
+      "roles": ["admin"],
+      "description": "Delete shareholder management transaction - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/capital/authorized",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get authorized capital - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/capital/authorized",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add authorized capital - authenticated users with write access"
+    },
+    {
+      "method": "PUT",
+      "path": "/capital/authorized/{id}",
+      "roles": ["user", "admin", "manager"],
+      "description": "Update authorized capital - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/capital/authorized/{id}",
+      "roles": ["admin"],
+      "description": "Delete authorized capital - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/capital/paid-up",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get paid-up capital - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/capital/paid-up",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add paid-up capital - authenticated users with write access"
+    },
+    {
+      "method": "PUT",
+      "path": "/capital/paid-up/{id}",
+      "roles": ["user", "admin", "manager"],
+      "description": "Update paid-up capital - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/capital/paid-up/{id}",
+      "roles": ["admin"],
+      "description": "Delete paid-up capital - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/capital/share",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get share capital - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/capital/share",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add share capital - authenticated users with write access"
+    },
+    {
+      "method": "PUT",
+      "path": "/capital/share/{id}",
+      "roles": ["user", "admin", "manager"],
+      "description": "Update share capital - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/capital/share/{id}",
+      "roles": ["admin"],
+      "description": "Delete share capital - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/meetings/board",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get board meetings - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/meetings/board",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add board meeting - authenticated users with write access"
+    },
+    {
+      "method": "PUT",
+      "path": "/meetings/board/{id}",
+      "roles": ["user", "admin", "manager"],
+      "description": "Update board meeting - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/meetings/board/{id}",
+      "roles": ["admin"],
+      "description": "Delete board meeting - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/meetings/agm",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get AGM meetings - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/meetings/agm",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add AGM meeting - authenticated users with write access"
+    },
+    {
+      "method": "PUT",
+      "path": "/meetings/agm/{id}",
+      "roles": ["user", "admin", "manager"],
+      "description": "Update AGM meeting - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/meetings/agm/{id}",
+      "roles": ["admin"],
+      "description": "Delete AGM meeting - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/meetings/egm",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get EGM meetings - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/meetings/egm",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add EGM meeting - authenticated users with write access"
+    },
+    {
+      "method": "PUT",
+      "path": "/meetings/egm/{id}",
+      "roles": ["user", "admin", "manager"],
+      "description": "Update EGM meeting - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/meetings/egm/{id}",
+      "roles": ["admin"],
+      "description": "Delete EGM meeting - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/meetings/committee",
+      "roles": ["user", "admin", "viewer", "manager"],
+      "description": "Get committee meetings - authenticated users"
+    },
+    {
+      "method": "POST",
+      "path": "/meetings/committee",
+      "roles": ["user", "admin", "manager"],
+      "description": "Add committee meeting - authenticated users with write access"
+    },
+    {
+      "method": "PUT",
+      "path": "/meetings/committee/{id}",
+      "roles": ["user", "admin", "manager"],
+      "description": "Update committee meeting - authenticated users with write access"
+    },
+    {
+      "method": "DELETE",
+      "path": "/meetings/committee/{id}",
+      "roles": ["admin"],
+      "description": "Delete committee meeting - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/roles",
+      "roles": ["admin"],
+      "description": "Get all roles - admin only"
+    },
+    {
+      "method": "POST",
+      "path": "/roles",
+      "roles": ["admin"],
+      "description": "Create role - admin only"
+    },
+    {
+      "method": "POST",
+      "path": "/roles/bulk",
+      "roles": ["admin"],
+      "description": "Create multiple roles - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/roles/{role_id}",
+      "roles": ["admin"],
+      "description": "Get role by ID - admin only"
+    },
+    {
+      "method": "PUT",
+      "path": "/roles/{role_id}",
+      "roles": ["admin"],
+      "description": "Update role - admin only"
+    },
+    {
+      "method": "DELETE",
+      "path": "/roles/{role_id}",
+      "roles": ["admin"],
+      "description": "Delete role - admin only"
+    },
+    {
+      "method": "POST",
+      "path": "/roles/users/{user_id}/assign",
+      "roles": ["admin"],
+      "description": "Assign roles to user - admin only"
+    },
+    {
+      "method": "GET",
+      "path": "/roles/users/{user_id}",
+      "roles": ["admin"],
+      "description": "Get user roles - admin only"
+    },
+    {
+      "method": "DELETE",
+      "path": "/roles/users/{user_id}/roles/{role_id}",
+      "roles": ["admin"],
+      "description": "Unassign role from user - admin only"
+    }
+  ],
+  "form_endpoints": {
+    "description": "Standard CRUD endpoints for all MCA forms. Each form has the same endpoint pattern.",
+    "forms": [
+      "adt1", "ben2", "pas3", "dpt3", "aoc4", "aoc4cfs", "mgt7a", "msme", "msme1", "ndh1", "ndh2",
+      "boardreport", "charge", "chg1", "chg4", "chg6", "chg8", "chg9",
+      "dir3", "dir5", "dir6", "dir9", "dir11", "dir12", "dpt4",
+      "form3", "form4", "form5", "form11", "form12", "form15", "form22", "form23", "form24", "form28",
+      "gnl1", "gnl2", "gnl3", "iepf2", "iepf5",
+      "inc4", "inc12", "inc20a", "inc22", "inc23", "inc24", "inc28",
+      "mgt6", "mgt8", "mgt9", "mgt14", "mr1", "msc3",
+      "pas2", "pas6", "run", "runllp", "sh7", "sh8", "sh9", "sh11", "stk2"
+    ],
+    "endpoint_patterns": [
+      {
+        "method": "GET",
+        "path": "/forms/{form_code}",
+        "roles": ["user", "admin", "viewer", "manager"],
+        "description": "List all submissions for form"
+      },
+      {
+        "method": "POST",
+        "path": "/forms/{form_code}",
+        "roles": ["user", "admin", "manager"],
+        "description": "Create new form submission"
+      },
+      {
+        "method": "GET",
+        "path": "/forms/{form_code}/{id}",
+        "roles": ["user", "admin", "viewer", "manager"],
+        "description": "Get form submission by ID"
+      },
+      {
+        "method": "PUT",
+        "path": "/forms/{form_code}/{id}",
+        "roles": ["user", "admin", "manager"],
+        "description": "Update form submission"
+      },
+      {
+        "method": "DELETE",
+        "path": "/forms/{form_code}/{id}",
+        "roles": ["admin"],
+        "description": "Delete form submission - admin only"
+      },
+      {
+        "method": "GET",
+        "path": "/forms/{form_code}/company/{company_id}",
+        "roles": ["user", "admin", "viewer", "manager"],
+        "description": "Get form submissions by company ID"
+      },
+      {
+        "method": "PATCH",
+        "path": "/forms/{form_code}/{id}/status/{status}",
+        "roles": ["admin"],
+        "description": "Update form submission status - admin only"
+      }
+    ]
+  },
+  "notes": [
+    "All endpoints require authentication unless marked as 'public'",
+    "Admin role has full access to all endpoints",
+    "User role has read and write access to most endpoints except admin-only operations",
+    "Viewer role has read-only access",
+    "Manager role has read and write access to assigned resources",
+    "Form endpoints follow a consistent pattern across all 51+ MCA forms",
+    "DELETE operations are typically restricted to admin only",
+    "Status updates are typically restricted to admin only"
+  ]
+}
+
+
