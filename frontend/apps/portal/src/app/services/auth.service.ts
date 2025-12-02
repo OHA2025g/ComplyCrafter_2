@@ -4,11 +4,17 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
 export interface User {
-  id?: string;
+  id?: string | number;
   username?: string;
   email?: string;
   first_name?: string;
   last_name?: string;
+  createdAt?: string; // ISO date string for subscription/trial logic
+  subscription_status?: string;
+  subscription_plan?: string | null;
+  trial_ends_at?: string | null;
+  subscription_expires_at?: string | null;
+  requires_subscription?: boolean;
 }
 
 @Injectable({
@@ -92,11 +98,15 @@ export class AuthService {
     } catch (e) {
       console.error('Logout API call failed:', e);
     } finally {
-      // Always clear local storage/session storage
+      // Always clear local storage/session storage first
       this.clearAuthData();
       
-      // Redirect to login page
-      this.router.navigate(['/login']);
+      // Use setTimeout to ensure data is cleared before navigation
+      // This prevents race conditions with guards checking auth state
+      setTimeout(() => {
+        // Use replaceUrl to prevent back navigation to dashboard after logout
+        this.router.navigateByUrl('/login', { replaceUrl: true });
+      }, 0);
     }
   }
 
@@ -106,6 +116,7 @@ export class AuthService {
   private clearAuthData(): void {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
+    localStorage.removeItem('signup_date'); // Clear signup date to prevent guard conflicts
     sessionStorage.removeItem('auth_token');
     sessionStorage.removeItem('user');
   }
@@ -114,6 +125,24 @@ export class AuthService {
    * Store authentication data
    */
   storeAuthData(token: string, user: User, rememberMe: boolean = false): void {
+    // Ensure we have a createdAt date to base the 14-day trial on.
+    // Prefer an existing createdAt if provided by the backend or previously stored.
+    const existingUser = this.getCurrentUser();
+    const existingCreatedAt =
+      (user && user.createdAt) ||
+      (existingUser && existingUser.createdAt) ||
+      localStorage.getItem('signup_date');
+
+    const createdAtToStore = existingCreatedAt || new Date().toISOString();
+
+    // Persist signup date separately for guards
+    localStorage.setItem('signup_date', createdAtToStore);
+
+    user = {
+      ...user,
+      createdAt: createdAtToStore,
+    };
+
     if (rememberMe) {
       localStorage.setItem('auth_token', token);
     } else {

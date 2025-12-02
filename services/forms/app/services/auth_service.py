@@ -101,6 +101,8 @@ class AuthService:
 
         password_hash = _hash_password(password)
         ccpin_hash = _hash_ccpin(ccpin)
+        now = datetime.utcnow()
+        trial_ends_at = now + timedelta(days=14)
         
         user = UserAccount(
             email=email,
@@ -113,6 +115,8 @@ class AuthService:
             phone_verified=True,  # Set to True after OTP verification
             ccpin_hash=ccpin_hash,
             is_active=True,
+            subscription_status="trial",
+            trial_ends_at=trial_ends_at
         )
         self.db.add(user)
         await self.db.commit()

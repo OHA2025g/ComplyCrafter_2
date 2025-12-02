@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from datetime import datetime
+from typing import Optional
+
 from pydantic import BaseModel, EmailStr, Field
 
 
@@ -21,6 +24,32 @@ class UserPublic(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
     is_active: bool = True
+    created_at: Optional[datetime] = None
+    subscription_status: str = "trial"
+    subscription_plan: Optional[str] = None
+    trial_ends_at: Optional[datetime] = None
+    subscription_expires_at: Optional[datetime] = None
+    requires_subscription: bool = False
+    
+    class Config:
+        from_attributes = True
+
+
+class SubscriptionStatusResponse(BaseModel):
+    """Response model for subscription status check"""
+    subscription_status: str
+    subscription_plan: Optional[str] = None
+    trial_ends_at: Optional[datetime] = None
+    subscription_expires_at: Optional[datetime] = None
+    requires_subscription: bool
+    days_remaining_in_trial: Optional[int] = None
+    is_trial_active: bool
+    is_subscription_active: bool
+
+
+class SubscriptionPlanRequest(BaseModel):
+    """Request model for selecting a subscription plan"""
+    plan: str = Field(..., description="Plan name: starter, professional, or enterprise")
 
 
 class ForgotPasswordRequest(BaseModel):

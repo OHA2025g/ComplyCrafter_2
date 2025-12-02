@@ -522,7 +522,9 @@ export class SignupComponent implements OnDestroy {
 
       await this.http.post(`${this.API_BASE_URL}/auth/signup`, signupData).toPromise();
       this.success = true;
-      setTimeout(() => this.router.navigate(['/login']), 1500);
+      setTimeout(() => {
+        this.router.navigateByUrl('/login', { replaceUrl: true });
+      }, 1500);
     } catch (e: any) {
       this.error = e?.error?.detail || 'Signup failed. Please try again.';
     } finally {

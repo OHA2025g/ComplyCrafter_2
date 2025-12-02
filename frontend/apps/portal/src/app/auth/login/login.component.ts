@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -282,11 +282,13 @@ import { environment } from '../../../environments/environment';
     @media (max-width: 640px) { .login-card { padding: 2rem 1.5rem; } .login-header h1 { font-size: 1.8rem; } .shape { display: none; } }
   `]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
+
+  private readonly REMEMBERED_EMAIL_KEY = 'remembered_email';
 
   form: FormGroup = this.fb.group({
     email: [null, [Validators.required, Validators.email]],
@@ -302,6 +304,17 @@ export class LoginComponent {
   private readonly API_BASE_URL = environment.apiUrl;
 
   get f() { return this.form.controls; }
+
+  ngOnInit(): void {
+    // Load remembered email if available
+    const rememberedEmail = localStorage.getItem(this.REMEMBERED_EMAIL_KEY);
+    if (rememberedEmail) {
+      this.form.patchValue({
+        email: rememberedEmail,
+        rememberMe: true
+      });
+    }
+  }
 
   onPasswordInput(): void {
     if (this.form.value.password) {
@@ -368,6 +381,13 @@ export class LoginComponent {
           username: this.form.value.email
         };
         
+        // Handle "Remember Me" - save/clear email only
+        if (this.form.value.rememberMe) {
+          localStorage.setItem(this.REMEMBERED_EMAIL_KEY, this.form.value.email);
+        } else {
+          localStorage.removeItem(this.REMEMBERED_EMAIL_KEY);
+        }
+        
         this.authService.storeAuthData(
           response.access_token,
           user,
@@ -375,7 +395,10 @@ export class LoginComponent {
         );
 
         // Navigate to dashboard after successful login
-        this.router.navigate(['/dashboard']);
+        // Use setTimeout to ensure auth data is stored before navigation
+        setTimeout(() => {
+          this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+        }, 100);
       }
     } catch (e: any) {
       this.error = e?.error?.detail || 'Login failed. Please check your credentials.';

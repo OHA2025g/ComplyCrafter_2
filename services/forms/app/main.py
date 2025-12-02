@@ -19,8 +19,9 @@ from app.api.routes import (
 from app.api.routes import auth as auth_routes
 from app.api.routes import mca, dashboard, agendas, shareholder_management, capital, meetings, companies
 from app.api.routes import directors, shareholders, share_certificates, debenture_holders
+from app.api.routes import subscription
 from app.core import get_settings, setup_logging
-
+import os
 # Setup logging
 setup_logging()
 
@@ -51,6 +52,9 @@ app.include_router(ndh2.router)
 
 # Auth routes (signup, login, etc.)
 app.include_router(auth_routes.router)
+
+# Subscription routes
+app.include_router(subscription.router)
 
 # MCA company search routes
 app.include_router(mca.router)

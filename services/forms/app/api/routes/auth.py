@@ -143,7 +143,13 @@ async def signup(payload: SignupRequest, db: AsyncSession = Depends(get_async_se
             email=user.email,
             first_name=user.first_name,
             last_name=user.last_name,
-            is_active=user.is_active
+            is_active=user.is_active,
+            created_at=user.created_at,
+	        subscription_status=user.subscription_status,
+	        subscription_plan=user.subscription_plan,
+	        trial_ends_at=user.trial_ends_at,
+	        subscription_expires_at=user.subscription_expires_at,
+	        requires_subscription=user.requires_subscription()
         )
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
@@ -191,6 +197,11 @@ async def login(payload: LoginRequest, db: AsyncSession = Depends(get_async_sess
     # TODO: Replace with proper JWT implementation
     access_token = f"mock_token_{user.username}_{user.id}"
     
+	# Check and update trial status if expired
+    from app.services.subscription_service import SubscriptionService
+    subscription_service = SubscriptionService(db)
+    await subscription_service.check_and_update_trial_status(user.id)
+    await db.refresh(user)	
     return LoginResponse(
         access_token=access_token,
         token_type="bearer",
@@ -199,20 +210,53 @@ async def login(payload: LoginRequest, db: AsyncSession = Depends(get_async_sess
             email=user.email,
             first_name=user.first_name,
             last_name=user.last_name,
-            is_active=user.is_active
+            is_active=user.is_active,
+            created_at=user.created_at,
+            subscription_status=user.subscription_status,
+            subscription_plan=user.subscription_plan,
+            trial_ends_at=user.trial_ends_at,
+            subscription_expires_at=user.subscription_expires_at,
+            requires_subscription=user.requires_subscription()
         )
     )
 
 
 @router.get("/me", response_model=UserPublic)
-async def get_current_user_info(db: AsyncSession = Depends(get_async_session)) -> UserPublic:
+async def get_current_user_info(
+    user_id: int = 1,  # TODO: Extract from JWT token in production
+    db: AsyncSession = Depends(get_async_session)
+) -> UserPublic:
     """
-    Get current logged-in user information
-    For now returns mock user
+    Get current logged-in user information with subscription status
     """
-    # TODO: Extract user from JWT token
-    return UserPublic(id=1, email="mock@example.com", first_name="Mock", last_name="User", is_active=True)
-
+    from app.services.auth_service import AuthService
+    from app.services.subscription_service import SubscriptionService
+    
+    auth_service = AuthService(db)
+    user = await auth_service.get_user_by_id(user_id)
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    
+    # Check and update trial status if expired
+    subscription_service = SubscriptionService(db)
+    await subscription_service.check_and_update_trial_status(user_id)
+    await db.refresh(user)
+    
+    return UserPublic(
+        id=user.id,
+        email=user.email,
+        is_active=user.is_active,
+        created_at=user.created_at,
+        subscription_status=user.subscription_status,
+        subscription_plan=user.subscription_plan,
+        trial_ends_at=user.trial_ends_at,
+        subscription_expires_at=user.subscription_expires_at,
+        requires_subscription=user.requires_subscription()
+    )
 
 @router.post("/forgot-password", response_model=MessageResponse, status_code=status.HTTP_200_OK)
 async def forgot_password(
@@ -260,3 +304,28 @@ async def reset_password(
         logger.exception("Failed to reset password")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to reset password") from exc
     return MessageResponse(message="Password updated successfully")
+
+
+@router.post("/logout", response_model=MessageResponse, status_code=status.HTTP_200_OK)
+async def logout(
+    db: AsyncSession = Depends(get_async_session),
+) -> MessageResponse:
+    """
+    Logout the current user.
+    
+    Note: Currently using mock tokens. When JWT is implemented, this endpoint
+    should invalidate the token by adding it to a blacklist.
+    """
+    # TODO: When JWT is implemented:
+    # 1. Extract token from Authorization header
+    # 2. Add token to blacklist (Redis or database table)
+    # 3. Return success message
+    
+    # For now, just return success since tokens are mock
+    # In production with JWT, you would:
+    # - Extract token from request headers
+    # - Add token to blacklist/revocation list
+    # - Optionally track logout time in user_accounts table
+    
+    logger.info("User logged out successfully")
+    return MessageResponse(message="Logged out successfully")
