@@ -184,6 +184,12 @@ export const APP_ROUTES: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'subscription-plans',
+    loadComponent: () => import('./subscription/subscription-plans.component').then(m => m.SubscriptionPlansComponent),
+    title: 'Subscription Plans - ComplyCrafter',
+    canActivate: [authGuard]
+  },
+  {
     path: 'access-control',
     loadComponent: () => import('./access-control/access-control.component').then(m => m.AccessControlComponent),
     title: 'Access Control - ComplyCrafter',
