@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DPT4Service } from './dpt4.service';
 import { DPT4 } from './dpt4.model';
 
 @Component({
   selector: 'app-dpt4',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './dpt4.component.html',
   styleUrls: ['./dpt4.component.scss']
 })
@@ -19,7 +22,7 @@ export class DPT4Component implements OnInit {
     private fb: FormBuilder,
     private dpt4Service: DPT4Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

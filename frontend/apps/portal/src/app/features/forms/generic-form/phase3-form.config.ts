@@ -21,7 +21,7 @@ export interface GenericFormConfig {
   fields: FieldConfig[];
 }
 
-const baseFields = (overrides: Partial<FieldConfig>[] = []): FieldConfig[] => [
+const baseFields = (overrides: FieldConfig[] = []): FieldConfig[] => [
   {
     name: 'cin',
     label: 'CIN',

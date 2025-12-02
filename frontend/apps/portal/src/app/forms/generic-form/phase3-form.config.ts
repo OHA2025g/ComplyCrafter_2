@@ -21,33 +21,35 @@ export interface GenericFormConfig {
   fields: FieldConfig[];
 }
 
-const baseFields = (overrides: Partial<FieldConfig>[] = []): FieldConfig[] => [
-  {
-    name: 'cin',
-    label: 'CIN',
-    controlType: 'text',
-    required: true
-  },
-  {
-    name: 'company_name',
-    label: 'Company Name',
-    controlType: 'text',
-    required: true
-  },
-  {
-    name: 'contact_email',
-    label: 'Contact Email',
-    controlType: 'email',
-    required: true
-  },
-  {
-    name: 'filing_period',
-    label: 'Filing Period',
-    controlType: 'text',
-    required: true
-  },
-  ...overrides
-];
+const baseFields = (overrides: FieldConfig[] = []): FieldConfig[] => {
+  const base: FieldConfig[] = [
+    {
+      name: 'cin',
+      label: 'CIN',
+      controlType: 'text',
+      required: true
+    },
+    {
+      name: 'company_name',
+      label: 'Company Name',
+      controlType: 'text',
+      required: true
+    },
+    {
+      name: 'contact_email',
+      label: 'Contact Email',
+      controlType: 'email',
+      required: true
+    },
+    {
+      name: 'filing_period',
+      label: 'Filing Period',
+      controlType: 'text',
+      required: true
+    }
+  ];
+  return [...base, ...overrides];
+};
 
 const submissionField = (name: string, label: string, controlType: FieldControlType = 'textarea'): FieldConfig => ({
   name,

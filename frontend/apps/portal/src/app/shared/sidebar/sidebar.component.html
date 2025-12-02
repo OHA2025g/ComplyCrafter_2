@@ -1,0 +1,75 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    <img src="/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="sidebar-logo" />
+    <h3>Comply Crafter</h3>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div *ngFor="let item of menuItems" class="nav-item">
+      <a *ngIf="!item.children && item.route" 
+         [routerLink]="[item.route]" 
+         routerLinkActive="active"
+         class="nav-link">
+        <span class="nav-icon">{{ item.icon || '📄' }}</span>
+        <span class="nav-text">{{ item.title }}</span>
+      </a>
+
+      <div *ngIf="item.children" class="nav-expandable">
+        <div class="nav-link" (click)="toggleItem(item)">
+          <span class="nav-icon">{{ item.icon || '📄' }}</span>
+          <span class="nav-text">{{ item.title }}</span>
+          <span class="nav-arrow">{{ item.expanded ? '▼' : '▶' }}</span>
+        </div>
+
+        <div class="nav-submenu" [class.expanded]="item.expanded">
+          <div *ngFor="let child of item.children" class="nav-subitem">
+            <a *ngIf="!child.children && child.route" 
+               [routerLink]="[child.route]"
+               class="nav-sublink">
+              {{ child.title }}
+            </a>
+
+            <div *ngIf="child.children" class="nav-nested">
+              <div class="nav-sublink" (click)="toggleItem(child)">
+                {{ child.title }}
+                <span class="nav-arrow-sm">{{ child.expanded ? '▼' : '▶' }}</span>
+              </div>
+
+              <div class="nav-nested-submenu" [class.expanded]="child.expanded">
+                <!-- Level 3: Category headers or direct forms -->
+                <div *ngFor="let subchild of child.children" class="nav-category">
+                  <!-- If has children (category header), show expand/collapse -->
+                  <div *ngIf="subchild.children" class="nav-category-item">
+                    <div class="nav-nested-link" (click)="toggleItem(subchild)">
+                      {{ subchild.title }}
+                      <span class="nav-arrow-sm">{{ subchild.expanded ? '▼' : '▶' }}</span>
+                    </div>
+                    <!-- Level 4: Actual forms under category -->
+                    <div class="nav-forms-list" [class.expanded]="subchild.expanded">
+                      <a *ngFor="let form of subchild.children"
+                         [routerLink]="[form.route]"
+                         routerLinkActive="active"
+                         class="nav-form-link">
+                        {{ form.title }}
+                      </a>
+                    </div>
+                  </div>
+                  <!-- If no children (direct form), show as link -->
+                  <a *ngIf="!subchild.children && subchild.route" 
+                     [routerLink]="[subchild.route]"
+                     routerLinkActive="active"
+                     class="nav-nested-link">
+                    {{ subchild.title }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+
+
+

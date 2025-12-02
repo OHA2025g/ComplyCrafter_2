@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MGT9Service } from './mgt9.service';
 import { MGT9 } from './mgt9.model';
 
 @Component({
   selector: 'app-mgt9',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './mgt9.component.html',
   styleUrls: ['./mgt9.component.scss']
 })
@@ -19,7 +22,7 @@ export class MGT9Component implements OnInit {
     private fb: FormBuilder,
     private mgt9Service: MGT9Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

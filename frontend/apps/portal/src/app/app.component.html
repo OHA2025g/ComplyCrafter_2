@@ -1,0 +1,32 @@
+
+    <div class="app-layout" *ngIf="!isAuthView; else authLayout">
+      <app-sidebar></app-sidebar>
+      <div class="main-container">
+        <header class="app-header">
+          <div class="header-content">
+            <div class="header-left">
+              <img src="/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="logo" />
+              <h1>ComplyCrafter Portal</h1>
+            </div>
+            <div class="header-right">
+              <div class="user-info">
+                <span class="user-icon">👤</span>
+                <span class="user-name">{{ getUserName() }}</span>
+              </div>
+              <button class="btn-logout" (click)="handleLogout()" title="Logout">
+                <span class="logout-icon">🚪</span>
+                <span class="logout-text">Logout</span>
+              </button>
+            </div>
+          </div>
+        </header>
+        <main class="main-content">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
+    </div>
+
+    <ng-template #authLayout>
+      <router-outlet></router-outlet>
+    </ng-template>
+  

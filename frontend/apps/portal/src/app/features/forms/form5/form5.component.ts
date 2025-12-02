@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Form5Service } from './form5.service';
 import { Form5 } from './form5.model';
 
 @Component({
   selector: 'app-form5',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './form5.component.html',
   styleUrls: ['./form5.component.scss']
 })
@@ -19,7 +22,7 @@ export class Form5Component implements OnInit {
     private fb: FormBuilder,
     private form5Service: Form5Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

@@ -6,7 +6,7 @@
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
-    "module": "esnext",
+    "module": "ES2022",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "allowJs": false,

@@ -1,0 +1,25 @@
+<svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background (optional, remove for transparent) -->
+  <rect width="200" height="200" fill="transparent"/>
+  
+  <!-- Left C - Four curved lines -->
+  <path d="M 80 50 Q 40 50, 40 100 Q 40 150, 80 150" 
+        stroke="#667eea" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 85 55 Q 45 55, 45 100 Q 45 145, 85 145" 
+        stroke="#667eea" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 90 60 Q 50 60, 50 100 Q 50 140, 90 140" 
+        stroke="#6a82ec" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 95 65 Q 55 65, 55 100 Q 55 135, 95 135" 
+        stroke="#6e86ee" stroke-width="4" fill="none" stroke-linecap="round"/>
+  
+  <!-- Right C - Four curved lines (mirrored, interlocked) -->
+  <path d="M 120 50 Q 160 50, 160 100 Q 160 150, 120 150" 
+        stroke="#764ba2" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 115 55 Q 155 55, 155 100 Q 155 145, 115 145" 
+        stroke="#764ba2" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 110 60 Q 150 60, 150 100 Q 150 140, 110 140" 
+        stroke="#7553a6" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M 105 65 Q 145 65, 145 100 Q 145 135, 105 135" 
+        stroke="#745ba8" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>
+

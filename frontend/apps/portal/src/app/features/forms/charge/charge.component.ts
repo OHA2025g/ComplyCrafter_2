@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CHARGEService } from './charge.service';
 import { CHARGE } from './charge.model';
 
 @Component({
   selector: 'app-charge',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './charge.component.html',
   styleUrls: ['./charge.component.scss']
 })
@@ -19,7 +22,7 @@ export class CHARGEComponent implements OnInit {
     private fb: FormBuilder,
     private chargeService: CHARGEService,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

@@ -15,7 +15,7 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly http = inject(HttpClient);
+  private readonly http: HttpClient = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly API_BASE_URL = environment.apiUrl;
 

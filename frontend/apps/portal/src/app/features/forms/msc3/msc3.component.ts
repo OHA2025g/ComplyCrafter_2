@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MSC3Service } from './msc3.service';
 import { MSC3 } from './msc3.model';
 
 @Component({
   selector: 'app-msc3',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './msc3.component.html',
   styleUrls: ['./msc3.component.scss']
 })
@@ -19,7 +22,7 @@ export class MSC3Component implements OnInit {
     private fb: FormBuilder,
     private msc3Service: MSC3Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

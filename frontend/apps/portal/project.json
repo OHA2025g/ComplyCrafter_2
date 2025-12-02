@@ -5,19 +5,65 @@
   "sourceRoot": "apps/portal/src",
   "targets": {
     "build": {
-      "executor": "@nx/vite:build",
+      "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "configFile": "apps/portal/vite.config.ts",
         "outputPath": "dist/apps/portal",
+        "index": "apps/portal/src/index.html",
+        "main": "apps/portal/src/main.ts",
+        "polyfills": ["apps/portal/src/polyfills.ts"],
         "tsConfig": "apps/portal/tsconfig.app.json",
-        "skipTypeCheck": true
-      }
+        "assets": [
+          "apps/portal/src/favicon.png",
+          "apps/portal/src/assets"
+        ],
+        "styles": [
+          "apps/portal/src/styles.scss",
+          "apps/portal/src/styles-beautiful.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@nx/vite:dev-server",
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "portal:build:production"
+        },
+        "development": {
+          "buildTarget": "portal:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "portal:build"
+        "port": 4200,
+        "host": "0.0.0.0"
       }
     },
     "test": {

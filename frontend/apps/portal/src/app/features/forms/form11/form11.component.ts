@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Form11Service } from './form11.service';
 import { Form11 } from './form11.model';
 
 @Component({
   selector: 'app-form11',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './form11.component.html',
   styleUrls: ['./form11.component.scss']
 })
@@ -19,7 +22,7 @@ export class Form11Component implements OnInit {
     private fb: FormBuilder,
     private form11Service: Form11Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

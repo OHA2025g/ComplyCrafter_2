@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DIR11Service } from './dir11.service';
 import { DIR11 } from './dir11.model';
 
 @Component({
   selector: 'app-dir11',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './dir11.component.html',
   styleUrls: ['./dir11.component.scss']
 })
@@ -19,7 +22,7 @@ export class DIR11Component implements OnInit {
     private fb: FormBuilder,
     private dir11Service: DIR11Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MGT6Service } from './mgt6.service';
 import { MGT6 } from './mgt6.model';
 
 @Component({
   selector: 'app-mgt6',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './mgt6.component.html',
   styleUrls: ['./mgt6.component.scss']
 })
@@ -19,7 +22,7 @@ export class MGT6Component implements OnInit {
     private fb: FormBuilder,
     private mgt6Service: MGT6Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

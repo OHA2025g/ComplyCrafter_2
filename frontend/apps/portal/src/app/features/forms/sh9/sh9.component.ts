@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { SH9Service } from './sh9.service';
 import { SH9 } from './sh9.model';
 
 @Component({
   selector: 'app-sh9',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './sh9.component.html',
   styleUrls: ['./sh9.component.scss']
 })
@@ -19,7 +22,7 @@ export class SH9Component implements OnInit {
     private fb: FormBuilder,
     private sh9Service: SH9Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

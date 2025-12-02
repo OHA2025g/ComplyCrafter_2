@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { RUNService } from './run.service';
 import { RUN } from './run.model';
 
 @Component({
   selector: 'app-run',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './run.component.html',
   styleUrls: ['./run.component.scss']
 })
@@ -19,7 +22,7 @@ export class RUNComponent implements OnInit {
     private fb: FormBuilder,
     private runService: RUNService,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

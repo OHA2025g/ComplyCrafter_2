@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GNL1Service } from './gnl1.service';
 import { GNL1 } from './gnl1.model';
 
 @Component({
   selector: 'app-gnl1',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './gnl1.component.html',
   styleUrls: ['./gnl1.component.scss']
 })
@@ -19,7 +22,7 @@ export class GNL1Component implements OnInit {
     private fb: FormBuilder,
     private gnl1Service: GNL1Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

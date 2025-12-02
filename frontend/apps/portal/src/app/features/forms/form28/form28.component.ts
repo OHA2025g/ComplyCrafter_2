@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Form28Service } from './form28.service';
 import { Form28 } from './form28.model';
 
 @Component({
   selector: 'app-form28',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './form28.component.html',
   styleUrls: ['./form28.component.scss']
 })
@@ -19,7 +22,7 @@ export class Form28Component implements OnInit {
     private fb: FormBuilder,
     private form28Service: Form28Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

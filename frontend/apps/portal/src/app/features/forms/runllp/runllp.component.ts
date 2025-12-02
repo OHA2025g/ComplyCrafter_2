@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { RUNLLPService } from './runllp.service';
 import { RUNLLP } from './runllp.model';
 
 @Component({
   selector: 'app-runllp',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './runllp.component.html',
   styleUrls: ['./runllp.component.scss']
 })
@@ -19,7 +22,7 @@ export class RUNLLPComponent implements OnInit {
     private fb: FormBuilder,
     private runllpService: RUNLLPService,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

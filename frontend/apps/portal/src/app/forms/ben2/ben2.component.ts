@@ -215,7 +215,7 @@ export class Ben2Component {
     }
     this.submitting = true;
     try {
-      const payload = this.form.value as Ben2FormModel;
+      const payload = this.form.value as unknown as Ben2FormModel;
       const response = await firstValueFrom(this.api.saveBen2(payload));
       this.lastResponse = (response as Ben2FormModel) ?? payload;
     } finally {

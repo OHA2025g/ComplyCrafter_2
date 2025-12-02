@@ -383,7 +383,7 @@ export class Dpt3Component {
     }
     this.submitting = true;
     try {
-      const payload = this.form.value as Dpt3FormModel;
+      const payload = this.form.value as unknown as Dpt3FormModel;
       const response = await firstValueFrom(this.api.saveDpt3(payload));
       this.lastResponse = (response as Dpt3FormModel) ?? payload;
     } finally {

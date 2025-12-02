@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BOARDREPORTService } from './boardreport.service';
 import { BOARDREPORT } from './boardreport.model';
 
 @Component({
   selector: 'app-boardreport',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './boardreport.component.html',
   styleUrls: ['./boardreport.component.scss']
 })
@@ -19,7 +22,7 @@ export class BOARDREPORTComponent implements OnInit {
     private fb: FormBuilder,
     private boardreportService: BOARDREPORTService,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

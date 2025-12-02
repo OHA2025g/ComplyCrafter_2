@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GNL2Service } from './gnl2.service';
 import { GNL2 } from './gnl2.model';
 
 @Component({
   selector: 'app-gnl2',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './gnl2.component.html',
   styleUrls: ['./gnl2.component.scss']
 })
@@ -19,7 +22,7 @@ export class GNL2Component implements OnInit {
     private fb: FormBuilder,
     private gnl2Service: GNL2Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

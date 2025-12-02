@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { INC23Service } from './inc23.service';
 import { INC23 } from './inc23.model';
 
 @Component({
   selector: 'app-inc23',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './inc23.component.html',
   styleUrls: ['./inc23.component.scss']
 })
@@ -19,7 +22,7 @@ export class INC23Component implements OnInit {
     private fb: FormBuilder,
     private inc23Service: INC23Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

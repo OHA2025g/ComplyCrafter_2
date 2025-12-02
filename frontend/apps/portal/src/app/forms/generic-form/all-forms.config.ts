@@ -28,6 +28,7 @@ export interface FormConfig {
   submitLabel?: string;
   successMessage?: string;
   category?: string;
+  phase?: number;
 }
 
 // Base company fields used across all forms

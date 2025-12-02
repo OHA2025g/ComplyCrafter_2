@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DIR3Service } from './dir3.service';
 import { DIR3 } from './dir3.model';
 
 @Component({
   selector: 'app-dir3',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './dir3.component.html',
   styleUrls: ['./dir3.component.scss']
 })
@@ -19,7 +22,7 @@ export class DIR3Component implements OnInit {
     private fb: FormBuilder,
     private dir3Service: DIR3Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

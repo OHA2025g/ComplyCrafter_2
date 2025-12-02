@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MGT8Service } from './mgt8.service';
 import { MGT8 } from './mgt8.model';
 
 @Component({
   selector: 'app-mgt8',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './mgt8.component.html',
   styleUrls: ['./mgt8.component.scss']
 })
@@ -19,7 +22,7 @@ export class MGT8Component implements OnInit {
     private fb: FormBuilder,
     private mgt8Service: MGT8Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { PAS2Service } from './pas2.service';
 import { PAS2 } from './pas2.model';
 
 @Component({
   selector: 'app-pas2',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './pas2.component.html',
   styleUrls: ['./pas2.component.scss']
 })
@@ -19,7 +22,7 @@ export class PAS2Component implements OnInit {
     private fb: FormBuilder,
     private pas2Service: PAS2Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

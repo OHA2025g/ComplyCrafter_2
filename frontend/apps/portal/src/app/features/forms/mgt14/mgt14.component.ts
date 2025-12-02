@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MGT14Service } from './mgt14.service';
 import { MGT14 } from './mgt14.model';
 
 @Component({
   selector: 'app-mgt14',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './mgt14.component.html',
   styleUrls: ['./mgt14.component.scss']
 })
@@ -19,7 +22,7 @@ export class MGT14Component implements OnInit {
     private fb: FormBuilder,
     private mgt14Service: MGT14Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

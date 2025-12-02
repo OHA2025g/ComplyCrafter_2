@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CHG1Service } from './chg1.service';
 import { CHG1 } from './chg1.model';
 
 @Component({
   selector: 'app-chg1',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './chg1.component.html',
   styleUrls: ['./chg1.component.scss']
 })
@@ -19,7 +22,7 @@ export class CHG1Component implements OnInit {
     private fb: FormBuilder,
     private chg1Service: CHG1Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

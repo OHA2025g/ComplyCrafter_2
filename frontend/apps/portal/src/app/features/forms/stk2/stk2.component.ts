@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { STK2Service } from './stk2.service';
 import { STK2 } from './stk2.model';
 
 @Component({
   selector: 'app-stk2',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './stk2.component.html',
   styleUrls: ['./stk2.component.scss']
 })
@@ -19,7 +22,7 @@ export class STK2Component implements OnInit {
     private fb: FormBuilder,
     private stk2Service: STK2Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

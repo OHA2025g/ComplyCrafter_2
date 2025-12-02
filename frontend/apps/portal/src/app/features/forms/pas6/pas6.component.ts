@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { PAS6Service } from './pas6.service';
 import { PAS6 } from './pas6.model';
 
 @Component({
   selector: 'app-pas6',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './pas6.component.html',
   styleUrls: ['./pas6.component.scss']
 })
@@ -19,7 +22,7 @@ export class PAS6Component implements OnInit {
     private fb: FormBuilder,
     private pas6Service: PAS6Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

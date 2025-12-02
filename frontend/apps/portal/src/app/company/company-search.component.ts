@@ -170,7 +170,7 @@ interface CompanyResult {
 })
 export class CompanySearchComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly http = inject(HttpClient);
+  private readonly http: HttpClient = inject(HttpClient);
 
   searchForm: FormGroup = this.fb.group({
     query: ['', [Validators.required, Validators.minLength(3)]]

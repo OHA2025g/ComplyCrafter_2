@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DIR9Service } from './dir9.service';
 import { DIR9 } from './dir9.model';
 
 @Component({
   selector: 'app-dir9',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './dir9.component.html',
   styleUrls: ['./dir9.component.scss']
 })
@@ -19,7 +22,7 @@ export class DIR9Component implements OnInit {
     private fb: FormBuilder,
     private dir9Service: DIR9Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

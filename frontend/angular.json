@@ -7,7 +7,72 @@
       "root": "apps/portal",
       "sourceRoot": "apps/portal/src",
       "prefix": "app",
-      "architect": {}
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/portal",
+            "index": "apps/portal/src/index.html",
+            "main": "apps/portal/src/main.ts",
+            "polyfills": ["apps/portal/src/polyfills.ts"],
+            "tsConfig": "apps/portal/tsconfig.app.json",
+            "assets": [
+              "apps/portal/src/favicon.png",
+              "apps/portal/src/assets"
+            ],
+            "styles": [
+              "apps/portal/src/styles.scss",
+              "apps/portal/src/styles-beautiful.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "portal:build:production"
+            },
+            "development": {
+              "buildTarget": "portal:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4200,
+            "host": "0.0.0.0"
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "analytics": "95190f28-90c0-445d-bfaf-a821128a03d5"
   }
 }

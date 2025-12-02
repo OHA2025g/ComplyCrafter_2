@@ -1,0 +1,29 @@
+<div class="app-layout">
+  <app-sidebar></app-sidebar>
+  <div class="main-container">
+    <div class="app-header">
+      <div class="header-content">
+        <div class="header-left">
+          <img 
+            src="assets/images/comply_crafter_logo.png" 
+            alt="ComplyCrafter Logo" 
+            class="logo" 
+          />
+        </div>
+        <div class="header-right">
+          <div class="user-info">
+            <span class="user-icon">👤</span>
+            <span class="user-name">{{ authService.getUserDisplayName() }}</span>
+          </div>
+          <button class="btn-logout" (click)="handleLogout()">
+            <span class="logout-icon">🚪</span>
+            <span class="logout-text">Logout</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

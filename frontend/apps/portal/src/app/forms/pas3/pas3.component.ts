@@ -341,7 +341,7 @@ export class Pas3Component {
     }
     this.submitting = true;
     try {
-      const payload = this.form.value as Pas3FormModel;
+      const payload = this.form.value as unknown as Pas3FormModel;
       const response = await firstValueFrom(this.api.savePas3(payload));
       this.lastResponse = (response as Pas3FormModel) ?? payload;
     } finally {

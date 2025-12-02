@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { SH8Service } from './sh8.service';
 import { SH8 } from './sh8.model';
 
 @Component({
   selector: 'app-sh8',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './sh8.component.html',
   styleUrls: ['./sh8.component.scss']
 })
@@ -19,7 +22,7 @@ export class SH8Component implements OnInit {
     private fb: FormBuilder,
     private sh8Service: SH8Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

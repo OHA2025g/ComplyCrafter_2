@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IEPF2Service } from './iepf2.service';
 import { IEPF2 } from './iepf2.model';
 
 @Component({
   selector: 'app-iepf2',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './iepf2.component.html',
   styleUrls: ['./iepf2.component.scss']
 })
@@ -19,7 +22,7 @@ export class IEPF2Component implements OnInit {
     private fb: FormBuilder,
     private iepf2Service: IEPF2Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }

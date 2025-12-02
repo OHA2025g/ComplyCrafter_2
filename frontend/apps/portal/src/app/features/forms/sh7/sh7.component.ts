@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { SH7Service } from './sh7.service';
 import { SH7 } from './sh7.model';
 
 @Component({
   selector: 'app-sh7',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './sh7.component.html',
   styleUrls: ['./sh7.component.scss']
 })
@@ -19,7 +22,7 @@ export class SH7Component implements OnInit {
     private fb: FormBuilder,
     private sh7Service: SH7Service,
     private route: ActivatedRoute,
-    private router: Router
+    public router: Router
   ) {
     this.initializeForm();
   }
