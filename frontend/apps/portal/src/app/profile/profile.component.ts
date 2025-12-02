@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { AlertService } from '../shared/alert/alert.service';
@@ -382,55 +383,72 @@ import { environment } from '../../environments/environment';
   
   <!-- Informative View (Read-only display) -->
   <div class="info-display" *ngIf="!isEditingAccountSettings">
-    <div class="info-row" (mouseenter)="hoveredField = 'email'" (mouseleave)="hoveredField = null">
-      <span class="info-label">Email :</span>
-      <span class="info-value" *ngIf="editingField !== 'email'">
-        {{ user?.email || '—' }}
-        <button class="inline-edit-btn" *ngIf="hoveredField === 'email' && false" (click)="startInlineEdit('email')" title="Edit" disabled>
-          <span class="edit-icon-small">✏️</span>
-        </button>
-      </span>
-    </div>
-    <div class="info-row" (mouseenter)="hoveredField = 'password'" (mouseleave)="hoveredField = null">
-      <span class="info-label">Password :</span>
-      <span class="info-value" *ngIf="editingField !== 'password'">
-        {{ password ? '••••••••' : '—' }}
-        <button class="inline-edit-btn" *ngIf="hoveredField === 'password'" (click)="startInlineEdit('password')" title="Edit">
-          <span class="edit-icon-small">✏️</span>
-        </button>
-      </span>
-      <div class="inline-edit-container" *ngIf="editingField === 'password'">
-        <input type="password" [(ngModel)]="password" class="inline-input" (blur)="saveInlineField('password')" (keyup.enter)="saveInlineField('password')" (keyup.escape)="cancelInlineEdit('password')" placeholder="Enter password" />
-        <div class="inline-edit-actions">
-          <button class="inline-save-btn" (click)="saveInlineField('password')" title="Save">✓</button>
-          <button class="inline-cancel-btn" (click)="cancelInlineEdit('password')" title="Cancel">✕</button>
-        </div>
+    <!-- Role and Email in Same Row -->
+    <div class="info-row email-role-row full-width-row">
+      <div class="field-group">
+        <span class="info-label">Role :</span>
+        <span class="info-value">CompanyAdmin</span>
+      </div>
+      <div class="field-group">
+        <span class="info-label">Email :</span>
+        <span class="info-value">{{ user?.email || '—' }}</span>
       </div>
     </div>
-    <div class="info-row">
-      <span class="info-label">Role :</span>
-      <span class="info-value">CompanyAdmin</span>
+    
+    <!-- Password and Retype Password in Same Row -->
+    <div class="info-row password-row full-width-row">
+      <div class="password-field-group">
+        <span class="info-label">Password :</span>
+        <input type="password" [(ngModel)]="password" class="password-input" placeholder="Enter new password" />
+      </div>
+      <div class="password-field-group">
+        <span class="info-label">Retype Password :</span>
+        <input type="password" [(ngModel)]="retypePassword" class="password-input" placeholder="Retype password" />
+      </div>
+    </div>
+    
+    <!-- Password Match Error -->
+    <div class="info-row full-width-row" *ngIf="password && retypePassword && password !== retypePassword">
+      <div class="password-match-error">
+        ⚠️ Passwords do not match
+      </div>
     </div>
   </div>
   
   <!-- Edit Mode (Form inputs) -->
   <div class="form-fields" *ngIf="isEditingAccountSettings">
-    <div class="form-field">
+    <div class="form-field full-width">
       <label>Email</label>
       <input type="text" [value]="user?.email || ''" readonly class="readonly-field" />
     </div>
     <div class="form-field">
       <label>Password</label>
-      <input type="password" [(ngModel)]="password" placeholder="Password" />
+      <input type="password" [(ngModel)]="password" placeholder="Enter new password" />
     </div>
     <div class="form-field">
       <label>Retype password</label>
       <input type="password" [(ngModel)]="retypePassword" placeholder="Retype password" />
     </div>
-    <div class="form-field">
+    <div class="form-field full-width" *ngIf="password && retypePassword && password !== retypePassword">
+      <div class="password-match-error">
+        ⚠️ Passwords do not match
+      </div>
+    </div>
+    <div class="form-field full-width">
       <label>Role</label>
       <input type="text" value="CompanyAdmin" readonly class="readonly-field" />
     </div>
+  </div>
+  
+  <!-- Save Button for Account Settings -->
+  <div class="save-button-container" *ngIf="!isEditingAccountSettings">
+    <button class="btn-save-account" (click)="saveAccountSettings()" [disabled]="isSaving || !password || !retypePassword || password !== retypePassword">
+      <span *ngIf="!isSaving">Save</span>
+      <span *ngIf="isSaving" class="save-loader">
+        <span class="spinner"></span>
+        <span>Saving...</span>
+      </span>
+    </button>
   </div>
   </div>
 </div>
@@ -1388,6 +1406,53 @@ import { environment } from '../../environments/environment';
   padding: 0;
 }
 
+.info-row.full-width-row {
+  grid-column: span 3;
+}
+
+.info-row.email-role-row {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.info-row.password-row {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.field-group {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.password-field-group {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.password-input {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #e6e9f2;
+  border-radius: 6px;
+  background: #f8f9fc;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
 .info-row {
   display: flex;
   align-items: baseline;
@@ -1513,6 +1578,10 @@ import { environment } from '../../environments/environment';
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.25rem 1.5rem;
+}
+
+.form-field.full-width {
+  grid-column: span 3;
 }
 
 .form-field {
@@ -2550,12 +2619,56 @@ import { environment } from '../../environments/environment';
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Save Button Container */
+.save-button-container {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.btn-save-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-save-account:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-save-account:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.password-match-error {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
   `]
 })
 export class ProfileComponent {
   private authService = inject(AuthService);
   private http = inject(HttpClient);
   private alertService = inject(AlertService);
+  private router = inject(Router);
   private readonly API_BASE_URL = environment.apiUrl;
   
   user = this.authService.getCurrentUser();
@@ -2970,8 +3083,7 @@ export class ProfileComponent {
 
   purchasePlan(): void {
     console.log('Purchase plan clicked');
-    // TODO: Implement purchase plan functionality
-    this.alertService.info('Purchase plan feature coming soon!', 'Coming Soon');
+    this.router.navigate(['/subscription-plans']);
   }
 
   // Sub User Modal State
