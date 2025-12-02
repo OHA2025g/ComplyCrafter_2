@@ -1,6 +1,4 @@
 from __future__ import annotations
-from datetime import timedelta
-from typing import List
 
 import logging
 from typing import Optional
@@ -20,20 +18,11 @@ from app.schemas.auth import (
     VerifyOTPRequest,
 )
 from app.services.auth_service import AuthService
-<<<<<<< HEAD
-from app.core.jwt import create_access_token, create_refresh_token
-from app.core.config import get_settings
-from app.core.security import get_current_user, get_current_admin_user
-from app.models.auth import User
-
-settings = get_settings()
-=======
 from app.services.email_service import EmailDeliveryError
 from app.services.otp_exceptions import OTPDispatchError, OTPThrottleError
 from app.services.otp_service import OTPService, normalize_phone_number, validate_phone_number
 
 logger = logging.getLogger(__name__)
->>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -49,18 +38,10 @@ class LoginRequest(BaseModel):
 # Login Response Schema
 class LoginResponse(BaseModel):
     access_token: str
-    refresh_token: str
     token_type: str = "bearer"
-    expires_in: int  # seconds
     user: UserPublic
 
 
-<<<<<<< HEAD
-# Logout Response Schema
-class LogoutResponse(BaseModel):
-    message: str
-    success: bool = True
-=======
 @router.post("/send-otp", response_model=MessageResponse, status_code=status.HTTP_200_OK)
 async def send_otp(payload: SendOTPRequest, db: AsyncSession = Depends(get_async_session)) -> MessageResponse:
     """
@@ -118,7 +99,6 @@ async def verify_otp(payload: VerifyOTPRequest, db: AsyncSession = Depends(get_a
     except Exception as exc:
         logger.exception("Failed to verify OTP")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to verify OTP") from exc
->>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
 
 
 @router.post("/signup", response_model=UserPublic, status_code=status.HTTP_201_CREATED)
@@ -175,44 +155,6 @@ async def signup(payload: SignupRequest, db: AsyncSession = Depends(get_async_se
 @router.post("/login", response_model=LoginResponse)
 async def login(payload: LoginRequest, db: AsyncSession = Depends(get_async_session)) -> LoginResponse:
     """
-<<<<<<< HEAD
-    Login with username/email and password
-    Returns JWT access token and refresh token
-    """
-    import logging
-    logger = logging.getLogger(__name__)
-    
-    try:
-        service = AuthService(db)
-        user = await service.verify_user(payload.username, payload.password)
-        
-        if not user:
-            logger.warning(f"Login failed: Invalid credentials for username: {payload.username}")
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid username or password",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
-        
-        if not user.is_active:
-            logger.warning(f"Login failed: Inactive account for username: {payload.username}")
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="User account is inactive"
-            )
-        
-        # Fetch user roles from database
-        from sqlalchemy.orm import selectinload
-        from sqlalchemy import select
-        from app.models.user_account import UserAccount
-        from app.models.role import Role
-        
-        # Load user with roles
-        user_result = await db.execute(
-            select(UserAccount)
-            .where(UserAccount.id == user.id)
-            .options(selectinload(UserAccount.roles))
-=======
     Login with email and either password OR CCPIN
     Returns JWT access token
     """
@@ -243,98 +185,8 @@ async def login(payload: LoginRequest, db: AsyncSession = Depends(get_async_sess
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials",
             headers={"WWW-Authenticate": "Bearer"},
->>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
         )
-        user_with_roles = user_result.scalar_one()
-        
-        # Extract role names from database
-        user_roles = [role.name for role in user_with_roles.roles] if user_with_roles.roles else []
-        
-        # Ensure at least "user" role is present (fallback for users without roles)
-        if not user_roles:
-            user_roles = ["user"]
-        elif "user" not in user_roles:
-            user_roles.append("user")
-        
-        # Prepare token data
-        token_data = {
-            "sub": str(user.id),  # Subject (user ID)
-            "username": user.username,
-            "email": user.email,
-            "roles": user_roles,
-            "permissions": []  # Can be extended from user model
-        }
-        
-        # Generate tokens
-        try:
-            access_token = create_access_token(data=token_data)
-            refresh_token = create_refresh_token(data=token_data)
-        except Exception as e:
-            logger.error(f"Error generating JWT tokens: {e}", exc_info=True)
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Error generating authentication tokens"
-            )
-        
-        # Calculate expiration time in seconds
-        expires_in = settings.access_token_expire_minutes * 60
-        
-        logger.info(f"Login successful for user: {user.username} (ID: {user.id})")
-        
-        return LoginResponse(
-            access_token=access_token,
-            refresh_token=refresh_token,
-            token_type="bearer",
-            expires_in=expires_in,
-            user=UserPublic(id=user.id, username=user.username, email=user.email, is_active=user.is_active)
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Unexpected error during login: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred during login. Please try again."
-        )
-
-
-@router.post("/logout", response_model=LogoutResponse)
-async def logout(
-    current_user: User = Depends(get_current_admin_user)
-) -> LogoutResponse:
-    """
-    Logout user - invalidate session/token
-    Requires valid JWT token with admin role for authentication
-    Only administrators can logout users
-    Returns success message
-    """
-    import logging
-    logger = logging.getLogger(__name__)
     
-<<<<<<< HEAD
-    try:
-        # TODO: Add token to blacklist in Redis/database for proper invalidation
-        # For now, token invalidation is handled client-side
-        # In production, you would:
-        # 1. Add token to blacklist (Redis or database)
-        # 2. Check blacklist on subsequent requests
-        # 3. Return error if token is already blacklisted
-        
-        logger.info(f"Admin user {current_user.username} (ID: {current_user.id}) logged out successfully")
-        
-        return LogoutResponse(
-            message="Logged out successfully",
-            success=True
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"Error during logout: {e}", exc_info=True)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred during logout. Please try again."
-        )
-=======
     # For now, generate simple token (username-based)
     # TODO: Replace with proper JWT implementation
     access_token = f"mock_token_{user.username}_{user.id}"
@@ -350,48 +202,14 @@ async def logout(
             is_active=user.is_active
         )
     )
->>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
 
 
 @router.get("/me", response_model=UserPublic)
-async def get_current_user_info(current_user: User = Depends(get_current_user)) -> UserPublic:
+async def get_current_user_info(db: AsyncSession = Depends(get_async_session)) -> UserPublic:
     """
-    Get current logged-in user information from JWT token
+    Get current logged-in user information
+    For now returns mock user
     """
-<<<<<<< HEAD
-    return UserPublic(
-        id=current_user.id,
-        username=current_user.username,
-        email=current_user.email,
-        is_active=current_user.is_active
-    )
-
-
-@router.get("/users", response_model=List[UserPublic])
-async def get_all_users(
-    db: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(get_current_admin_user)
-) -> List[UserPublic]:
-    """
-    Get all users.
-    Requires admin authentication.
-    """
-    from app.models.user_account import UserAccount
-    from sqlalchemy import select
-    
-    result = await db.execute(select(UserAccount).order_by(UserAccount.username))
-    users = result.scalars().all()
-    
-    return [
-        UserPublic(
-            id=user.id,
-            username=user.username,
-            email=user.email,
-            is_active=user.is_active
-        )
-        for user in users
-    ]
-=======
     # TODO: Extract user from JWT token
     return UserPublic(id=1, email="mock@example.com", first_name="Mock", last_name="User", is_active=True)
 
@@ -442,4 +260,3 @@ async def reset_password(
         logger.exception("Failed to reset password")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to reset password") from exc
     return MessageResponse(message="Password updated successfully")
->>>>>>> f2e4bcee1c43520ce2e01f35c0bf908a9d3b1e16
