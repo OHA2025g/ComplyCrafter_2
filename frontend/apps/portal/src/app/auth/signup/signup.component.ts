@@ -19,20 +19,18 @@ function ccpinMatchValidator(control: AbstractControl): ValidationErrors | null 
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
     <div class="signup-container">
-      <div class="background-shapes">
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
+      <!-- Left Section: Gradient Background with Logo -->
+      <div class="left-section">
+        <div class="logo-container">
+          <img src="/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="logo" />
+          <h1 class="brand-name">ComplyCrafter</h1>
+          <p class="welcome-text">Join ComplyCrafter!</p>
+          <p class="welcome-subtext">Create your account and start managing compliance</p>
+        </div>
       </div>
       
-      <div class="signup-card">
-        <div class="signup-header">
-          <div class="logo-container">
-            <img src="/images/comply_crafter_logo.png" alt="ComplyCrafter Logo" class="logo" />
-          </div>
-          <h1>Join ComplyCrafter!</h1>
-          <p>Create your account and start managing compliance</p>
-        </div>
+      <!-- Right Section: Signup Form -->
+      <div class="right-section">
 
         <form [formGroup]="form" (ngSubmit)="submit()" class="signup-form">
           <!-- First Name -->
@@ -130,76 +128,80 @@ function ccpinMatchValidator(control: AbstractControl): ValidationErrors | null 
             </div>
           </div>
 
-          <!-- Phone Number with OTP -->
+          <!-- Phone Number -->
           <div class="form-group" [class.has-error]="f['phoneNumber'].invalid && f['phoneNumber'].touched">
             <label for="phoneNumber">
               <span class="icon">📱</span>
               Phone Number
             </label>
-            <div class="phone-input-group">
-              <input 
-                type="tel" 
-                id="phoneNumber" 
-                formControlName="phoneNumber"
-                placeholder="Enter 10-digit phone number"
-                maxlength="10"
-                (input)="onPhoneInput($event)"
-              />
-              <button 
-                type="button"
-                class="btn-send-otp"
-                (click)="sendOTP()"
-                [disabled]="f['phoneNumber'].invalid || sendingOTP || otpCountdown > 0"
-              >
-                <span *ngIf="!sendingOTP && otpCountdown === 0">Send OTP</span>
-                <span *ngIf="sendingOTP">Sending...</span>
-                <span *ngIf="otpCountdown > 0">Resend ({{ formatCountdown(otpCountdown) }})</span>
-              </button>
-            </div>
+            <input 
+              type="tel" 
+              id="phoneNumber" 
+              formControlName="phoneNumber"
+              placeholder="Enter 10-digit phone"
+              maxlength="10"
+              (input)="onPhoneInput($event)"
+            />
             <div class="input-underline"></div>
             <div *ngIf="f['phoneNumber'].invalid && f['phoneNumber'].touched" class="error-message">
               <span class="error-icon">⚠️</span>
-              Phone number must be exactly 10 digits
+              Phone must be 10 digits
             </div>
+          </div>
+
+          <!-- OTP Button (centered, full width) -->
+          <div class="form-group full-width otp-button-container">
+            <button 
+              type="button"
+              class="btn-send-otp-center"
+              (click)="sendOTP()"
+              [disabled]="f['phoneNumber'].invalid || sendingOTP || otpCountdown > 0"
+            >
+              <span *ngIf="!sendingOTP && otpCountdown === 0">Send OTP</span>
+              <span *ngIf="sendingOTP">Sending...</span>
+              <span *ngIf="otpCountdown > 0">Resend ({{ formatCountdown(otpCountdown) }})</span>
+            </button>
             <div *ngIf="otpSent && !otpVerified" class="otp-info">
               <span class="info-icon">ℹ️</span>
               OTP sent! Please verify your phone number within 10 minutes.
             </div>
           </div>
 
-          <!-- OTP Input -->
-          <div class="form-group" *ngIf="otpSent && !otpVerified" [class.has-error]="f['otp'].invalid && f['otp'].touched">
+          <!-- OTP Input (if OTP sent) -->
+          <div class="form-group full-width" *ngIf="otpSent && !otpVerified" [class.has-error]="f['otp'].invalid && f['otp'].touched">
             <label for="otp">
               <span class="icon">🔐</span>
               Enter OTP
               <span *ngIf="otpCountdown > 0" class="otp-timer">(Expires in {{ formatCountdown(otpCountdown) }})</span>
             </label>
-            <input 
-              type="text" 
-              id="otp" 
-              formControlName="otp"
-              placeholder="Enter 6-digit OTP"
-              maxlength="6"
-              (input)="onOTPInput($event)"
-            />
+            <div class="otp-verify-group">
+              <input 
+                type="text" 
+                id="otp" 
+                formControlName="otp"
+                placeholder="Enter 6-digit OTP"
+                maxlength="6"
+                (input)="onOTPInput($event)"
+              />
+              <button 
+                type="button"
+                class="btn-verify-otp"
+                (click)="verifyOTP()"
+                [disabled]="f['otp'].invalid || verifyingOTP"
+              >
+                <span *ngIf="!verifyingOTP">Verify OTP</span>
+                <span *ngIf="verifyingOTP">Verifying...</span>
+              </button>
+            </div>
             <div class="input-underline"></div>
             <div *ngIf="f['otp'].invalid && f['otp'].touched" class="error-message">
               <span class="error-icon">⚠️</span>
               OTP must be 6 digits
             </div>
-            <button 
-              type="button"
-              class="btn-verify-otp"
-              (click)="verifyOTP()"
-              [disabled]="f['otp'].invalid || verifyingOTP"
-            >
-              <span *ngIf="!verifyingOTP">Verify OTP</span>
-              <span *ngIf="verifyingOTP">Verifying...</span>
-            </button>
           </div>
 
-          <!-- Password -->
-          <div class="form-group" [class.has-error]="f['password'].invalid && f['password'].touched">
+          <!-- Password (above OR) -->
+          <div class="form-group full-width" [class.has-error]="f['password'].invalid && f['password'].touched">
             <label for="password">
               <span class="icon">🔒</span>
               Password
@@ -217,7 +219,11 @@ function ccpinMatchValidator(control: AbstractControl): ValidationErrors | null 
             </div>
           </div>
 
-          <!-- CCPIN -->
+          <!-- <div class="divider-small full-width">
+            <span>OR</span>
+          </div> -->
+
+          <!-- CCPIN (below OR, inline) -->
           <div class="form-group" [class.has-error]="(f['ccpin'].invalid || form.hasError('ccpinMismatch')) && f['ccpin'].touched">
             <label for="ccpin">
               <span class="icon">🔑</span>
@@ -238,7 +244,7 @@ function ccpinMatchValidator(control: AbstractControl): ValidationErrors | null 
             </div>
           </div>
 
-          <!-- Confirm CCPIN -->
+          <!-- Confirm CCPIN (inline with CCPIN) -->
           <div class="form-group" [class.has-error]="(f['confirmCcpin'].invalid || form.hasError('ccpinMismatch')) && f['confirmCcpin'].touched">
             <label for="confirmCcpin">
               <span class="icon">🔑</span>
@@ -259,31 +265,33 @@ function ccpinMatchValidator(control: AbstractControl): ValidationErrors | null 
             </div>
           </div>
 
-          <button 
-            type="submit" 
-            class="btn-signup"
-            [disabled]="form.invalid || submitting || !otpVerified"
-          >
-            <span *ngIf="!submitting">Create Account</span>
-            <span *ngIf="submitting" class="loading-spinner"></span>
-            <span *ngIf="submitting">Creating account...</span>
-          </button>
+          <div class="form-group full-width">
+            <button 
+              type="submit" 
+              class="btn-signup"
+              [disabled]="form.invalid || submitting || !otpVerified"
+            >
+              <span *ngIf="!submitting">Create Account</span>
+              <span *ngIf="submitting" class="loading-spinner"></span>
+              <span *ngIf="submitting">Creating account...</span>
+            </button>
+          </div>
 
-          <div *ngIf="error" class="alert-error">
+          <div *ngIf="error" class="alert-error full-width">
             <span class="error-icon">⚠️</span>
             {{ error }}
           </div>
 
-          <div *ngIf="success" class="alert-success">
+          <div *ngIf="success" class="alert-success full-width">
             <span class="success-icon">✓</span>
             Account created successfully! Redirecting to login...
           </div>
 
-          <div class="divider">
+          <!-- <div class="divider full-width">
             <span>OR</span>
-          </div>
+          </div> -->
 
-          <div class="login-link">
+          <div class="login-link full-width">
             Already have an account? 
             <a [routerLink]="['/login']">Sign in here →</a>
           </div>
@@ -292,60 +300,71 @@ function ccpinMatchValidator(control: AbstractControl): ValidationErrors | null 
     </div>
   `,
   styles: [`
-    @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .signup-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); padding: 1rem; position: relative; overflow: hidden; }
-    .background-shapes { position: absolute; width: 100%; height: 100%; overflow: hidden; z-index: 0; }
-    .shape { position: absolute; opacity: 0.1; animation: float 20s infinite ease-in-out; }
-    .shape-1 { width: 300px; height: 300px; background: white; border-radius: 50%; top: -100px; right: -100px; animation-delay: 0s; }
-    .shape-2 { width: 200px; height: 200px; background: white; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; bottom: -50px; left: -50px; animation-delay: 5s; }
-    .shape-3 { width: 150px; height: 150px; background: white; border-radius: 50%; top: 50%; left: 10%; animation-delay: 10s; }
-    .signup-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 24px; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.5) inset; width: 100%; max-width: 520px; padding: 3rem 2.5rem; position: relative; z-index: 1; animation: fadeInUp 0.6s ease-out; max-height: 90vh; overflow-y: auto; }
-    .signup-header { text-align: center; margin-bottom: 2rem; }
-    .logo-container { margin-bottom: 1.5rem; }
-    .logo { width: 90px; height: 90px; margin: 0 auto; filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15)); transition: transform 0.3s ease; }
-    .logo:hover { transform: scale(1.05) rotate(5deg); }
-    .signup-header h1 { font-size: 2.2rem; font-weight: 700; background: linear-gradient(135deg, #11998e, #38ef7d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
-    .signup-header p { color: #666; font-size: 0.95rem; }
-    .signup-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    
+    .signup-container { min-height: 100vh; display: flex; overflow: hidden; }
+    
+    /* Left Section: Gradient Background with Logo */
+    .left-section { flex: 0 0 35%; background: linear-gradient(180deg, #11998e 0%, #38ef7d 100%); display: flex; align-items: center; justify-content: center; padding: 2rem; position: relative; }
+    .left-section .logo-container { text-align: center; background: white; padding: 2rem 2.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); }
+    .left-section .logo { width: 100px; height: 100px; margin: 0 auto 1rem; display: block; }
+    .left-section .brand-name { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #11998e, #38ef7d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 0 0 0.75rem 0; }
+    .left-section .welcome-text { font-size: 1.3rem; font-weight: 600; color: #11998e; margin: 0 0 0.5rem 0; }
+    .left-section .welcome-subtext { font-size: 0.9rem; color: #666; margin: 0; }
+    
+    /* Right Section: White Background with Form */
+    .right-section { flex: 1; background: white; display: flex; align-items: center; justify-content: center; padding: 2rem; overflow-y: auto; }
+    .signup-form { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; max-width: 700px; width: 100%; }
     .form-group { position: relative; display: flex; flex-direction: column; }
-    .form-group label { font-weight: 600; margin-bottom: 0.75rem; color: #333; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; }
-    .form-group label .icon { font-size: 1.1rem; }
-    .form-group input { padding: 1rem 1.25rem; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 1rem; transition: all 0.3s ease; background: #f8f9fa; }
+    .form-group.full-width { grid-column: span 2; }
+    .form-group label { font-weight: 600; margin-bottom: 0.25rem; color: #333; font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem; }
+    .form-group label .icon { font-size: 1rem; }
+    .form-group input { padding: 0.5rem 0.75rem; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 0.9rem; transition: all 0.3s ease; background: #f8f9fa; }
     .form-group input:focus { outline: none; border-color: #11998e; background: white; box-shadow: 0 0 0 4px rgba(17, 153, 142, 0.1); }
     .form-group input::placeholder { color: #aaa; }
     .input-underline { height: 2px; background: linear-gradient(90deg, #11998e, #38ef7d); transform: scaleX(0); transition: transform 0.3s ease; }
     .form-group input:focus + .input-underline { transform: scaleX(1); }
     .form-group.has-error input { border-color: #ff4444; background: #fff5f5; }
-    .error-message { color: #ff4444; font-size: 0.85rem; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.25rem; }
+    .error-message { color: #ff4444; font-size: 0.75rem; margin-top: 0.25rem; display: flex; align-items: center; gap: 0.25rem; }
     .error-icon { font-size: 1rem; }
-    .phone-input-group { display: flex; gap: 0.5rem; }
-    .phone-input-group input { flex: 1; }
-    .btn-send-otp, .btn-verify-otp { padding: 1rem 1.5rem; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border: none; border-radius: 12px; color: white; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
-    .btn-send-otp:hover:not(:disabled), .btn-verify-otp:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(17, 153, 142, 0.4); }
-    .btn-send-otp:disabled, .btn-verify-otp:disabled { opacity: 0.6; cursor: not-allowed; }
-    .btn-verify-otp { width: 100%; margin-top: 0.5rem; }
-    .otp-info { margin-top: 0.5rem; padding: 0.75rem; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 8px; color: #1565c0; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; }
+    .otp-button-container { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; }
+    .btn-send-otp-center { padding: 0.5rem 1.5rem; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border: none; border-radius: 10px; color: white; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; min-width: 180px; }
+    .btn-send-otp-center:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(17, 153, 142, 0.4); }
+    .btn-send-otp-center:disabled { opacity: 0.6; cursor: not-allowed; }
+    .otp-verify-group { display: flex; gap: 0.5rem; width: 100%; }
+    .otp-verify-group input { flex: 1; }
+    .btn-verify-otp { padding: 0.5rem 1rem; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border: none; border-radius: 10px; color: white; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
+    .btn-verify-otp:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(17, 153, 142, 0.4); }
+    .btn-verify-otp:disabled { opacity: 0.6; cursor: not-allowed; }
+    .otp-info { margin-top: 0.35rem; padding: 0.5rem; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 8px; color: #1565c0; font-size: 0.75rem; display: flex; align-items: center; gap: 0.4rem; width: 100%; }
     .info-icon { font-size: 1rem; }
     .otp-timer { color: #ff9800; font-weight: 600; margin-left: auto; }
-    .btn-signup { padding: 1rem 2rem; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border: none; border-radius: 12px; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4); position: relative; overflow: hidden; margin-top: 0.5rem; }
+    .btn-signup { padding: 0.6rem 2rem; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); border: none; border-radius: 10px; color: white; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4); position: relative; overflow: hidden; }
     .btn-signup::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s; }
     .btn-signup:hover::before { left: 100%; }
     .btn-signup:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(17, 153, 142, 0.5); }
     .btn-signup:active { transform: translateY(0); }
     .btn-signup:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
     .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 0.5rem; }
-    .alert-error { padding: 1rem; background: #fff5f5; border: 1px solid #ffdddd; border-left: 4px solid #ff4444; border-radius: 8px; color: #cc0000; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; animation: fadeInUp 0.3s ease-out; }
-    .alert-success { padding: 1rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #22c55e; border-radius: 8px; color: #166534; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; animation: fadeInUp 0.3s ease-out; }
+    .alert-error { padding: 0.6rem; background: #fff5f5; border: 1px solid #ffdddd; border-left: 4px solid #ff4444; border-radius: 8px; color: #cc0000; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; animation: fadeInUp 0.3s ease-out; }
+    .alert-success { padding: 0.6rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #22c55e; border-radius: 8px; color: #166534; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; animation: fadeInUp 0.3s ease-out; }
     .success-icon { font-size: 1.2rem; }
-    .divider { position: relative; text-align: center; margin: 1.5rem 0; }
+    .divider { position: relative; text-align: center; margin: 0.5rem 0; }
     .divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #e0e0e0; }
     .divider span { position: relative; background: rgba(255, 255, 255, 0.95); padding: 0 1rem; color: #999; font-size: 0.85rem; font-weight: 500; }
     .login-link { text-align: center; color: #666; font-size: 0.95rem; }
     .login-link a { color: #11998e; text-decoration: none; font-weight: 600; transition: color 0.2s; }
     .login-link a:hover { color: #38ef7d; text-decoration: underline; }
-    @media (max-width: 640px) { .signup-card { padding: 2rem 1.5rem; } .signup-header h1 { font-size: 1.8rem; } .shape { display: none; } .phone-input-group { flex-direction: column; } }
+    .divider-small { position: relative; text-align: center; margin: 0.35rem 0; }
+    .divider-small::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #e0e0e0; }
+    .divider-small span { position: relative; background: rgba(255, 255, 255, 0.95); padding: 0 1rem; color: #999; font-size: 0.75rem; font-weight: 500; }
+    @media (max-width: 968px) { 
+      .signup-container { flex-direction: column; }
+      .left-section { flex: 0 0 auto; min-height: 200px; }
+      .right-section { padding: 1.5rem; }
+      .signup-form { grid-template-columns: 1fr; }
+    }
   `]
 })
 export class SignupComponent implements OnDestroy {

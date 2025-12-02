@@ -442,36 +442,10 @@ export class AppComponent {
   }
 
   async handleLogout(): Promise<void> {
-    this.isLoggingOut = true;
-    try {
-      // Call logout API and wait for response
-      const response = await this.authService.callLogoutAPI();
-      
-      // Check if logout was successful
-      if (response && response.success === true) {
-        // Close loader and modal immediately
-        this.isLoggingOut = false;
-        this.showModal = false;
-        
-        // Perform logout (clears data and navigates) - no delay needed
-        await this.authService.logout();
-      } else {
-        // Even if API says unsuccessful, still close and redirect
-        console.warn('Logout API returned unsuccessful, but continuing with logout');
-        this.isLoggingOut = false;
-        this.showModal = false;
-        
-        // Perform logout (clears data and navigates) - no delay needed
-        await this.authService.logout();
-      }
-    } catch (error) {
-      console.error('Logout error:', error);
-      // Even if there's an error, clear state and redirect
-      this.isLoggingOut = false;
-      this.showModal = false;
-      
-      // Perform logout (clears data and navigates) - no delay needed
-      await this.authService.logout();
-    }
+    // Close modal immediately
+    this.showModal = false;
+    
+    // Perform logout (clears data and navigates to login)
+    await this.authService.logout();
   }
 }
