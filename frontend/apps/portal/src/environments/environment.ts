@@ -1,8 +1,8 @@
 // Development environment - Local
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8100',
-  gatewayUrl: 'http://localhost:8000',
-  frontendUrl: 'http://localhost:4200'
+  apiUrl: 'https://api.menindata.org',
+  gatewayUrl: 'https://api.menindata.org',
+  frontendUrl: 'https://menindata.org'
 };
 
