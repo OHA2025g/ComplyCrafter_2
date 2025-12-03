@@ -45,6 +45,7 @@ class Settings(BaseSettings):
     mobilogic_request_timeout_seconds: int = 10
     mobilogic_retry_attempts: int = 3
     mobilogic_retry_backoff_seconds: int = 2
+    mobilogic_verify_ssl: bool = True  # SSL certificate verification (set False if certificate issues)
 
     # CORS Settings
     cors_origins: str = (

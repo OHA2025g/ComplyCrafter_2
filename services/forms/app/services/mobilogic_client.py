@@ -73,7 +73,11 @@ class MobiLogicClient:
         for attempt in range(1, self.retry_attempts + 1):
             try:
                 logger.info("MobiLogic request attempt %s: %s", attempt, request_url)
-                async with httpx.AsyncClient(timeout=self.timeout) as client:
+                # SSL verification - can be disabled via MOBILOGIC_VERIFY_SSL=false
+                verify_ssl = getattr(self.settings, 'mobilogic_verify_ssl', True)
+                if not verify_ssl:
+                    logger.warning("SSL verification is DISABLED for Mobilogic API - not recommended for production")
+                async with httpx.AsyncClient(timeout=self.timeout, verify=verify_ssl) as client:
                     response = await client.get(request_url)
                 logger.info(
                     "MobiLogic response (status=%s): %s",
